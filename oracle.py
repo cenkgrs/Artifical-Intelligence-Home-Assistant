@@ -263,7 +263,7 @@ while(1):
         speak("Good Bye !")
         
         break
-    elif count > 30 and st.status == True:
+    elif count > 60 and st.status == True:
         speak("I am too tired sir")
         speak("Good Bye !")
         
