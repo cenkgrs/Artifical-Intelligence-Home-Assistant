@@ -9,6 +9,7 @@ import random
 from picamera import PiCamera
 from time import sleep
 
+import pyaudio
 import termios
 import sys, tty
 import warnings
@@ -62,6 +63,7 @@ p2.ChangeDutyCycle(25)
 # Speak Lists
 
 r = sr.Recognizer()
+source = sr.Microphone()
 
 welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle"]
 welcoming_a = ["hi sir", "hello sir", "hey there sir"]
@@ -75,7 +77,7 @@ who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 search_q = ["i want to search", "i want to search something", "search", "want to search"]
 search_a = ["ok sir,what do you wanna search", "what do you wanna search sir", "what is it you wanna search sir"]
 
-video_q = ["open youtube", "open the youtube", "let's watch something", "i want to watch something", "let's watch video", "open some video oracle"]
+video_q = ["open YouTube", "open the YouTube", "let's watch something", "i want to watch something", "let's watch video", "open some video oracle"]
 video_a = ["what do you want to watch sir", "watch what sir"]
 
 complete_a = ["You got it sir", "Will do sir", "Right away sir"]
@@ -103,6 +105,7 @@ def lights_o():
 
 #Checking the what user said what it represents
 def check_command(audio):
+    global source
     if audio in welcoming_a:
         speak(random.choice(welcoming_q))
     elif audio in quit_q:
@@ -121,18 +124,14 @@ def check_command(audio):
 
     elif audio in video_q:
         speak(random.choice(video_a))
-
-        with sr.Microphone as source:
+        
+        with sr.Microphone() as source:
             audio = r.listen(source)
-            query = r.recognize_google(audio)
-
-            with sr.Microphone() as source:
-                audio = r.listen(source)
-                search = r.recognize_google(audio)
-                speak(random.choice(complete_a))
-            url = 'https://www.youtube.com/results?search_query='
-            webbrowser.open(url+search)
-            listen()
+            search = r.recognize_google(audio)
+            speak(random.choice(complete_a))
+        url = 'https://www.youtube.com/results?search_query='
+        webbrowser.open(url+search)
+        listen()
 
 
 #Call when you gonna tell something
@@ -145,6 +144,7 @@ def listen():
             check_command(r.recognize_google(audio))
             text = r.recognize_google(audio, language = 'en-IN', show_all = True )
             speak("You said '" + r.recognize_google(audio) + "'")
+            print(r.recognize_google(audio))
         
         except sr.UnknownValueError:
             speak("Did not get that sir")
