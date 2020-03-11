@@ -1,6 +1,8 @@
 import RPi.GPIO as GPIO          
 import time
 import os
+import webbrowser
+import sys
 import pyttsx3
 import speech_recognition as sr
 import random
@@ -57,6 +59,30 @@ p2.start(22)
 p.ChangeDutyCycle(25)
 p2.ChangeDutyCycle(25)
 
+# Speak Lists
+
+r = sr.Recognizer()
+
+welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle"]
+welcoming_a = ["hi sir", "hello sir", "hey there sir"]
+
+goodness_q = ["how are you", "are you okay", "how are you oracle"]
+goodness_a = ["i am okay sir, what about you", "i am very good, thank you"]
+
+who_q = ["who are you", "who are you ma'm", "tell me your name"]
+who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
+
+search_q = ["i want to search", "i want to search something", "search", "want to search"]
+search_a = ["ok sir,what do you wanna search", "what do you wanna search sir", "what is it you wanna search sir"]
+
+video_q = ["open youtube", "open the youtube", "let's watch something", "i want to watch something", "let's watch video", "open some video oracle"]
+video_a = ["what do you want to watch sir", "watch what sir"]
+
+complete_a = ["You got it sir", "Will do sir", "Right away sir"]
+
+quit_q = ["shut down oracle", "shut down", "power off", "close oracle", "power off oracle"]
+quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
+
 #Function for getting input without enter
 def _getch():
     fd = sys.stdin.fileno()
@@ -75,23 +101,58 @@ def lights_o():
     GPIO.output(8, True)
     GPIO.output(11, True)
 
+#Checking the what user said what it represents
+def check_command(audio):
+    if audio in welcoming_a:
+        speak(random.choice(welcoming_q))
+    elif audio in quit_q:
+        speak(random.choice(quit_a))
+    elif audio in search_q:
+        speak(random.choice(search_a))
+
+        with sr.Microphone as source:
+            audio = r.listen(source)
+            query = r.recognize_google(audio)
+
+            url = "https://www.google.com.tr/search?q={}".format(query)
+            speak(random.choice(complete_a))
+            webbrowser.open(url)
+            listen()
+
+    elif audio in video_q:
+        speak(random.choice(video_a))
+
+        with sr.Microphone as source:
+            audio = r.listen(source)
+            query = r.recognize_google(audio)
+
+            with sr.Microphone() as source:
+                audio = r.listen(source)
+                search = r.recognize_google(audio)
+                speak(random.choice(complete_a))
+            url = 'https://www.youtube.com/results?search_query='
+            webbrowser.open(url+search)
+            listen()
+
+
 #Call when you gonna tell something
 def listen():
-    r = sr.Recognizer()
     with sr.Microphone() as source:
         
         try:
             speak("Say something")
             audio = r.listen(source)
+            check_command(r.recognize_google(audio))
             text = r.recognize_google(audio, language = 'en-IN', show_all = True )
             speak("You said '" + r.recognize_google(audio) + "'")
         
         except sr.UnknownValueError:
+            speak("Did not get that sir")
             print("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-#Runs when ORacle speaks
+#Runs when Oracle speaks
 def speak(text):
         engine = pyttsx3.init()
         engine.setProperty('voice', 'english+f3')
@@ -237,7 +298,7 @@ st = status()
 
 count = 0
 while(1):
-    #listen()
+    listen()
         
     result = calculate()
     if result == 1: # If front is open go forward
@@ -270,7 +331,8 @@ while(1):
         break
     
     count = count + 1
-    
+
+    # Code for manually controlling Oracle with numpads - i will add dualshock control
     '''response = _getch()
     print(response)
     #response = int(input("Where to 8 5 6 4"))
