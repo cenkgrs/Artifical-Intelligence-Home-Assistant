@@ -192,12 +192,11 @@ def calculate():
     if distance > 20:
         print ("Mesafe:",distance - 0.5,"cm")
         #speak("My front is open")
-        speak("Open")
+        print("Open")
         return 1
     else:
-        #print ("Engel var")
         #speak("There is an obstacle")
-        speak("Closed")
+        print("Closed")
         return 0
 
 def stop():
@@ -219,7 +218,7 @@ def forward(sec):
     p.ChangeDutyCycle(100)
     p2.ChangeDutyCycle(100)
 
-    #speak("Going forward")
+    print("Going forward")
     GPIO.output(7, False)
     GPIO.output(8, False)
     GPIO.output(11, True)
@@ -239,7 +238,7 @@ def backward(sec):
     p.ChangeDutyCycle(100)
     p2.ChangeDutyCycle(100)
     
-    speak("Going back")
+    print("Going back")
     GPIO.output(7, False)
     GPIO.output(8, False)
     GPIO.output(11, False)
@@ -257,7 +256,7 @@ def right():
     p.ChangeDutyCycle(100)
     p2.ChangeDutyCycle(100)
     
-    speak("Going right")
+    print("Going right")
     
     GPIO.output(7, False)
     GPIO.output(8, True)
@@ -273,7 +272,7 @@ def right():
 def left():
     p.ChangeDutyCycle(100)
     p2.ChangeDutyCycle(100)
-    speak("Going left")
+    print("Going left")
     
 
     GPIO.output(7, True)
@@ -296,9 +295,10 @@ speak("Welcome home sir")
 
 st = status()
 
+listen()
+
 count = 0
 while(1):
-    listen()
         
     result = calculate()
     if result == 1: # If front is open go forward
@@ -317,7 +317,8 @@ while(1):
 
         stop()
     
-    #If st.status is False then 
+    #If st.status is False then
+    # This piece of code checks if Oracle is already stopped or not 
     if count > 1 and st.status == False:
         stop()
         speak("I am too tired sir")
