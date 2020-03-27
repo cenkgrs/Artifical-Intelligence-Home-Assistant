@@ -16,6 +16,8 @@ import sys, tty
 import warnings
 warnings.filterwarnings("ignore")
 
+from alarm import alarm
+
 GPIO.setwarnings(False)
 language = 'en'
 
@@ -70,8 +72,8 @@ cursor = conn.cursor()
 r = sr.Recognizer() # Recognizer object
 source = sr.Microphone() # Microphone object
 
-welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle"]
-welcoming_a = ["hi sir", "hello sir", "hey there sir"]
+welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle", "oracle are you there", "are you there oracle"]
+welcoming_a = ["at your service sir","hi sir", "hello sir", "hey there sir"]
 
 goodness_q = ["how are you", "are you okay", "how are you oracle"]
 goodness_a = ["i am okay sir, what about you", "i am very good, thank you"]
@@ -89,6 +91,9 @@ complete_a = ["You got it sir", "Will do sir", "Right away sir"]
 
 quit_q = ["shut down oracle", "shut down", "power off", "close oracle", "power off oracle"]
 quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
+
+alarm_q = ["i wanna set an alarm", "set an alarm", "setup an alarm", "i want you to set an alarm"]
+alarm_a = ["give me the hour and minute sir"]
 
 # Function for getting input without enter
 def _getch():
@@ -111,8 +116,8 @@ def lights_o():
 # Checking the what user said what it represents
 def check_command(audio):
     global source
-    if audio in welcoming_a:
-        speak(random.choice(welcoming_q))
+    if audio in welcoming_q:
+        speak(random.choice(welcoming_a))
     elif audio in quit_q:
         speak(random.choice(quit_a))
     elif audio in search_q:
@@ -138,6 +143,9 @@ def check_command(audio):
         webbrowser.open(url+search)
         listen()
 
+    elif audio in alarm_q:
+        speak(random.choice(alarm_a))
+        alarm()
 
 # Call when you gonna tell something
 def listen():
@@ -305,7 +313,7 @@ def pick_route(type, last_act):
         choices = ["forward", "left", "right"]
         choices.remove(last_act[0][0]) # Remove last action (except backward) from array so it cant become a loop
         decide = random.choice(choices)
-        
+
         cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
     print(decide)
 
