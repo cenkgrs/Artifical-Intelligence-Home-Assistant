@@ -8,6 +8,8 @@ import speech_recognition as sr
 import random
 from picamera import PiCamera
 from time import sleep
+from apscheduler.schedulers.blocking import BlockingScheduler
+
 
 import sqlite3
 import pyaudio
@@ -16,7 +18,7 @@ import sys, tty
 import warnings
 warnings.filterwarnings("ignore")
 
-from alarm import alarm
+from alarm import alarm, check_alarm
 
 GPIO.setwarnings(False)
 language = 'en'
@@ -55,11 +57,11 @@ GPIO.output(11, True)
 p = GPIO.PWM(en, 1000)
 p2 = GPIO.PWM(en2, 1000)
 
-#Starting the motors
+# Starting the motors
 p.start(25)
 p2.start(22)
 
-#Set motors rpm
+# Set motors rpm
 p.ChangeDutyCycle(25)
 p2.ChangeDutyCycle(25)
 
@@ -69,8 +71,8 @@ cursor = conn.cursor()
 
 # Speak Lists
 
-r = sr.Recognizer() # Recognizer object
-source = sr.Microphone() # Microphone object
+r = sr.Recognizer()  # Recognizer object
+source = sr.Microphone()  # Microphone object
 
 welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle", "oracle are you there", "are you there oracle"]
 welcoming_a = ["at your service sir","hi sir", "hello sir", "hey there sir"]
@@ -93,7 +95,7 @@ quit_q = ["shut down oracle", "shut down", "power off", "close oracle", "power o
 quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
 
 alarm_q = ["i wanna set an alarm", "set an alarm", "setup an alarm", "i want you to set an alarm"]
-alarm_a = ["give me the hour and minute sir"]
+alarm_a = ["okay sir lets set an alarm"]
 
 # Function for getting input without enter
 def _getch():
@@ -153,11 +155,11 @@ def listen():
         
         try:
             os.system('play -nq -t alsa synth {} sine {}'.format(0.15, 500))  # 1 = duration, 440 = frequency -> this sounds a beep
-            #speak("Say something")
+            # speak("Say something")
             audio = r.listen(source)
             check_command(r.recognize_google(audio))
             text = r.recognize_google(audio, language = 'en-IN', show_all = True )
-            #speak("You said '" + r.recognize_google(audio) + "'")
+            # speak("You said '" + r.recognize_google(audio) + "'")
             print(r.recognize_google(audio))
         
         except sr.UnknownValueError:
@@ -167,7 +169,7 @@ def listen():
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-#Runs when Oracle speaks
+# Runs when Oracle speaks
 def speak(text):
         engine = pyttsx3.init()
         engine.setProperty('voice', 'english+f3')
@@ -315,6 +317,8 @@ def pick_route(type, last_act):
         decide = random.choice(choices)
 
         cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
+
+    conn.commit()
     print(decide)
 
     # Run the function that came from decision
@@ -330,6 +334,10 @@ GPIO.output(in2,GPIO.LOW)
 GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
 speak("Welcome home sir")
+
+scheduler = BlockingScheduler()
+scheduler.add_job(check_alarm, 'interval', hours=0.5)
+scheduler.start()
 
 st = status()
 
@@ -356,7 +364,7 @@ while(count < 50):
 
     # Update the last action result and success
     cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) ", (distance, result))
-
+    conn.commit()
     count = count + 1
 
 #If st.status is False then
