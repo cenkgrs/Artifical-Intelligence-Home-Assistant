@@ -19,6 +19,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from alarm import alarm, check_alarm
+from currency import get_currency
 
 GPIO.setwarnings(False)
 language = 'en'
@@ -97,6 +98,9 @@ quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
 alarm_q = ["i wanna set an alarm", "set an alarm", "setup an alarm", "i want you to set an alarm"]
 alarm_a = ["okay sir lets set an alarm"]
 
+currency_q = ["give me the value of turkish lira", "what is the value of turkish lira", "value of turkish lira"]
+currency_a = ["just a second boss", "i am looking it down", "just give me a moment"]
+
 # Function for getting input without enter
 def _getch():
     fd = sys.stdin.fileno()
@@ -148,6 +152,10 @@ def check_command(audio):
     elif audio in alarm_q:
         speak(random.choice(alarm_a))
         alarm()
+
+    elif audio in currency_q:
+        speak(random.choice(currency_a))
+        get_currency()
 
 # Call when you gonna tell something
 def listen():
