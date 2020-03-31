@@ -8,7 +8,8 @@ import speech_recognition as sr
 import random
 from picamera import PiCamera
 from time import sleep
-from apscheduler.schedulers.blocking import BlockingScheduler
+# from apscheduler.schedulers.blocking import BlockingScheduler
+
 
 
 import sqlite3
@@ -70,10 +71,7 @@ p2.ChangeDutyCycle(25)
 conn = sqlite3.connect('/home/pi/Oracle/Oracle')
 cursor = conn.cursor()
 
-# Speak Lists
 
-r = sr.Recognizer()  # Recognizer object
-source = sr.Microphone()  # Microphone object
 
 welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle", "oracle are you there", "are you there oracle"]
 welcoming_a = ["at your service sir","hi sir", "hello sir", "hey there sir"]
@@ -98,7 +96,7 @@ quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
 alarm_q = ["i wanna set an alarm", "set an alarm", "setup an alarm", "i want you to set an alarm"]
 alarm_a = ["okay sir lets set an alarm"]
 
-currency_q = ["give me the value of turkish lira", "what is the value of turkish lira", "value of turkish lira"]
+currency_q = ["currency", "give me the value of turkish lira", "what is the value of turkish lira", "value of turkish lira"]
 currency_a = ["just a second boss", "i am looking it down", "just give me a moment"]
 
 # Function for getting input without enter
@@ -151,7 +149,7 @@ def check_command(audio):
 
     elif audio in alarm_q:
         speak(random.choice(alarm_a))
-        alarm()
+        alarm(sr.Microphone())
 
     elif audio in currency_q:
         speak(random.choice(currency_a))
@@ -159,11 +157,13 @@ def check_command(audio):
 
 # Call when you gonna tell something
 def listen():
+    # Speak Lists
+
+    r = sr.Recognizer()  # Recognizer object
+    source = sr.Microphone()  # Microphone object
     with sr.Microphone() as source:
         
         try:
-            os.system('play -nq -t alsa synth {} sine {}'.format(0.15, 500))  # 1 = duration, 440 = frequency -> this sounds a beep
-            # speak("Say something")
             audio = r.listen(source)
             check_command(r.recognize_google(audio))
             text = r.recognize_google(audio, language = 'en-IN', show_all = True )
@@ -313,13 +313,13 @@ def left():
     GPIO.output(en2,GPIO.LOW)
 
 def pick_route(type, last_act):
-    if type == 1: # Means it can't go forward and last action was forward
+    if type == 0: # Means it can't go forward and last action was forward
         choices = ["left", "right"]
         decide = random.choice(choices)
         # Record last two actions
         cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")
         cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
-    elif type == 0: # Means it can go all the three ways and last action was backward
+    elif type == 1: # Means it can go all the three ways and last action was backward
         choices = ["forward", "left", "right"]
         choices.remove(last_act[0][0]) # Remove last action (except backward) from array so it cant become a loop
         decide = random.choice(choices)
@@ -333,8 +333,11 @@ def pick_route(type, last_act):
     possibles = globals().copy()
     possibles.update(locals())
     method = possibles.get(decide)
-
-    method()
+    
+    if decide == "forward":
+        method(1)
+    else :
+        method()
 
 # Set all motors to stop first
 GPIO.output(in1,GPIO.LOW)
@@ -343,16 +346,18 @@ GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
 speak("Welcome home sir")
 
-scheduler = BlockingScheduler()
-scheduler.add_job(check_alarm, 'interval', hours=0.5)
-scheduler.start()
+# scheduler = BlockingScheduler()
+# scheduler.add_job(check_alarm, 'interval', hours=0.5)
+# scheduler.start()
 
 st = status()
 
+speak('Say Something')
 listen()
 
 count = 0
 while(count < 50):
+    print('a')
     db = cursor.execute('SELECT action FROM Actions ORDER BY id DESC')
     last_act = db.fetchmany()
 
