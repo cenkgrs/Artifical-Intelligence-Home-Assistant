@@ -1,11 +1,20 @@
-from oracle import speak
 import webbrowser
 import random
 import speech_recognition as sr
+import pyttsx3
 
 complete_a = ["You got it sir", "Will do sir", "Right away sir"]
 
-r = sr.Recognizer() # Recognizer object
+r = sr.Recognizer()  # Recognizer object
+
+
+def speak(text):  # Runs when Oracle speaks
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 165)
+    engine.setProperty('voice', 'english-north')
+    engine.say(text)
+    engine.runAndWait()
+
 
 def get_video():
     with sr.Microphone() as source:
