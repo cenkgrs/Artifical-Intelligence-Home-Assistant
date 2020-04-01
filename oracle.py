@@ -1,3 +1,7 @@
+from alarm import alarm, check_alarm
+from currency import get_currency
+from youtube import get_video
+
 import RPi.GPIO as GPIO
 import time
 import os
@@ -10,8 +14,6 @@ from picamera import PiCamera
 from time import sleep
 # from apscheduler.schedulers.blocking import BlockingScheduler
 
-
-
 import sqlite3
 import pyaudio
 import termios
@@ -19,8 +21,7 @@ import sys, tty
 import warnings
 warnings.filterwarnings("ignore")
 
-from alarm import alarm, check_alarm
-from currency import get_currency
+
 
 GPIO.setwarnings(False)
 language = 'en'
@@ -71,10 +72,17 @@ p2.ChangeDutyCycle(25)
 conn = sqlite3.connect('/home/pi/Oracle/Oracle')
 cursor = conn.cursor()
 
+# Speak Lists
 
+r = sr.Recognizer()  # Recognizer object
+source = sr.Microphone()  # Microphone object
 
-welcoming_q = ["hello", "hi", "hey", "hello oracle", "hi oracle", "hey oracle", "oracle are you there", "are you there oracle"]
+welcoming_q = ["hello", "hi", "hey", "hello Oracle", "hi Oracle", "hey Oracle", "Oracle are you there", "are you there Oracle"]
+welcoming_q = welcoming_q + ["hello oracle", "hi oracle", "hey oracle", "oracle are you there", "are you there oracle"]
 welcoming_a = ["at your service sir","hi sir", "hello sir", "hey there sir"]
+
+thanks_q = ["thank you Oracle", "thanks Oracle", "well done Oracle", "thank you"]
+thanks_a = ["you're welcome sir"]
 
 goodness_q = ["how are you", "are you okay", "how are you oracle"]
 goodness_a = ["i am okay sir, what about you", "i am very good, thank you"]
@@ -82,7 +90,7 @@ goodness_a = ["i am okay sir, what about you", "i am very good, thank you"]
 who_q = ["who are you", "who are you ma'm", "tell me your name"]
 who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 
-search_q = ["i want to search", "i want to search something", "search", "want to search"]
+search_q = ["I want to search", "i want to search", "i want to search something", "I want to search something", "I want to search something", "search", "want to search"]
 search_a = ["ok sir,what do you wanna search", "what do you wanna search sir", "what is it you wanna search sir"]
 
 video_q = ["open YouTube", "open the YouTube", "let's watch something", "i want to watch something", "let's watch video", "open some video oracle"]
@@ -90,7 +98,8 @@ video_a = ["what do you want to watch sir", "watch what sir", "what is it you wa
 
 complete_a = ["You got it sir", "Will do sir", "Right away sir"]
 
-quit_q = ["shut down oracle", "shut down", "power off", "close oracle", "power off oracle"]
+quit_q = ["shut down oracle", "shutdown oracle",  "shut down", "power off", "close oracle", "power off oracle"]
+quit_q = quit_q + ["shut down Oracle", "shutdown Oracle", "close Oracle", "power off Oracle"]
 quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
 
 alarm_q = ["i wanna set an alarm", "set an alarm", "setup an alarm", "i want you to set an alarm"]
@@ -98,6 +107,7 @@ alarm_a = ["okay sir lets set an alarm"]
 
 currency_q = ["currency", "give me the value of turkish lira", "what is the value of turkish lira", "value of turkish lira"]
 currency_a = ["just a second boss", "i am looking it down", "just give me a moment"]
+
 
 # Function for getting input without enter
 def _getch():
@@ -120,14 +130,17 @@ def lights_o():
 # Checking the what user said what it represents
 def check_command(audio):
     global source
-    if audio in welcoming_q:
+    if audio.lower() in welcoming_q:
         speak(random.choice(welcoming_a))
-    elif audio in quit_q:
+    elif audio in thanks_q:  # Raise if say thanks
+        speak(random.choice(thanks_a))
+    elif audio.lower() in quit_q:  # Raise when i want to close the program
         speak(random.choice(quit_a))
-    elif audio in search_q:
+        raise SystemExit(0)
+    elif audio.lower() in search_q:  # Raise when i want to search something
         speak(random.choice(search_a))
 
-        with sr.Microphone as source:
+        with sr.Microphone() as source:
             audio = r.listen(source)
             query = r.recognize_google(audio)
 
@@ -136,16 +149,10 @@ def check_command(audio):
             webbrowser.open(url)
             listen()
 
-    elif audio in video_q:
+    elif audio.lower() in video_q:
         speak(random.choice(video_a))
-        
-        with sr.Microphone() as source:
-            audio = r.listen(source)
-            search = r.recognize_google(audio)
-            speak(random.choice(complete_a))
-        url = 'https://www.youtube.com/results?search_query='
-        webbrowser.open(url+search)
-        listen()
+
+        get_video()
 
     elif audio in alarm_q:
         speak(random.choice(alarm_a))
@@ -157,10 +164,7 @@ def check_command(audio):
 
 # Call when you gonna tell something
 def listen():
-    # Speak Lists
 
-    r = sr.Recognizer()  # Recognizer object
-    source = sr.Microphone()  # Microphone object
     with sr.Microphone() as source:
         
         try:
