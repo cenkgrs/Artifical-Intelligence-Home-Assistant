@@ -64,7 +64,6 @@ def check_command(audio):
 
         search()
 
-
     elif audio in video_q:
         speak(random.choice(video_a))
 
