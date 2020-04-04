@@ -7,7 +7,6 @@ complete_a = ["You got it sir", "Will do sir", "Right away sir"]
 
 r = sr.Recognizer()  # Recognizer object
 
-
 def speak(text):  # Runs when Oracle speaks
     engine = pyttsx3.init()
     engine.setProperty('rate', 165)

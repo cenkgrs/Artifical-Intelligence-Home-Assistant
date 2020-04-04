@@ -247,12 +247,16 @@ def pick_route(type, last_act):
     else :
         method()
 
+
 # Set all motors to stop first
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
 GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
-speak("Welcome home sir")
+
+time.sleep(2)
+
+#speak("Welcome home sir")
 
 # scheduler = BlockingScheduler()
 # scheduler.add_job(check_alarm, 'interval', hours=0.5)
@@ -269,18 +273,20 @@ while(count < 50):
     # distance means result of last action (15 cm)
     result, distance = calculate()
     if result == 1: # If front is open go forward
-        forward(1)
+        forward(0.6)
+
         stop()
         pick_route(1, last_act)
     else: # If front is close go back and decide where to go
-        backward(1)
+        backward(0.4)
         stop()
         pick_route(0, last_act)
 
         stop()
 
     # Update the last action result and success
-    cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) ", (distance, result))
+    cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
+                   , (distance, result))
     conn.commit()
     count = count + 1
 

@@ -9,6 +9,8 @@ import os
 import re
 
 r = sr.Recognizer()
+r.energy_threshold = 4000
+source = sr.Microphone()
 
 complete_a = ["You got it sir", "Will do sir", "Right away sir"]
 
@@ -23,25 +25,25 @@ def speak(text):
 
 
 def listen():
-    global r
+
     with sr.Microphone() as source:
-        try:
-            os.system('play -nq -t alsa synth {} sine {}'.format(0.15,
-                                                                 500))  # 1 = duration, 440 = frequency -> this sounds a beep
-            audio = r.listen(source)
-            return audio
-        except sr.UnknownValueError:
-            speak("Did not get that sir")
-            print("Google Speech Recognition could not understand audio")
-            listen()
-        except sr.RequestError as e:
-            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+        os.system('play -nq -t alsa synth {} sine {}'.format(0.15, 500))  # 1 = duration, 440 = frequency -> this sounds a beep
+
+        audio = r.listen(source)
+    try:
+        command = r.recognize_google(audio)
+        print('You said: ' + command + ' \n')
+    except sr.UnknownValueError:
+        #speak("Did not get that sir")
+        print("Google Speech Recognition could not understand audio")
+        listen()
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+    return command
 
 
 def search():
-    global r
-    audio = listen()
-    query = r.recognize_google(audio)
+    query = listen()
 
     links = []
     to_remove = []
@@ -57,9 +59,9 @@ def search():
     soup = BeautifulSoup(data, 'lxml')
 
     results = soup.find_all("div", attrs={"ZINbbc"})
-    for r in results:
+    for res in results:
         try:
-            link = r.find('a', href=True)
+            link = res.find('a', href=True)
 
             if link != '':
                 links.append(link['href'])
@@ -78,9 +80,9 @@ def search():
 
     speak("Which link you want to open boss ?")
 
-    audio = listen()
-    choice = r.recognize_google(audio)
 
-    webbrowser.open(links[int(choice) - 1])
+    choice = listen()
+
+    webbrowser.open(links[2])
 
 search()
