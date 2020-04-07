@@ -80,9 +80,19 @@ def search():
 
     speak("Which link you want to open boss ?")
 
+    status = False
 
-    choice = listen()
+    while not status:
+        choice = listen()
+        try:
+            choice = int(choice)
+        except ValueError:
+            speak("Please give me an integer sir")
 
-    webbrowser.open(links[2])
+        status = isinstance(choice, int)
+
+    speak(random.choice(complete_a))
+
+    webbrowser.open(clean_links[choice - 1])
 
 search()
