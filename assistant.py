@@ -2,6 +2,7 @@ from alarm import alarm, check_alarm
 from currency import get_currency
 from youtube import get_video
 from search import search
+from mail_sender import get_mail_info
 
 import os
 import pyttsx3
@@ -28,6 +29,9 @@ who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 
 search_q = ["I want to search", "i want to search", "i want to search something", "I want to search something", "I want to search something", "search", "want to search"]
 search_a = ["ok sir,what do you wanna search", "what do you wanna search sir", "what is it you wanna search sir"]
+
+email_q = ["send email", "send mail", "i want to send mail", "i want to send email", "email"]
+email_a = ["Ok boss, what is the subject", "Ok, what is subject"]
 
 video_q = ["open YouTube", "open the YouTube", "let's watch something", "i want to watch something", "let's watch video", "open some video oracle"]
 video_a = ["what do you want to watch sir", "watch what sir", "what is it you wanna search sir", "what do you wanna watch sir", "sure, what do you want to watch"]
@@ -76,16 +80,20 @@ def check_command(audio):
     elif audio in currency_q:
         speak(random.choice(currency_a))
         get_currency()
+    elif audio in email_q:
+        speak(random.choice(email_a))
+        get_mail_info()
 
 
 # Call when you gonna tell something
 def listen():
     with sr.Microphone() as source:
 
+        os.system('play -nq -t alsa synth {} sine {}'.format(0.15,
+                                                             500))  # 1 = duration, 440 = frequency -> this sounds a beep
+        audio = r.listen(source)
+
         try:
-            os.system('play -nq -t alsa synth {} sine {}'.format(0.15,
-                                                                 500))  # 1 = duration, 440 = frequency -> this sounds a beep
-            audio = r.listen(source)
             check_command(r.recognize_google(audio))
             print(r.recognize_google(audio))
 

@@ -50,7 +50,6 @@ def search():
     clean_links = []
 
     url = "https://www.google.com.tr/search?q={}".format(query)
-    url = "https://www.google.com/search?ei=el-HXvqxIoukgweZ3KCQAw&q=batman"
     speak(random.choice(complete_a))
     webbrowser.open(url)
 
@@ -95,4 +94,3 @@ def search():
 
     webbrowser.open(clean_links[choice - 1])
 
-search()

@@ -31,9 +31,9 @@ ECHO = 15
 
 # Set the GPIO pins
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(7, GPIO.OUT)
-GPIO.setup(8, GPIO.OUT)
-GPIO.setup(11, GPIO.OUT)
+GPIO.setup(7, GPIO.OUT) # Left light
+GPIO.setup(8, GPIO.OUT)  # Right light
+GPIO.setup(11, GPIO.OUT)  # Forward light
 GPIO.setup(in1, GPIO.OUT)
 GPIO.setup(in2, GPIO.OUT)
 GPIO.setup(en, GPIO.OUT)
