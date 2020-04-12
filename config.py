@@ -7,3 +7,4 @@ mail_contact = {
     2: "joonjazzar15@gmail.com",
     3: "cenk@digitaltrade.com.tr"
 }
+

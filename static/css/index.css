@@ -2,7 +2,7 @@
     /*margin-top:-5px !important; */
 }
 body{
-    background-image: url("../img/bg-tech.jpg");
+    background-image: url("../img/bg-win.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black !important;
@@ -39,7 +39,7 @@ body{
     border-top: 20px solid #0088ff8e;
     vertical-align: middle;
     top: 41%;
-    left: 45%;
+    left: 44.8%;
     position: absolute;
     animation: inside_turn 1s infinite ease;
 }
@@ -52,8 +52,8 @@ body{
     margin: auto;
     font-size: 18px;
     position: absolute;
-    top: 48%;
-    left: 47%;
+    top: 48.5%;
+    left: 47.4%;
     color: #fbfbfbf3;
     margin-left: 4px;
 }
@@ -80,10 +80,11 @@ body{
     display: table-cell;
     border-right: 5px solid black;
     transform: perspective(5px) rotateX(1deg);
+    cursor: pointer;
 }
 
 .clock{
-    height: 50px;
+    height: 85px;
     width: 300px;
     padding-top: 15px;
     text-align: center;
@@ -97,6 +98,8 @@ body{
     letter-spacing: 4px;
 }
 
-.clock h5{
+#clock{
+    border-bottom: 1px solid #d4d6d617;
+    padding-bottom: 6px;
 }
 

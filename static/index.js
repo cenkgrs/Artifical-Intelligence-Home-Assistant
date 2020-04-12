@@ -1,3 +1,4 @@
+
 function showTime(){
     var date = new Date();
     var h = date.getHours(); // 0 - 23
@@ -10,7 +11,6 @@ function showTime(){
     }
 
     if(h > 12){
-        h = h - 12;
         session = "PM";
     }
 
@@ -18,15 +18,18 @@ function showTime(){
     m = (m < 10) ? "0" + m : m;
     s = (s < 10) ? "0" + s : s;
 
-    var time = h + ":" + m + ":" + s + " " + session;
+    var time = h + ":" + m + ":" + s;
     document.getElementById("clock").innerText = time;
     document.getElementById("clock").textContent = time;
 
-    var day = date.getDay();
+    var day = date.getDate();
     var month = date.getMonth();
     var year = date.getFullYear();
+    var day_string = days[date.getDay()]
 
-    var date = day + " " + month + " " + year ;
+    var month = months[month]
+
+    var date = day + " " + month + " " + day_string ;
 
     document.getElementById("date").innerText = date;
     document.getElementById("date").textContent = date;
