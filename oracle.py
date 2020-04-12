@@ -105,7 +105,7 @@ def calculate():
 
 
     GPIO.output(TRIG, GPIO.LOW)
-    time.(0.2)
+    time.sleep(0.2)
 
     GPIO.output(TRIG, GPIO.HIGH)
     time.sleep(0.00001)
