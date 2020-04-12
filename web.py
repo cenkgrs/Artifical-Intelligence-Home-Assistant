@@ -2,9 +2,6 @@ from flask import Flask, render_template
 from selenium import webdriver
 import pyautogui as pyautogui
 import multiprocessing
-months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from webdriver_manager.chrome import ChromeDriverManager
 
 app = Flask(__name__)
 
