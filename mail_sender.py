@@ -27,7 +27,7 @@ def listen():
 
         audio = r.record(source, duration=4)
     try:
-        command = r.recognize_sphinx(audio)
+        command = r.recognize_google(audio)
         print('You said: ' + command + ' \n')
     except sr.UnknownValueError:
         #speak("Did not get that sir")

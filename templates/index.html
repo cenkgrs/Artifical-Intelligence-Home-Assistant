@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="navigation">
+                    <div class="nav-block">
+                        Messages
+                    </div>
+                    <div class="nav-block">
+                        Mails
+                    </div>
+                    <div class="nav-block">
+                        Notes
+                    </div>
+                    <div class="nav-block">
+                        To-Do
+                    </div>
+                    <div class="nav-block">
+                        Calendar
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="clock" onload="showTime()">
+                    <h5 id="clock"></h5>
+                    <h5 id="date"></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="oracle-box">
+
+            </div>
+            <div class="circle-1">
+                <div class="half-background"></div>
+            </div>
+            <div class="text-box">
+                <h1>Oracle</h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+

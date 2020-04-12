@@ -1,0 +1,102 @@
+*,html,body {
+    /*margin-top:-5px !important; */
+}
+body{
+    background-image: url("../img/bg-tech.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: black !important;
+}
+
+
+/* Oracle Animation */
+
+.oracle-box{
+    margin: auto;
+    top: 36%;
+    left: 42%;
+    position: absolute;
+    background: rgba(4, 177, 245, 0.171);
+    border: 10px solid #7da6ca4b;
+    border-top: 10px solid #0088ff3a;
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    animation: turn 1s infinite linear;
+}
+@keyframes turn {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.circle-1{
+    background: rgba(42, 91, 148, 0.856);
+    height: 225px;
+    width: 225px;
+    border-radius: 50%;
+    margin: auto;
+    border: 20px solid #0088ff31;
+    border-top: 20px solid #0088ff8e;
+    vertical-align: middle;
+    top: 41%;
+    left: 45%;
+    position: absolute;
+    animation: inside_turn 1s infinite ease;
+}
+@keyframes inside_turn{
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+}
+.text-box{
+    text-align: center;
+    margin: auto;
+    font-size: 18px;
+    position: absolute;
+    top: 48%;
+    left: 47%;
+    color: #fbfbfbf3;
+    margin-left: 4px;
+}
+
+/* Oracle Animation End */
+
+/* Top Row */
+
+.navigation{
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    background-color: rgba(4, 177, 245, 0.171);
+    height: 50px;
+    display: table;
+}
+.navigation .nav-block{
+    height: 50px;
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-weight: bold;
+    display: table-cell;
+    border-right: 5px solid black;
+    transform: perspective(5px) rotateX(1deg);
+}
+
+.clock{
+    height: 50px;
+    width: 300px;
+    padding-top: 15px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid rgba(4, 177, 245, 0.575);
+    background: rgba(4, 177, 245, 0.171);
+    margin: auto;
+    color: #17D4FE;
+    font-size: 16px;
+    font-family: Orbitron;
+    letter-spacing: 4px;
+}
+
+.clock h5{
+}
+
