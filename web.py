@@ -18,9 +18,9 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/salvador")
-def salvador():
-    return "Hello, Salvador"
+@app.route("/messages")
+def messages():
+    return render_template("messages.html")
 
 
 def start():

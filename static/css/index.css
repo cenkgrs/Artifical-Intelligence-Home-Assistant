@@ -24,6 +24,7 @@ body{
     height: 330px;
     border-radius: 50%;
     animation: turn 1s infinite linear;
+    box-shadow: 10px 10px 10px -10px #275173
 }
 @keyframes turn {
     0% { transform: rotate(0deg); }
@@ -43,6 +44,7 @@ body{
     left: 44.8%;
     position: absolute;
     animation: inside_turn 1s infinite ease;
+    box-shadow: 10px 10px 10px -10px #507795;
 }
 @keyframes inside_turn{
     0% { transform: rotate(360deg); }
@@ -50,14 +52,26 @@ body{
 }
 .text-box{
     text-align: center;
+
     margin: auto;
-    font-size: 18px;
     position: absolute;
-    top: 48.5%;
-    left: 47.4%;
-    color: #fbfbfbf3;
+    top: 48.8%;
+    left: 46.6%;
+    color: #4db1bc;
+    animation: glow 1s ease-in-out infinite alternate;
     margin-left: 4px;
 }
+.text-box h1{
+font-size: 2.2rem !important;
+}
+@keyframes glow {
+    from {
+      text-shadow: 0 0 20px #2d9da9;
+    }
+    to {
+      text-shadow: 0 0 45px #34b3c1, 0 0 10px #4dbbc7;
+    }
+  }
 
 /* Oracle Animation End */
 
@@ -79,7 +93,6 @@ body{
     color: white;
     font-weight: bold;
     display: table-cell;
-    display: -webkit-inline-box;
     border-right: 5px solid black;
     transform: perspective(5px) rotateX(1deg);
     cursor: pointer;
@@ -98,6 +111,15 @@ body{
     font-size: 16px;
     font-family: Orbitron;
     letter-spacing: 4px;
+    animation: glow-box 1s ease-in-out infinite alternate;
+}
+@keyframes glow-box {
+    from {
+      box-shadow: 0 0 5px #2d9da9;
+    }
+    to {
+      box-shadow: 0 0 15px #34b3c1, 0 0 10px #4dbbc7;
+    }
 }
 
 #clock{
