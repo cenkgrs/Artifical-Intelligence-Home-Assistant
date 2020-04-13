@@ -41,29 +41,24 @@ function showTime(){
     setTimeout(showTime, 1000);
 
 }
-
 showTime();
 
-function speak(text){
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.volume = 1; // 0 to 1
-    msg.rate = 1; // 0.1 to 10
-    msg.pitch = 0.8; // 0 to 2
-
-    const voice = speaks[0]; //47
-    console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
-    msg.voiceURI = voice.name;
-    msg.lang = voice.lang;
+speak(greetings[Math.floor(Math.random() * greetings.length)]);
 
 
-    speechSynthesis.speak(msg);
-}
+$(".circle-1").click(function(){
+    speak("Tell me something")
+    text = listen()
+});
 
-speak("Welcome to my user interface sir");
-speak("If you want anything for me to do just click one of the links and i'll do the rest");
 
-speak("For starters hour is " + h + " " + m)
-speak("And today is " + day + " " + month)
+
+
+//speak("If you want anything for me to do just click one of the links and i'll do the rest");
+
+//speak("For starters hour is " + h + " " + m)
+//speak("And today is " + day + " " + month)
+//speak("If you need anything i'm here sir ")
 
 
 

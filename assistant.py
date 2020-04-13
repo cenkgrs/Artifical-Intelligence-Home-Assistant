@@ -106,10 +106,10 @@ def listen():
 
 # Runs when Oracle speaks
 def speak(text):
-        engine = pyttsx3.init()
-        engine.setProperty('voice', 'english+f3')
-        engine.say(text)
-        engine.runAndWait()
+    engine = pyttsx3.init()
+    engine.setProperty('voice', 'english+f3')
+    engine.say(text)
+    engine.runAndWait()
 
 speak("Welcome sir")
 while True:

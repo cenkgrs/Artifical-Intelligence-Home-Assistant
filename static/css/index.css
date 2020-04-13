@@ -1,5 +1,6 @@
 *,html,body {
     /*margin-top:-5px !important; */
+
 }
 body{
     margin-left:200px;
@@ -7,6 +8,8 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black !important;
+    padding: 0;
+    margin: 0;
 }
 
 
@@ -93,9 +96,11 @@ font-size: 2.2rem !important;
     color: white;
     font-weight: bold;
     display: table-cell;
-    border-right: 5px solid black;
-    transform: perspective(5px) rotateX(1deg);
+    /*border-right: 5px solid #0c2333;*/
+    /*transform: perspective(5px) rotateX(1deg);*/
     cursor: pointer;
+    box-shadow: 0px 0px 6px #39627e;
+
 }
 
 .clock{
@@ -125,5 +130,19 @@ font-size: 2.2rem !important;
 #clock{
     border-bottom: 1px solid #d4d6d617;
     padding-bottom: 6px;
+}
+
+.page-footer{
+    background: rgba(4, 177, 245, 0.171);
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    border-radius: 50px 50px 0 0;
+}
+
+#user-input{
+    color: #4db1bc;
+    animation: glow 2s ease-in-out infinite alternate;
 }
 
