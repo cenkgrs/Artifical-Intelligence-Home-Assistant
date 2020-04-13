@@ -1,3 +1,36 @@
+const msg = new SpeechSynthesisUtterance();
+msg.volume = 1; // 0 to 1
+msg.rate = 1; // 0.1 to 10
+msg.pitch = 0.8; // 0 to 2
+//msg.text  = "Welcome to my user interface sir";
+
+    const voice = speaks[0]; //47
+    console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
+    msg.voiceURI = voice.name;
+    msg.lang = voice.lang;
+
+
+    speechSynthesis.speak(msg);
+//msg.text = "If you want anything for me to do just click one of the links and i'll do the rest"
+
+speechSynthesis.speak(msg);
+
+window.onload = maxWindow;
+
+function maxWindow() {
+    window.moveTo(0, 0);
+
+    if (document.all) {
+        top.window.resizeTo(screen.availWidth, screen.availHeight);
+    }
+
+    else if (document.layers || document.getElementById) {
+        if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+            top.window.outerHeight = screen.availHeight;
+            top.window.outerWidth = screen.availWidth;
+        }
+    }
+}
 
 function showTime(){
     var date = new Date();

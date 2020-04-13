@@ -2,9 +2,16 @@ from flask import Flask, render_template
 from selenium import webdriver
 import pyautogui as pyautogui
 import multiprocessing
+import pyttsx3
 
 app = Flask(__name__)
 
+# Runs when Oracle speaks
+def speak(text):
+        engine = pyttsx3.init()
+        engine.setProperty('voice', 'english+f3')
+        engine.say(text)
+        engine.runAndWait()
 
 @app.route("/")
 def home():
@@ -30,9 +37,13 @@ def opens():
     browser.get("http://127.0.0.1:5000/")
     pyautogui.press('f11')
 
+    speak("Welcome to my user interface sir.")
+
+
 
 p1 = multiprocessing.Process(target=start)
 p1.start()
 p2 = multiprocessing.Process(target=opens)
 p2.start()
+
 

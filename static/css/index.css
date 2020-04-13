@@ -2,7 +2,8 @@
     /*margin-top:-5px !important; */
 }
 body{
-    background-image: url("../img/bg-win.jpg");
+    margin-left:200px;
+    background-image: url("../img/a.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black !important;
@@ -30,7 +31,7 @@ body{
   }
 
 .circle-1{
-    background: rgba(42, 91, 148, 0.856);
+    background: rgba(42, 91, 148, 0.21);
     height: 225px;
     width: 225px;
     border-radius: 50%;
@@ -78,6 +79,7 @@ body{
     color: white;
     font-weight: bold;
     display: table-cell;
+    display: -webkit-inline-box;
     border-right: 5px solid black;
     transform: perspective(5px) rotateX(1deg);
     cursor: pointer;
