@@ -1,0 +1,21 @@
+hello,greeting
+hi,greeting
+hey,greeting
+hello Oracle,greeting
+hi Oracle,greeting
+hey Oracle,greeting
+hello oracle,greeting
+hi oracle,greeting
+hey oracle,greeting
+oracle are you there,checking
+are you there oracle,checking
+Oracle are you there,checking
+are you there Oracle,checking
+so much thanks to you,thanks
+thank you Oracle,thanks
+thanks Oracle,thanks
+well done Oracle,thanks
+thank you,thanks
+how are you,goodness
+are you okay,goodness
+how are you oracle,goodness
