@@ -39,9 +39,9 @@ function listen(){
           interimTranscript += transcript;
         }
       }
-       finalTranscript.toLowerCase();
-       document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-       check
+        document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
+        check_command(finalTranscript);
+
     }
     recognition.start();
     setTimeout(() => {  recognition.stop }, 4000);
@@ -49,16 +49,10 @@ function listen(){
     recognition.onspeechend = function() {
       recognition.stop();
       console.log(finalTranscript);
-
-      speak("You said" + finalTranscript);
     }
 
 }
 
-$(".circle-1").click(function(){
-    beep()
-    text = listen()
-});
 
 
 function showTime(){
@@ -102,13 +96,21 @@ function showTime(){
 }
 
 function check_command(audio){
+    audio = audio.toString().toLowerCase();
+    console.log(audio)
     if(greetings_q.includes(audio)){
         speak( greetings_a[Math.floor(Math.random() * greetings_a.length)] )
+        listen()
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
+        listen()
+
     }
     else if (thanks_q.includes(audio)){
-            speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
+        speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
+        listen()
+
     }
+
 }

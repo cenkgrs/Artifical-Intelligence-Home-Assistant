@@ -6,7 +6,7 @@ greetings_a.push["at your service sir","hi sir", "hello sir", "hey there sir"]
 who_q = ["who are you", "who are you ma'm", "tell me your name"]
 who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 
-thanks_q = ["thank you Oracle", "thanks Oracle", "well done Oracle", "thank you"]
+thanks_q = ["thank you Oracle", "thanks Oracle", "well done Oracle", "thank you", "thank you oracle", "thanks to you"]
 thanks_a = ["you're welcome sir"]
 
 complete_a = ["You got it sir", "Will do sir", "Right away sir"]

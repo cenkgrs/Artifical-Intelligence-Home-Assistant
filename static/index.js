@@ -7,8 +7,8 @@ showTime();
 speak(greetings_a[Math.floor(Math.random() * greetings_a.length)]);
 
 
-$(".circle-1").click(function(){
-    speak("Tell me something")
+$(".circle-1, .text-box").click(function(){
+    beep()
     text = listen()
 });
 
