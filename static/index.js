@@ -12,6 +12,22 @@ $(".circle-1, .text-box").click(function(){
     text = listen()
 });
 
+$(".weather").click(function(){
+    message = "hi"
+    $.ajax({
+        url: "http://localhost:5000/weather",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"message": message})
+    }).done(function(data) {
+        weather_status = data[0]["Status"]
+        weather_temp = data[0]["Temp"]
+        console.log(weather_status)
+        console.log(weather_temp)
+    });
+
+});
+
 
 
 

@@ -132,6 +132,66 @@ font-size: 2.2rem !important;
     padding-bottom: 6px;
 }
 
+
+.weather{
+    width: 300px;
+    background: rgba(4, 177, 245, 0.171);
+    color: #17D4FE;
+    height: 125px;
+    float: right;
+    border-radius: 35px;
+    box-shadow: 0px 0px 25px 1px rgba(50, 50, 50, 0.1);
+    border: 1px solid #d4d6d617;
+    animation: appear 500ms ease-out forwards;
+    animation: glow-box 1s ease-in-out infinite alternate
+}
+
+.weather-icon {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    float: right;
+    margin: 40px 40px 0 0;
+    animation: weather-icon-move 5s ease-in-out infinite;
+}
+
+.sun {
+    background: #FFCD41;
+	border-radius: 50%;
+	box-shadow: rgba(255,255,0,0.1) 0 0 0 4px;
+    animation: light 1s ease-in-out infinite alternate, weather-icon-move 5s ease-in-out infinite;
+}
+
+@keyframes light {
+    from {
+        box-shadow: rgba(255,255,0,0.2) 0 0 0 10px;
+    }
+    to {
+        box-shadow: rgba(255,255,0,0.2) 0 0 0 17px;
+    }
+}
+@keyframes weather-icon-move {
+	50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes appear {
+  0% {
+    transform:scale(0);
+  }
+  50% {
+    transform:scale(1.05)
+  }
+  75% {
+    transform:scale(0.95)
+  }
+  100% {
+   transform:scale(1)
+  }
+}
+
 .page-footer{
     background: rgba(4, 177, 245, 0.171);
     position: absolute;

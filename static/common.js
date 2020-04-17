@@ -39,12 +39,12 @@ function listen(){
           interimTranscript += transcript;
         }
       }
+        console.log(finalTranscript);
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
         check_command(finalTranscript);
 
     }
     recognition.start();
-    setTimeout(() => {  recognition.stop }, 4000);
 
     recognition.onspeechend = function() {
       recognition.stop();
@@ -96,7 +96,7 @@ function showTime(){
 }
 
 function check_command(audio){
-    audio = audio.toString().toLowerCase();
+    audio = audio.toLowerCase();
     console.log(audio)
     if(greetings_q.includes(audio)){
         speak( greetings_a[Math.floor(Math.random() * greetings_a.length)] )
