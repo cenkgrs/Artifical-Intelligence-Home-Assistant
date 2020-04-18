@@ -3,6 +3,7 @@ $('#msg-link').on('click', function() {
 });
 
 showTime();
+showWeather();
 
 speak(greetings_a[Math.floor(Math.random() * greetings_a.length)]);
 
@@ -22,8 +23,6 @@ $(".weather").click(function(){
     }).done(function(data) {
         weather_status = data[0]["Status"]
         weather_temp = data[0]["Temp"]
-        console.log(weather_status)
-        console.log(weather_temp)
     });
 
 });

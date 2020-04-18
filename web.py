@@ -37,7 +37,7 @@ def get_weather():
     formatted_data = []
     json_data = requests.get(url).json()
     status = json_data['weather'][0]['main']  # Rain, thunderstorm etc.
-    temp = pytemperature.k2c(json_data["main"]["temp"]) # Changing kelvin to celcius
+    temp = int(pytemperature.k2c(json_data["main"]["temp"])) # Changing kelvin to celcius
 
     formatted_data = [{"Status": status, "Temp": temp}]
 

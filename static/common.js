@@ -39,7 +39,6 @@ function listen(){
           interimTranscript += transcript;
         }
       }
-        console.log(finalTranscript);
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
         check_command(finalTranscript);
 
@@ -52,8 +51,6 @@ function listen(){
     }
 
 }
-
-
 
 function showTime(){
     var date = new Date();
@@ -95,8 +92,22 @@ function showTime(){
 
 }
 
+function showWeather(){
+    message = "hi"
+    $.ajax({
+        url: "http://localhost:5000/weather",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"message": message})
+    }).done(function(data) {
+        weather_status = data[0]["Status"]
+        weather_temp = data[0]["Temp"]
+        $("#temp").html(weather_temp + "º")
+    });
+}
+
 function check_command(audio){
-    audio = audio.toLowerCase();
+    audio = audio.toString().toLowerCase();
     console.log(audio)
     if(greetings_q.includes(audio)){
         speak( greetings_a[Math.floor(Math.random() * greetings_a.length)] )
