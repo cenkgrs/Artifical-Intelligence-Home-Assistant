@@ -28,6 +28,7 @@ in4 = 10
 
 TRIG = 14
 ECHO = 15
+servo = 36
 
 # Set the GPIO pins
 GPIO.setmode(GPIO.BCM)
@@ -41,6 +42,7 @@ GPIO.setup(in3, GPIO.OUT)
 GPIO.setup(in4, GPIO.OUT)
 GPIO.setup(en2, GPIO.OUT)
 
+GPIO.setup(servo,GPIO.OUT)
 GPIO.setup(7, GPIO.OUT)
 GPIO.setup(8, GPIO.OUT)
 GPIO.setup(11, GPIO.OUT)
@@ -56,9 +58,15 @@ p2 = GPIO.PWM(en2, 1000)
 p.start(25)
 p2.start(22)
 
+# Start'ng servos
+p3 = GPIO.PWM(servo,50) 
+
 # Set motors rpm
 p.ChangeDutyCycle(25)
 p2.ChangeDutyCycle(25)
+
+# Set servo duty cylcle
+p3.start(2.5)
 
 # Set database connection
 conn = sqlite3.connect('/home/pi/Oracle/Oracle')
