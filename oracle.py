@@ -30,6 +30,8 @@ TRIG = 14
 ECHO = 15
 servo = 36
 
+control = [5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10]
+
 # Set the GPIO pins
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(7, GPIO.OUT) # Left light
@@ -58,7 +60,7 @@ p2 = GPIO.PWM(en2, 1000)
 p.start(25)
 p2.start(22)
 
-# Start'ng servos
+# Starting servos
 p3 = GPIO.PWM(servo,50) 
 
 # Set motors rpm
@@ -272,31 +274,53 @@ time.sleep(2)
 
 st = status()
 
-count = 0
-while(count < 50):
-    db = cursor.execute('SELECT action FROM Actions ORDER BY id DESC')
-    last_act = db.fetchmany()
+def servos_on():
+    try:
+        while True:
+            for x in range(11):
+                p.ChangeDutyCycle(control[x])
+                time.sleep(0.03)
+                print
+                x
 
-    # Result means the success of last action (if it hit the wall or not 0, 1)
-    # distance means result of last action (15 cm)
-    result, distance = calculate()
-    if result == 1: # If front is open go forward
-        forward(0.6)
+            for x in range(9, 0, -1):
+                p.ChangeDutyCycle(control[x])
+                time.sleep(0.03)
+                print
+                x
 
-        stop()
-        pick_route(1, last_act)
-    else: # If front is close go back and decide where to go
-        backward(0.4)
-        stop()
-        pick_route(0, last_act)
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
-        stop()
+def motors_on():
+    count = 0
+    while(count < 50):
+        db = cursor.execute('SELECT action FROM Actions ORDER BY id DESC')
+        last_act = db.fetchmany()
 
-    # Update the last action result and success
-    cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
-                   , (distance, result))
-    conn.commit()
-    count = count + 1
+        # Result means the success of last action (if it hit the wall or not 0, 1)
+        # distance means result of last action (15 cm)
+        result, distance = calculate()
+        if result == 1: # If front is open go forward
+            forward(0.6)
+
+            stop()
+            pick_route(1, last_act)
+        else: # If front is close go back and decide where to go
+            backward(0.4)
+            stop()
+            pick_route(0, last_act)
+
+            stop()
+
+        # Update the last action result and success
+        cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
+                       , (distance, result))
+        conn.commit()
+        count = count + 1
+
+
+servos_on()
 
 # If st.status is False then
 # This piece of code checks if Oracle is already stopped or not
