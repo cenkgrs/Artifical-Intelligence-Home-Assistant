@@ -3,6 +3,8 @@ function beep() {
     snd.play();
 }
 
+
+
 async function speak(text){
     const msg = new SpeechSynthesisUtterance(text);
     msg.volume = 1; // 0 to 1

@@ -1,7 +1,3 @@
-$('#msg-link').on('click', function() {
-    location.href = '/messages';
-});
-
 showTime();
 showWeather();
 
@@ -10,7 +6,7 @@ speak(greetings_a[Math.floor(Math.random() * greetings_a.length)]);
 
 $(".circle-1, .text-box").click(function(){
     beep()
-    text = listen()
+    listen()
 });
 
 $(".weather").click(function(){

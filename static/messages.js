@@ -1,0 +1,2 @@
+showTime()
+showWeather()

@@ -28,6 +28,10 @@ def home():
 def messages():
     return render_template("messages.html")
 
+@app.route("/mails")
+def mails():
+    return render_template("mails.html")
+
 
 @app.route("/weather", methods=["POST"])
 def get_weather():
