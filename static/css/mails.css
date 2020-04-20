@@ -1,0 +1,21 @@
+.mails{
+    width:500px;
+    height:500px;
+    background: white;
+    background-color: rgba(4, 177, 245, 0.171);
+
+}
+.mails-header{
+    width: 500px;
+    height: 8%;
+    background-color: rgba(4, 177, 245, 0.171);
+    padding: 10px;
+    color: #17D4FE;
+    text-align: center;
+
+}
+.mails-inner{
+    padding:10px;
+    background-color: rgba(4, 177, 245, 0.171);
+
+}
