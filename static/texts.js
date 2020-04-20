@@ -3,6 +3,9 @@ greetings_a = ["Welcome to my user interface sir", "Welcome boss", "Welcome agai
 
 greetings_a.push["at your service sir","hi sir", "hello sir", "hey there sir"]
 
+message_q = ["i want to send message", "enter to my messages", "show me my messages", "let's send message", "message"]
+
+
 who_q = ["who are you", "who are you ma'm", "tell me your name"]
 who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 

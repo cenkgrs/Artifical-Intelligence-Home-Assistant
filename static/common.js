@@ -3,7 +3,7 @@ function beep() {
     snd.play();
 }
 
-function speak(text){
+async function speak(text){
     const msg = new SpeechSynthesisUtterance(text);
     msg.volume = 1; // 0 to 1
     msg.rate = 1; // 0.1 to 10
@@ -19,8 +19,6 @@ function speak(text){
 }
 
 function listen(){
-    //recognition = window.speechRecognition || window.webkitSpeechRecognition;
-
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
     let finalTranscript = '';
     let recognition = new window.SpeechRecognition();
@@ -28,6 +26,7 @@ function listen(){
     recognition.interimResults = true;
     recognition.maxAlternatives = 10;
     recognition.continuous = true;
+    recognition.lang = "en-UK";
 
     recognition.onresult = (event) => {
       let interimTranscript = '';
@@ -38,10 +37,13 @@ function listen(){
         } else {
           interimTranscript += transcript;
         }
+        console.log("1", interimTranscript);
+        console.log("2", finalTranscript);
+        console.log("3", interimTranscript);
+
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-        check_command(finalTranscript);
-
+        finalTranscript = check_command(finalTranscript, interimTranscript)
     }
     recognition.start();
 
@@ -51,6 +53,7 @@ function listen(){
     }
 
 }
+
 
 function showTime(){
     var date = new Date();
@@ -106,22 +109,30 @@ function showWeather(){
     });
 }
 
-function check_command(audio){
+function check_command(audio ,intAudio){
     audio = audio.toString().toLowerCase();
     console.log(audio)
     if(greetings_q.includes(audio)){
-        speak( greetings_a[Math.floor(Math.random() * greetings_a.length)] )
-        listen()
+        speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
+        return ""
+    }
+    else if (message_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        messages();
+        return ""
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
-        listen()
-
+        return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
-        listen()
-
+        return ""
     }
+    return audio
+}
 
+
+function messages(){
+    location.href = '/messages';
 }
