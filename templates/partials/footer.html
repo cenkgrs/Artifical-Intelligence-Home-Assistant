@@ -1,11 +1,18 @@
  <!-- Footer -->
     <footer class="page-footer font-small blue">
 
-      <div class="footer-copyright text-center py-1">
-        <p id="user-input"></p>
-      </div>
+        <div class="audio-stop">
 
+        </div>
+
+        <div class="footer-copyright text-center py-1">
+            <p id="user-input"></p>
+        </div>
+
+        <audio class="my_audio">
+        </audio>
     </footer>
 <!-- Footer -->
-
- <script type="text/javascript" src="{{ url_for('static', filename='links.js') }}"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+   <!--<script src="https://cdn.rawgit.com/labnol/files/master/yt.js"></script>-->
+    <script type="text/javascript" src="{{ url_for('static', filename='links.js') }}"></script>

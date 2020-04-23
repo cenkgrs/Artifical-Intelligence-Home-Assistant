@@ -131,6 +131,18 @@ function check_command(audio ,intAudio){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
         return ""
     }
+    else if (bg_music_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        play_bg_music("play")
+
+        return ""
+    }
+    else if (bg_music_s.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        play_bg_music("pause")
+
+        return ""
+    }
     return audio
 }
 
@@ -138,3 +150,35 @@ function check_command(audio ,intAudio){
 function messages(){
     location.href = '/messages';
 }
+
+
+
+function play_bg_music(task){
+    keys = Object.keys(playlist);
+    $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[Math.floor(Math.random() * keys.length)]] + " type='audio/mpeg'>");
+
+    if(task == 'play'){
+           $(".my_audio").trigger('play');
+      }
+      if(task == 'stop'){
+           $(".my_audio").trigger('pause');
+           $(".my_audio").prop("currentTime",0);
+      }
+
+}
+
+$(document).ready(function(){
+    count = 0
+    $('.my_audio').on('ended', function() {
+       count++;
+       $("#sound_src").attr("src", playlist[keys[count]])[0];
+       $(".my_audio").trigger('load');
+       play_bg_audio('play');
+    });
+
+
+    $(".audio-stop").on("click",function(){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        $(".my_audio").trigger('pause');
+    });
+});

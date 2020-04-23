@@ -1,6 +1,15 @@
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var days = ["Sunday", "Monday", "February", "Wednesday", "Thursday", "Friday", "Saturday"]
 
+playlist = {
+    'song_1' : '../static/audio/bgtech1.mp3',
+    'song_2' : '../static/audio/bgtech2.mp3',
+    'song_3' : '../static/audio/bgslow1.mp3',
+    'song_4' : '../static/audio/bgslow2.mp3',
+    'song_5' : '../static/audio/bgslow3.mp3'
+
+}
+
 speaks = [
   {
     "name": "Alex",
