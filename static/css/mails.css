@@ -24,3 +24,48 @@
     border-radius: 15px;
     animation: glow-box 1s ease-in-out infinite alternate;
 }
+.mail-body{
+    padding: 8px;
+}
+
+/* Headers */
+.mail-sender h3{
+    color: #225a8b;
+    padding: 8px;
+}
+
+/* Inputs */
+
+.mail-input{
+    border: none;
+    background: none;
+    border-bottom: 1px solid #225a8a70;
+    width: 96%;
+    margin-top: 5px;
+    outline: 0;
+    color: #ffffff;
+}
+.mail-body-input{
+    border: none;
+    background: none;
+    border-bottom: 1px solid #225a8a70;
+    width: 96%;
+    margin-top: 5px;
+    outline: 0;
+    color: #ffffff;
+    height: 450px;
+}
+
+
+/* Buttons */
+
+.mail-send-button{
+    width: 75%;
+    text-align: center;
+    margin: auto;
+    background: #275f92 !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 15px;
+    padding: 8px;
+}

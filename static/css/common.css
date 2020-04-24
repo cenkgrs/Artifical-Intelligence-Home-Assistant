@@ -1,6 +1,9 @@
+/* Fonts */
 .text-center{text-align:center !important}
 
 .bold{font-weight:bold !important}
+
+.letter-s-1{letter-spacing:1px}
 
 .m-auto{margin:auto !important}
 
