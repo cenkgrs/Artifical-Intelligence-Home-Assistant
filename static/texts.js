@@ -15,4 +15,4 @@ thanks_a = ["you're welcome sir"]
 complete_a = ["You got it sir", "Will do sir", "Right away sir"]
 
 bg_music_q = ["Oracle open a background music", "background music would be fine", "bring me a background music", "Oracle play music", "music", "oracle play music", "resume the music"]
-bg_music_s = ["Oracle stop the music", "shut the music", "cut the music"]
+bg_music_s = ["Oracle stop the music", "shut the music", "cut the music", "stop the music"]

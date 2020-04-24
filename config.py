@@ -1,5 +1,5 @@
 EMAIL_ADDRESS = "cenkgrs@gmail.com"
-PASSWORD = "4751514cenk"
+PASSWORD = ""
 E_EMAIL = "joonjazzar15@gmail.com"
 
 mail_contact = {

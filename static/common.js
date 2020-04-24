@@ -133,13 +133,13 @@ function check_command(audio ,intAudio){
     }
     else if (bg_music_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        play_bg_music("play")
+        setTimeout(() => {  play_bg_music("play"); }, 2000);
 
         return ""
     }
     else if (bg_music_s.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        play_bg_music("pause")
+        setTimeout(() => {  play_bg_music("stop"); }, 2000);
 
         return ""
     }
@@ -158,9 +158,15 @@ function play_bg_music(task){
     $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[Math.floor(Math.random() * keys.length)]] + " type='audio/mpeg'>");
 
     if(task == 'play'){
-           $(".my_audio").trigger('play');
+          $(".audio-stop").fadeToggle();
+          $(".my_audio").trigger('play');
+      }
+      if(task == "pause"){
+            $(".audio-stop").fadeToggle();
+            $(".my_audio").trigger('pause');
       }
       if(task == 'stop'){
+           $(".audio-stop").fadeToggle();
            $(".my_audio").trigger('pause');
            $(".my_audio").prop("currentTime",0);
       }
@@ -168,17 +174,22 @@ function play_bg_music(task){
 }
 
 $(document).ready(function(){
-    count = 0
+
+    $(".circle-1, .text-box").click(function(){
+        beep()
+        listen()
+    });
+
     $('.my_audio').on('ended', function() {
-       count++;
-       $("#sound_src").attr("src", playlist[keys[count]])[0];
+       $("#sound_src").attr("src", playlist[keys[Math.floor(Math.random() * keys.length)]])[0];
        $(".my_audio").trigger('load');
-       play_bg_audio('play');
+       play_bg_music('play');
     });
 
 
     $(".audio-stop").on("click",function(){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         $(".my_audio").trigger('pause');
+        $(".audio-stop").fadeToggle();
     });
 });
