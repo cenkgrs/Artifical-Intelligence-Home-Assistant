@@ -7,6 +7,8 @@ import requests
 from flask_cors import CORS
 import pytemperature
 
+from mail_sender import send_mail
+
 app = Flask(__name__)
 CORS(app)
 
@@ -47,6 +49,14 @@ def get_weather():
 
     return jsonify(formatted_data)
 
+@app.route("/email_send", methods=["POST"])
+def send_email():
+    response = request.get_json()
+    print(response)
+    status = send_mail(response["subject"], response["message"], response["to"])
+
+    if status:
+        return "success"
 
 @app.after_request
 def add_headers(response):

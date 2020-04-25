@@ -47,9 +47,10 @@ def send_mail(subject, msg, to_email):
         message = 'Subject: {}\n\n{}'.format(subject, msg)
         server.sendmail(config.EMAIL_ADDRESS, to_email, message)
         server.quit()
-        speak("Email sended successfully boss")
+
+        return True
     except:
-        speak("Email failed to sent")
+        return False
 
 
 def get_mail_info():
@@ -67,6 +68,11 @@ def get_mail_info():
 
     speak(random.choice(answers.complete_a))
 
-    send_mail(subject, msg, to_email)
+    status = send_mail(subject, msg, to_email)
 
-get_mail_info()
+    if status:
+        speak("Email sended successfully boss")
+    else:
+        speak("Email failed to sent")
+
+

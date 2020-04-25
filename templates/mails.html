@@ -39,7 +39,7 @@
                                 </h3>
                             </div>
                             <div class="col-lg-9">
-                                <input name="to" class="mail-input" value="">
+                                <input id="to" class="mail-input" value="">
                             </div>
 
                         </div>
@@ -50,14 +50,14 @@
                                 </h3>
                             </div>
                              <div class="col-lg-9">
-                                <input name="subject" class="mail-input" value="">
+                                <input id="subject" class="mail-input" value="">
                              </div>
 
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="mail-body">
-                                    <textarea name="body" class="mail-body-input" spellcheck="false"></textarea>
+                                    <textarea id="body" class="mail-body-input" spellcheck="false"></textarea>
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
 
                         <div class="row mt30">
                             <div class="col-lg-12 text-center">
-                                <button class="mail-send-button">Send</button>
+                                <button onclick="send_email()" id="send" class="mail-send-button">Send</button>
                             </div>
                         </div>
 
@@ -80,10 +80,10 @@
                 <div class="oracle-box">
 
                 </div>
-                <div class="circle-1">
+                <div class="circle-1" data-type="mails">
                     <div class="half-background"></div>
                 </div>
-                <div class="text-box">
+                <div class="text-box" data-type="mails">
                     <h1>ORACLE</h1>
                 </div>
             </div>

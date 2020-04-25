@@ -10,6 +10,10 @@ playlist = {
 
 }
 
+intro = {
+    'intro_1' : "../static/audio/intro1.mp3"
+}
+
 speaks = [
   {
     "name": "Alex",

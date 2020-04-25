@@ -3,60 +3,6 @@ function beep() {
     snd.play();
 }
 
-
-
-async function speak(text){
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.volume = 1; // 0 to 1
-    msg.rate = 1; // 0.1 to 10
-    msg.pitch = 0.8; // 0 to 2
-
-    const voice = speaks[0]; //47
-    console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
-    msg.voiceURI = voice.name;
-    msg.lang = voice.lang;
-
-
-    speechSynthesis.speak(msg);
-}
-
-function listen(){
-    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-    let finalTranscript = '';
-    let recognition = new window.SpeechRecognition();
-
-    recognition.interimResults = true;
-    recognition.maxAlternatives = 10;
-    recognition.continuous = true;
-    recognition.lang = "en-UK";
-
-    recognition.onresult = (event) => {
-      let interimTranscript = '';
-      for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
-        let transcript = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += transcript;
-        } else {
-          interimTranscript += transcript;
-        }
-        console.log("1", interimTranscript);
-        console.log("2", finalTranscript);
-        console.log("3", interimTranscript);
-
-      }
-        document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-        finalTranscript = check_command(finalTranscript, interimTranscript)
-    }
-    recognition.start();
-
-    recognition.onspeechend = function() {
-      recognition.stop();
-      console.log(finalTranscript);
-    }
-
-}
-
-
 function showTime(){
     var date = new Date();
     h = date.getHours(); // 0 - 23
@@ -111,47 +57,126 @@ function showWeather(){
     });
 }
 
-function check_command(audio ,intAudio){
+
+
+async function speak(text){
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.volume = 1; // 0 to 1
+    msg.rate = 1; // 0.1 to 10
+    msg.pitch = 0.8; // 0 to 2
+
+    const voice = speaks[0]; //47
+    console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
+    msg.voiceURI = voice.name;
+    msg.lang = voice.lang;
+
+
+    speechSynthesis.speak(msg);
+}
+
+function listen(type){
+    beep()
+
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    let finalTranscript = '';
+    let recognition = new window.SpeechRecognition();
+
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 10;
+    recognition.continuous = true;
+    recognition.lang = "en-UK";
+
+    recognition.onresult = (event) => {
+      let interimTranscript = '';
+      for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
+        let transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+        document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
+
+        if (type == "form"){
+            return finalTranscript
+        }
+
+        finalTranscript = check_command(finalTranscript, type)
+    }
+    recognition.start();
+
+    recognition.onspeechend = function() {
+      recognition.stop();
+    }
+
+}
+
+
+
+function check_command(audio, type){
     audio = audio.toString().toLowerCase();
-    console.log(audio)
+
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
+        setTimeout(() => { listen("default") }, 4000);
+
         return ""
     }
     else if (message_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        messages();
+        setTimeout(() => { location.href = '/messages';}, 2000);
+
         return ""
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
+        setTimeout(() => { listen("default") }, 4000);
+
         return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
+        setTimeout(() => { listen("default") }, 4000);
+
         return ""
     }
-    else if (bg_music_q.includes(audio)){
+    else if (bg_music_q.includes(audio) || audio.includes("play music")) {  // Start the music
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         setTimeout(() => {  play_bg_music("play"); }, 2000);
 
         return ""
     }
-    else if (bg_music_s.includes(audio)){
+    else if (bg_music_s.includes(audio) || audio.includes("stop music")) { // Stop the music
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         setTimeout(() => {  play_bg_music("stop"); }, 2000);
 
         return ""
     }
+    else if ( audio.includes("open mails") || audio.includes("open emails") ){ // Open mails page
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        setTimeout(() => { location.href = '/mails';}, 2000);
+
+    }
+
+    /* Mails Page */
+    else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ) {
+        get_email_info()
+    }
+    else if (send_q.includes(audio) && type == "mails"){
+        send_email()
+        listen("mails")
+    }
     return audio
 }
 
+function play_intro_music(){
+    keys = Object.keys(intro);
+    $('.my_audio').append("<source id='sound_src' src=" + intro[keys[Math.floor(Math.random() * keys.length)]] + " type='audio/mpeg'>");
+    $(".my_audio").trigger('play');
+    setTimeout(() => { $(".my_audio").trigger('pause') }, 14000);
 
-function messages(){
-    location.href = '/messages';
 }
-
-
 
 function play_bg_music(task){
     keys = Object.keys(playlist);
@@ -173,11 +198,63 @@ function play_bg_music(task){
 
 }
 
+function get_email_info(){
+    speak("Who we are sending this mail ?")
+    to_input = $("#to")
+    get_input(to_input)
+
+    speak("What is the subject ?")
+    subject_input = $("#subject")
+    get_input(subject_input)
+
+    speak("And what should i write in the body ?")
+    body_input = $("#body")
+    get_input(body_input)
+
+    speak("All done sir is there anything you want to change or should i send the mail now")
+
+    command =  listen("form")
+
+    if (confirm_q.includes(command)){
+
+    }
+    else{
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+    }
+}
+
+function send_email(){
+    speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+
+    to = $("#to").val()
+    subject = $("#subject").val()
+    message = $("#body").val()
+
+    $.ajax({
+        url: "http://localhost:5000/email_send",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"to": to, "subject": subject, "message": message})
+    }).done(function(data) {
+
+        if (data == "success")
+        {
+            speak(finish_a[Math.floor(Math.random() * finish_a.length)])
+        }
+        else{}
+    });
+}
+function get_input(input){
+    console.log(input)
+    inp = listen("form")
+    console.log(inp)
+    input.val(inp)
+}
+
 $(document).ready(function(){
 
     $(".circle-1, .text-box").click(function(){
-        beep()
-        listen()
+        listen($(this).data("type"))
     });
 
     $('.my_audio').on('ended', function() {
