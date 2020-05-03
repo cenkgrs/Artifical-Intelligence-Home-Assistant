@@ -57,8 +57,6 @@ function showWeather(){
     });
 }
 
-
-
 async function speak(text){
     const msg = new SpeechSynthesisUtterance(text);
     msg.volume = 1; // 0 to 1
@@ -72,6 +70,18 @@ async function speak(text){
 
 
     speechSynthesis.speak(msg);
+}
+
+function idle_listen(){
+    var rec = new webkitSpeechRecognition() || new SpeechRecognition();
+    //let rec = new window.SpeechRecognition();
+    rec.lang = "en-UK";
+
+    rec.start()
+
+    rec.addEventListener('speechstart', function() {
+        listen("default")
+    });
 }
 
 function listen(type){
@@ -108,6 +118,7 @@ function listen(type){
 
     recognition.onspeechend = function() {
       recognition.stop();
+      idle_listen()
     }
 
 }
@@ -167,6 +178,7 @@ function check_command(audio, type){
         send_email()
         listen("mails")
     }
+
     return audio
 }
 
@@ -198,7 +210,7 @@ function play_bg_music(task){
 
 }
 
-function get_email_info(){
+function get_email_info(){ //
     speak("Who we are sending this mail ?")
     to_input = $("#to")
     get_input(to_input)
@@ -241,7 +253,9 @@ function send_email(){
         {
             speak(finish_a[Math.floor(Math.random() * finish_a.length)])
         }
-        else{}
+        else{
+            //
+        }
     });
 }
 function get_input(input){

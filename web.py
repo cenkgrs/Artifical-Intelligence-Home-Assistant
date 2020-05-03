@@ -81,10 +81,10 @@ def opens():
     speak("Welcome to my user interface sir.")
 
 
+def start_interface():
+    p1 = multiprocessing.Process(target=start)
+    p1.start()
+    p2 = multiprocessing.Process(target=opens)
+    #p2.start()
 
-p1 = multiprocessing.Process(target=start)
-p1.start()
-p2 = multiprocessing.Process(target=opens)
-#p2.start()
-
-
+start_interface()
