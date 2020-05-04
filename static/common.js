@@ -240,10 +240,12 @@ function check_command(audio, type){
         getCurrency()
     }
     else if (quit_q.includes(audio)){
+        alert(audio)
+        alert("came here")
         quit()
     }
     /* Mails Page */
-    else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ) {
+    else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ){
         get_email_info()
     }
     else if (send_q.includes(audio) && type == "mails"){
@@ -251,6 +253,13 @@ function check_command(audio, type){
         listen("mails")
     }
 
+    /* to-do page */
+    else if (todo_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        setTimeout(() => { location.href = '/todo';}, 2000);
+    }
+    else if (add_q.includes(audio) && type == "todo"){
+    }
     return audio
 }
 
@@ -282,7 +291,7 @@ function play_bg_music(task){
 
 }
 
-
+/* Mail Page */
 const get_email_info = async function(){ //
     speak("Who we are sending this mail ?")
     const to = await get_input()
@@ -333,6 +342,8 @@ function send_email(){
         }
     });
 }
+
+
 
 $(document).ready(function(){
 

@@ -11,6 +11,7 @@ import requests
 from flask_cors import CORS
 import pytemperature
 
+from todo import add_todo_item, get_todo
 from currency import get_currency
 from mail_sender import send_mail
 
@@ -35,9 +36,15 @@ def home():
 def messages():
     return render_template("messages.html")
 
+
 @app.route("/mails")
 def mails():
     return render_template("mails.html")
+
+
+@app.route("/todo")
+def todo():
+    return render_template("todo.html")
 
 
 @app.route("/weather", methods=["POST"])
@@ -71,6 +78,23 @@ def getCurrency():
     print(response)
 
     data = get_currency()
+    print(data)
+    return jsonify(data)
+
+
+@app.route("/add_todo", methods=["POST"])
+def add_todo():
+    response = request.get_json()
+    print(response)
+    status = add_todo_item(response["date"], response["todo"])
+
+    if status:
+        return "success"
+
+
+@app.route("/get_todo", methods=["GET"])
+def getTodo():
+    data = get_todo()
     print(data)
     return jsonify(data)
 

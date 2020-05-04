@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'partials/header.html' %}
+
+<body>
+    <section>
+        <div class="container-fluid">
+
+            {% include 'partials/navigation.html' %}
+
+
+            <div class="row mt30">
+                <div class="col-lg-4">
+                    <div class="todo-list">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2 class="text-center color-white p8">Today</h2>
+                            </div>
+                        </div>
+
+                        <div class="todo-today">
+
+                        </div>
+
+                    </div>
+s
+                </div>
+                <div class="col-lg-4">
+
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="todo-add">
+                        <div class="row ">
+                            <div class="col-lg-12">
+                                <h2 class="text-center color-white p8 letter-s-1">Add Item</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                 <div class="radio-group">
+                                    <input type="radio" id="option-one" name="day_selector" value="today" checked="checked">
+                                        <label for="option-one">Today</label>
+                                     <input type="radio" id="option-two" name="day_selector" value="tomorrow">
+                                        <label for="option-two">Tomorrow</label>
+                                     <input type="radio" id="option-three" name="day_selector" value="next">
+                                     <label for="option-three">Next Week</label>
+                                  </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="todo-body">
+                                    <textarea id="todo-body" class="todo-body-input" spellcheck="false"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt30">
+                            <div class="col-lg-12 text-center">
+                                <button onclick="add_todo_item()" id="add" class="todo-add-button">Add</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row mt30">
+                 <div class="col-lg-4">
+                    <div class="todo-list">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2 class="text-center color-white p8">Tomorrow</h2>
+                            </div>
+                        </div>
+
+                        <div class="todo-tomorrow">
+
+                        </div>
+                    </div>
+s
+                </div>
+
+            </div>
+
+            <div class="section">
+                <div class="oracle-box">
+
+                </div>
+                <div class="circle-1" data-type="todo">
+                    <div class="half-background"></div>
+                </div>
+                <div class="text-box" data-type="todo">
+                    <h1>ORACLE</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>
+<script type="text/javascript" src="{{ url_for('static', filename='todo.js') }}"></script>

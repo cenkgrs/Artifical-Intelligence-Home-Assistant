@@ -187,8 +187,6 @@ def pick_route(type, last_act, distance):
 
 time.sleep(2)
 
-#speak("Welcome home sir")
-
 # scheduler = BlockingScheduler()
 # scheduler.add_job(check_alarm, 'interval', hours=0.5)
 # scheduler.start()
@@ -212,6 +210,7 @@ def rotate_servo(direction):
     if result == 1:
         return True
     return False
+
 
 def motor_on():
     # Starting the motors
