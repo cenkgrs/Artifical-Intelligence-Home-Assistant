@@ -17,6 +17,12 @@ complete_a = ["You got it sir", "Will do sir", "Right away sir", "Okay boss", "W
 bg_music_q = ["Oracle open a background music", "background music would be fine", "bring me a background music", "Oracle play music", "music", "oracle play music", "resume the music"]
 bg_music_s = ["Oracle stop the music", "shut the music", "cut the music", "stop the music"]
 
+quit_q = ["shut down oracle", "shutdown oracle",  "shut down", "power off", "close oracle", "power off oracle"]
+quit_q = quit_q + ["shut down Oracle", "shutdown Oracle", "close Oracle", "power off Oracle"]
+quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
+
+currency_q = ["give me currency status", "currency status"]
+
 what_a = ["What do you want to do boss ?", "What do you want to do sir ?", "Now what sir ?"]
 
 

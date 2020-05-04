@@ -25,6 +25,18 @@ def get_currency():
     eur = soup.find("span", {"id": "EURTL_rate"})
     pound = soup.find("span", {"id": "GBPTL_rate"})
 
+    data = [{
+        "usd":      round(float(usd.text), 1),
+        "eur":      round(float(eur.text), 1),
+        "pound":    round(float(pound.text), 1),
+        "status":   True
+    }]
+
+    return data
+
+
+'''
     speak(f"US Dollar is {round(float(usd.text), 1)}")
     speak(f"and EURO is {round(float(eur.text), 1)} ")
     speak(f"and Pound is {round(float(pound.text), 1)}")
+'''

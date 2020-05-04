@@ -268,10 +268,7 @@ p1 = multiprocessing.Process(target=motor_on())
 # p1.start()
 
 p2 = multiprocessing.Process(target=start_interface())
-# p2.start()
-
-# servos_on()
-
+p2.start()
 
 
 # Code for manually controlling Oracle with numpads - i will add dualshock control

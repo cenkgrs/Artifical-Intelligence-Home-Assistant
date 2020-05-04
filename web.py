@@ -1,3 +1,7 @@
+import os
+import signal
+import sys
+
 from flask import Flask, render_template, request, jsonify
 from selenium import webdriver
 import pyautogui as pyautogui
@@ -7,6 +11,7 @@ import requests
 from flask_cors import CORS
 import pytemperature
 
+from currency import get_currency
 from mail_sender import send_mail
 
 app = Flask(__name__)
@@ -49,6 +54,7 @@ def get_weather():
 
     return jsonify(formatted_data)
 
+
 @app.route("/email_send", methods=["POST"])
 def send_email():
     response = request.get_json()
@@ -58,15 +64,33 @@ def send_email():
     if status:
         return "success"
 
+
+@app.route("/get_currency", methods=["POST"])
+def getCurrency():
+    response = request.get_json()
+    print(response)
+
+    data = get_currency()
+    print(data)
+    return jsonify(data)
+
+
+@app.route("/quit", methods=["POST"])
+def shut_down():
+    print("got here")
+    os.kill(os.getpid(), signal.SIGINT)
+    return jsonify({"success": True, "message": "Server is shutting down..."})
+
+
 @app.after_request
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     return response
 
+
 def start():
     app.run(debug=True)
-
 
 
 def opens():

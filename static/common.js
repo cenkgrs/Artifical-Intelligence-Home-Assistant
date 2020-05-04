@@ -57,6 +57,45 @@ function showWeather(){
     });
 }
 
+function getCurrency(){
+
+    speak(complete_a[Math.floor(Math.random() * finish_a.length)])
+
+    message = "hi"
+    $.ajax({
+        url: "http://localhost:5000/get_currency",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"message": message})
+    }).done(function(data) {
+
+        if (data[0]["status"])
+        {
+
+            speak("US Dollar is " + data[0]["usd"], 1)
+            speak("and EURO is " + data[0]["eur"], 1)
+            speak("lastly Pound is " + data[0]["pound"], 1)
+
+        }
+        else{
+            speak(finish_a[Math.floor(Math.random() * finish_a.length)])
+        }
+    });
+}
+
+function quit(){
+    speak(quit_a[Math.floor(Math.random() * finish_a.length)])
+
+    setTimeout(() => {
+         $.ajax({
+            url: "http://localhost:5000/quit",
+            type: "POST",
+         })
+     }, 3000);
+
+
+}
+
 async function speak(text){
     const msg = new SpeechSynthesisUtterance(text);
     msg.volume = 1; // 0 to 1
@@ -84,7 +123,7 @@ function idle_listen(){
     });
 }
 
-function listen(type){
+const listen = async function(type){
     beep()
 
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -123,7 +162,34 @@ function listen(type){
 
 }
 
+const get_input = async function(){
+    beep()
+    console.log("waited")
+    var streaming = new webkitSpeechRecognition();
+    streaming.lang = 'en-IN';
+    streaming.continuous = true;
+    streaming.interimResults = true;
+    console.log("waited")
 
+    streaming.onresult = async function(event) {
+        console.log("waited")
+
+        return "waited"
+        l_pos = event.results.length - 1 ;
+        document.getElementById('user-input').innerHTML = event.results[l_pos][0].transcript;
+
+        return new Promise((res, rej) => {
+          setTimeout(() => res(event.results[l_pos][0].transcript), 2000)
+        });
+
+    }
+
+    streaming.onend = function(event) {
+      //streaming.start();
+    }
+
+    streaming.start();
+}
 
 function check_command(audio, type){
     audio = audio.toString().toLowerCase();
@@ -169,7 +235,13 @@ function check_command(audio, type){
         setTimeout(() => { location.href = '/mails';}, 2000);
 
     }
-
+    else if (currency_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        getCurrency()
+    }
+    else if (quit_q.includes(audio)){
+        quit()
+    }
     /* Mails Page */
     else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ) {
         get_email_info()
@@ -210,18 +282,20 @@ function play_bg_music(task){
 
 }
 
-function get_email_info(){ //
-    speak("Who we are sending this mail ?")
-    to_input = $("#to")
-    get_input(to_input)
 
+const get_email_info = async function(){ //
+    speak("Who we are sending this mail ?")
+    const to = await get_input()
+    $("#to").val(to)
+    console.log(to)
+    /*
     speak("What is the subject ?")
-    subject_input = $("#subject")
-    get_input(subject_input)
+    const subject = await listen("form")
+    $("#subject").val(to)
 
     speak("And what should i write in the body ?")
-    body_input = $("#body")
-    get_input(body_input)
+    const body = await listen("form")
+    $("#body").val(to)
 
     speak("All done sir is there anything you want to change or should i send the mail now")
 
@@ -233,6 +307,7 @@ function get_email_info(){ //
     else{
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
     }
+    */
 }
 
 function send_email(){
@@ -257,12 +332,6 @@ function send_email(){
             //
         }
     });
-}
-function get_input(input){
-    console.log(input)
-    inp = listen("form")
-    console.log(inp)
-    input.val(inp)
 }
 
 $(document).ready(function(){
