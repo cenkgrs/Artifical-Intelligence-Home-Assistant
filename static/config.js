@@ -14,6 +14,19 @@ intro = {
     'intro_1' : "../static/audio/intro1.mp3"
 }
 
+commands = {
+    1 : "greeting",
+    2 : "who",
+    3 : "thank",
+    4 : "music-start",
+    5 : "music-stop",
+    6 : "mails",
+    7 : "quit",
+    8 : "todo",
+    9 : "music-change",
+
+}
+
 speaks = [
   {
     "name": "Alex",

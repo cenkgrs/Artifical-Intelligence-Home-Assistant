@@ -1,3 +1,3 @@
 showTime()
 showWeather()
-//idle_listen()
+idle_listen()

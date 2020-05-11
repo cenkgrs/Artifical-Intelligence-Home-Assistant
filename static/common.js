@@ -85,6 +85,7 @@ function getCurrency(){
 
 function quit(){
     speak(quit_a[Math.floor(Math.random() * finish_a.length)])
+    record_command(audio, "quit", 7)
 
     setTimeout(() => {
          $.ajax({
@@ -196,40 +197,53 @@ function check_command(audio, type){
 
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
-        record_command(audio, "greeting")
+        record_command(audio, "greeting", 1)
         setTimeout(() => { listen("default") }, 4000);
 
         return ""
     }
     else if (message_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        record_command(audio, "greeting")
+        record_command(audio, "message", 8)
+
         setTimeout(() => { location.href = '/messages';}, 2000);
 
         return ""
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
-        record_command(audio, "greeting")
+        record_command(audio, "who", 2)
         setTimeout(() => { listen("default") }, 4000);
 
         return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
-        record_command(audio, "greeting")
+        record_command(audio, "thank", 3)
         setTimeout(() => { listen("default") }, 4000);
 
         return ""
     }
     else if (bg_music_q.includes(audio) || audio.includes("play music")) {  // Start the music
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "music-start", 4)
+
         setTimeout(() => {  play_bg_music("play"); }, 2000);
+
+        return ""
+    }
+    else if (bg_music_c.includes(audio) || audio.includes("change music")) {  // Change the music
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "music-change", 9)
+
+        setTimeout(() => {  play_bg_music("change"); }, 2000);
 
         return ""
     }
     else if (bg_music_s.includes(audio) || audio.includes("stop music")) { // Stop the music
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "music-stop", 5)
+
         setTimeout(() => {  play_bg_music("stop"); }, 2000);
 
         return ""
@@ -241,15 +255,19 @@ function check_command(audio, type){
     }
     else if (currency_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "currency", 6)
+
         getCurrency()
     }
     else if (quit_q.includes(audio)){
-        alert(audio)
-        alert("came here")
+
         quit()
     }
+
     /* Mails Page */
+
     else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ){
+
         get_email_info()
     }
     else if (send_q.includes(audio) && type == "mails"){
@@ -260,10 +278,13 @@ function check_command(audio, type){
     /* to-do page */
     else if (todo_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "todo", 8)
+
         setTimeout(() => { location.href = '/todo';}, 2000);
     }
-    else if (add_q.includes(audio) && type == "todo"){
-    }
+    else if (add_q.includes(audio) && type == "todo"){}
+
+
     return audio
 }
 
@@ -277,17 +298,35 @@ function play_intro_music(){
 
 function play_bg_music(task){
     keys = Object.keys(playlist);
-    $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[Math.floor(Math.random() * keys.length)]] + " type='audio/mpeg'>");
+    $(".my_audio").empty()
 
     if(task == 'play'){
-          $(".audio-stop").fadeToggle();
-          $(".my_audio").trigger('play');
-      }
-      if(task == "pause"){
-            $(".audio-stop").fadeToggle();
-            $(".my_audio").trigger('pause');
-      }
-      if(task == 'stop'){
+
+        window.random = Math.floor(Math.random() * keys.length)
+        alert(window.random)
+        $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[random]] + " type='audio/mpeg'>");
+
+        $(".audio-stop").fadeToggle();
+
+        $(".my_audio").trigger('play');
+    }
+    if(task == "change"){
+        $(".my_audio").trigger('pause');
+        $(".my_audio").prop("currentTime",0);
+
+        window.random++
+        window.random = (window.random >= keys.length) ? 0 : window.random
+        console.log(window.random, keys.length)
+
+        $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[window.random]] + " type='audio/mpeg'>");
+        $(".my_audio").trigger('load');
+        $(".my_audio").trigger('play');
+    }
+    if(task == "pause"){
+        $(".audio-stop").fadeToggle();
+        $(".my_audio").trigger('pause');
+    }
+    if(task == 'stop'){
            $(".audio-stop").fadeToggle();
            $(".my_audio").trigger('pause');
            $(".my_audio").prop("currentTime",0);
@@ -358,14 +397,14 @@ function send_email(){
 }
 
 
-function record_command(text, command)
+function record_command(text, command, type)
 {
     console.log(command)
      $.ajax({
         url: "http://localhost:5000/record_command",
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({"text": text, "command": command})
+        data: JSON.stringify({"text": text, "command": command, "type": type})
     }).done(function(data) {
 
     });

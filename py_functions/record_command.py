@@ -1,14 +1,16 @@
 import sqlite3
 
 
-def insert_command(text, command):
+def insert_command(text, command, command_type):
+    print(command_type)
     with sqlite3.connect("Oracle") as con:
         cursor = con.cursor()
         try:
-            cursor.execute("INSERT INTO commands (text, command) VALUES (?, ?) ", (text, command))
+            cursor.execute("INSERT INTO commands (text, command, type) VALUES (?, ?, ?) ",
+                           (text, command, command_type))
             con.commit()
 
-            write_command(text, command)
+            write_command(text, command, command_type)
 
             return True
 
@@ -16,9 +18,9 @@ def insert_command(text, command):
             return False
 
 
-def write_command(text, command):
+def write_command(text, command, command_type):
     print(text, command)
     with open('./texts/commands.txt', 'a') as commands:
-        commands.write(text + " - " + command + "\n")
+        commands.write(text + " - " + command + " - " + str(command_type) + "\n")
 
         return True

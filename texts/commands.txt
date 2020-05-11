@@ -1,1 +1,83 @@
-hello - greeting
+hello - greeting - 1
+who are you - who - 2
+hello - greeting - 1
+hi - greeting - 1
+hello - greeting - 1
+hi - greeting - 1
+hello - greeting - 1
+hey there - greeting - 1
+hello - greeting - 1
+hello - greeting - 1
+hello Oracle - greeting - 1
+hi Oracle - greeting - 1
+hey - greeting - 1
+who are you - who - 2
+who are you exactly - who - 2
+who are you suppose to be - who - 2
+who are you - who - 2
+thanks - thank - 3
+thank - thank - 3
+thanks - thank - 3
+thank you - thank - 3
+thanks so much - thank - 3
+thank you so much - thank - 3
+thanks to you - thank - 3
+thanks - thank - 3
+
+
+
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+change music - music-change - 9
+stop music - music-stop - 5
+play music - music-start - 4
+stop music - music-stop - 5
+music - music-start - 4
+music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+music - music-start - 4
+stop music - music-stop - 5
+music - music-start - 4
+play music - music-start - 4
+stop music - music-stop - 5
+play music - music-start - 4
+play music - music-start - 4
+stop music - music-stop - 5
+play music - music-start - 4
+play music - music-start - 4
+stop music - music-stop - 5
+play music - music-start - 4
+play music - music-start - 4
+stop music - music-stop - 5
+play music - music-start - 4
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+stop music - music-stop - 5
+change music - music-change - 9
+google play music - music-start - 4
+change music - music-change - 9
+hello - greeting - 1
+thank you - thank - 3
+play music - music-start - 4
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+change music - music-change - 9
+stop music - music-stop - 5
+play music - music-start - 4
+play music - music-start - 4
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+oracle play music - music-start - 4
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+oracle change music - music-change - 9

@@ -113,8 +113,7 @@ def rec_command():
     response = request.get_json()
     print(response)
 
-
-    insert_command(response["text"], response["command"])
+    insert_command(response["text"], response["command"], response["type"])
 
     return "Success"
 
