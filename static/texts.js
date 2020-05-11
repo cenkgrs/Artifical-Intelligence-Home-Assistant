@@ -8,6 +8,9 @@ message_q = ["i want to send message", "enter to my messages", "show me my messa
 todo_q = ["Oracle tell me the things that has to be done for today", "open the to do list", "Oracle what is on today's to do list", "show me today's work"]
 todo_q.push["show me things to be done for today"]
 
+how_q = ["how are you", "how are you today Oracle"]
+how_a = ["I am okay sir how about you"]
+
 who_q = ["who are you", "who are you ma'm", "tell me your name"]
 who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 
@@ -33,7 +36,7 @@ form_q = ["fill the forms", "can you please fill the forms", "Oracle fill the fo
 confirm_q = ["hit it", "send it", "do it", "go"]
 abort_q = ["stop it", "don't", "not now"]
 
-
+add_q = ["add this", "add it"]
 send_q = ["send it", "send the email", "send the email Oracle"]
 
 finish_a = ["It's done boss", "It completed successfully boss"]

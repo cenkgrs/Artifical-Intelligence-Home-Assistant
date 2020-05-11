@@ -14,6 +14,7 @@ import pytemperature
 from todo import add_todo_item, get_todo
 from currency import get_currency
 from mail_sender import send_mail
+from py_functions.record_command import insert_command
 
 app = Flask(__name__)
 CORS(app)
@@ -89,7 +90,8 @@ def add_todo():
     status = add_todo_item(response["date"], response["todo"])
 
     if status:
-        return "success"
+        data = get_todo()
+        return jsonify(data)
 
 
 @app.route("/get_todo", methods=["GET"])
@@ -104,6 +106,18 @@ def shut_down():
     print("got here")
     os.kill(os.getpid(), signal.SIGINT)
     return jsonify({"success": True, "message": "Server is shutting down..."})
+
+
+@app.route("/record_command", methods=["POST"])
+def rec_command():
+    response = request.get_json()
+    print(response)
+
+
+    insert_command(response["text"], response["command"])
+
+    return "Success"
+
 
 
 @app.after_request

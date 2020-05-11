@@ -123,7 +123,7 @@ function idle_listen(){
     });
 }
 
-const listen = async function(type){
+function listen(type){
     beep()
 
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -146,8 +146,10 @@ const listen = async function(type){
         }
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-
-        if (type == "form"){
+        console.log("waited")
+        console.log(finalTranscript)
+        if (type == "form" && finalTranscript != ""){
+            console.log("checked")
             return finalTranscript
         }
 
@@ -162,58 +164,60 @@ const listen = async function(type){
 
 }
 
-const get_input = async function(){
+const get_listen_input = new Promise(function(resolve, reject){
     beep()
-    console.log("waited")
+
     var streaming = new webkitSpeechRecognition();
     streaming.lang = 'en-IN';
     streaming.continuous = true;
     streaming.interimResults = true;
-    console.log("waited")
 
-    streaming.onresult = async function(event) {
-        console.log("waited")
+    streaming.onresult = function(event) {
 
-        return "waited"
+
         l_pos = event.results.length - 1 ;
         document.getElementById('user-input').innerHTML = event.results[l_pos][0].transcript;
+        result = event.results[l_pos][0].transcript
+        console.log(result)
 
-        return new Promise((res, rej) => {
-          setTimeout(() => res(event.results[l_pos][0].transcript), 2000)
-        });
+        setTimeout(() => { resolve(result) }, 3000);
 
     }
 
-    streaming.onend = function(event) {
-      //streaming.start();
+    streaming.onspeechend = function(event) {
+        //
     }
 
     streaming.start();
-}
+})
 
 function check_command(audio, type){
     audio = audio.toString().toLowerCase();
 
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
+        record_command(audio, "greeting")
         setTimeout(() => { listen("default") }, 4000);
 
         return ""
     }
     else if (message_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "greeting")
         setTimeout(() => { location.href = '/messages';}, 2000);
 
         return ""
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
+        record_command(audio, "greeting")
         setTimeout(() => { listen("default") }, 4000);
 
         return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
+        record_command(audio, "greeting")
         setTimeout(() => { listen("default") }, 4000);
 
         return ""
@@ -292,21 +296,21 @@ function play_bg_music(task){
 }
 
 /* Mail Page */
-const get_email_info = async function(){ //
+function get_email_info(){ //
     speak("Who we are sending this mail ?")
-    const to = await get_input()
-    $("#to").val(to)
-    console.log(to)
+    to = $("#to")
+    to = get_input(to)
+
     /*
     speak("What is the subject ?")
-    const subject = await listen("form")
-    $("#subject").val(to)
+    subject = $("#subject")
+    subject = get_input(subject)
 
     speak("And what should i write in the body ?")
-    const body = await listen("form")
-    $("#body").val(to)
+    body = $("#body")
+    body = get_input(body)
 
-    speak("All done sir is there anything you want to change or should i send the mail now")
+    speak("All done sir, i will send the mail to is there anything you want to change or should i send the mail now")
 
     command =  listen("form")
 
@@ -317,6 +321,16 @@ const get_email_info = async function(){ //
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
     }
     */
+}
+
+
+function get_input(input){
+
+    get_listen_input.then(function(result){
+        input.val(result)
+    })
+
+
 }
 
 function send_email(){
@@ -340,6 +354,20 @@ function send_email(){
         else{
             //
         }
+    });
+}
+
+
+function record_command(text, command)
+{
+    console.log(command)
+     $.ajax({
+        url: "http://localhost:5000/record_command",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"text": text, "command": command})
+    }).done(function(data) {
+
     });
 }
 

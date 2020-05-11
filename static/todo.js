@@ -33,6 +33,8 @@ function get_todo(){
 
     today_todo = data[0]["today"]
 
+    $(".todo-today").empty();
+
     today_todo.forEach(function(entry, i) {
         item = document.createElement("strong");
         item.className = "todo-item";
@@ -43,6 +45,7 @@ function get_todo(){
 
     tomorrow_todo = data[0]["tomorrow"]
 
+    $(".todo-tomorrow").empty()
     tomorrow_todo.forEach(function(entry, i) {
         item = document.createElement("strong");
         item.className = "todo-item";
