@@ -336,9 +336,36 @@ function play_bg_music(task){
 
 /* Mail Page */
 function get_email_info(){ //
+
     speak("Who we are sending this mail ?")
-    to = $("#to")
-    to = get_input(to)
+
+    new Promise(function(fulfill, reject){
+        //do something for 5 seconds
+        get_listen_input.then(function(result){
+            $("#to").val(result)
+            fulfill(result);
+        })
+
+    }).then(function(result){
+        return new Promise(function(fulfill, reject){
+            //do something for 5 seconds
+            speak("What is the subject ?")
+            get_listen_input.then(function(result){
+                $("#body").val(result)
+                fulfill(result);
+            })
+
+            fulfill(result);
+        });
+    }).then(function(result){
+        return new Promise(function(fulfill, reject){
+            //do something for 8 seconds
+            speak("And what should i write in 
+            fulfill(result);
+        });
+    }).then(function(result){
+        //do something with the result
+    });
 
     /*
     speak("What is the subject ?")
@@ -363,10 +390,11 @@ function get_email_info(){ //
 }
 
 
-function get_input(input){
+function get_input (input, callback){
 
     get_listen_input.then(function(result){
         input.val(result)
+        callback();
     })
 
 
