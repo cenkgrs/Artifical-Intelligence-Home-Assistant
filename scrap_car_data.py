@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from requests import get
 import pandas as pd
+import csv
 
 prices = []
 mileages = []
@@ -25,16 +26,16 @@ properties_list = []
 base_url = f"https://www.cars.com/for-sale/searchresults.action/?page={page_num}&perPage=100&searchSource=PAGINATION&sort=relevance&stkTypId=28881&zc=34110"
 
 print(base_url)
-while page_num < 2:
+while page_num < 50:
 
     response = get(base_url)
     html_soup = BeautifulSoup(response.text, "html.parser")
 
-    prices_list += html_soup.find_all('span', attrs={'class': 'listing-row__price '})
+    prices_list += html_soup.find_all('span',  class_=['listing-row__price'])
+    #prices_list += html_soup.find_all('span', attrs={'class': 'listing-row__price new'})
     mileages_list += html_soup.find_all('span', attrs={'class': 'listing-row__mileage'})
     titles_list += html_soup.find_all('h2', attrs={'class': 'listing-row__title'})
     properties_list += html_soup.find_all('ul', attrs={'class': 'listing-row__meta'})
-
 
     page_num += 1
     base_url = f"https://www.cars.com/for-sale/searchresults.action/?page={page_num}&perPage=100&searchSource=PAGINATION&sort=relevance&stkTypId=28881&zc=34110"
@@ -56,9 +57,9 @@ while page_num < 2:
     for x in mileages_list:
         mile = float((((x.text.replace("mi.", "")).replace(" ", "")).replace("\n", "")).replace(",", "."))
         km = mile * 1.609
-        mileages.append(km)
+        mileages.append(str(round(km, 3)).replace(".", ""))
     for x in prices_list:
-        prices.append(((x.text.replace("$", "")).replace(" ", "")).replace("\n", ""))
+        prices.append((((x.text.replace("$", "")).replace(" ", "")).replace("\n", "")).replace(",", ""))
 
 print(len(prices))
 print(len(mileages))
@@ -67,5 +68,20 @@ print(len(years))
 print(len(transmissions))
 
 
+with open('car-data.csv', 'w', newline='') as outcsv:
+    writer = csv.writer(outcsv)
+    writer.writerow(["brand", "years", "mileage", "transmission", "price"])
+
+    for index, value in enumerate(prices):
+        print("Car {}-> "
+              "Brand: {} "
+              "Years: {} "
+              "Mileage: {} "
+              "Transmission: {} "
+              "Price: {}".format(index, brands[index], years[index], mileages[index], transmissions[index], value))
+        line = []
+
+        line = [str(brands[index])] + [str(years[index])] + [str(mileages[index])] + [transmissions[index]] + [str(value)]
+        writer.writerow(line)
 
 
