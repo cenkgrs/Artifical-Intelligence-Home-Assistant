@@ -15,6 +15,8 @@ from todo import add_todo_item, get_todo
 from currency import get_currency
 from mail_sender import send_mail
 from py_functions.record_command import insert_command
+from car_price_knn import predict
+
 
 app = Flask(__name__)
 CORS(app)
@@ -117,6 +119,15 @@ def rec_command():
 
     return "Success"
 
+
+@app.route("/car_predict", methods=["POST"])
+def car_predict():
+    response = request.get_json()
+    print(response)
+
+    predicted_data = predict(response["brand"], response["year"], response["mileage"], response["transmission"])
+
+    return jsonify({"success": True, "price": predicted_data[0]})
 
 
 @app.after_request

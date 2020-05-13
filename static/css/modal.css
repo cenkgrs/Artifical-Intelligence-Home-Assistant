@@ -23,7 +23,7 @@
     width: 25%;
     text-align: center;
     margin: auto;
-    background: #275f92 !important;
+    background: #1e94ff40 !important;
     border: none !important;
     color: white !important;
     border-radius: 15px;
@@ -39,7 +39,7 @@ body {
   height: 100%;
   border: 2px solid hsla(202, 61%, 22%, 1);
   border-radius: 20px;
-  padding: 0.6rem;
+  padding: 0.6rem 2rem;
   box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);
 }
 .modal-radio:checked + .modal-radio-label {

@@ -17,6 +17,9 @@ def get_brand_index(val):
     brands = sorted(set(sorted(list(data["brand"]))))
     return brands.index(val)
 
+def get_transmission_index(val):
+    transmissions = ["Automanual", "Automatic", "CVT", "Manual"]
+    return transmissions.index(val)
 
 def train_model(x_train, x_test, y_train, y_test):
     new_model = KNeighborsClassifier(n_neighbors=5)
@@ -48,7 +51,12 @@ def prepare_data():
     return x_test, y_test
 
 
-def predict(test, x_test, y_test):
+def predict(brand, year, mileage, transmission):
+    brand = get_brand_index(brand)
+    transmission = get_transmission_index(transmission)
+
+    test = [(brand, year, mileage, transmission)]
+
     # This will open saved model and put it inside model variable( that ill use for predict)
     pickle_in = open("car_price_model.pickle", "rb")
     model = pickle.load(pickle_in)
@@ -56,16 +64,14 @@ def predict(test, x_test, y_test):
     predicted_data = model.predict(test)
     print(predicted_data)
 
+    return predicted_data
+    '''
     predictions = model.predict(x_test)
     for x in range(len(predictions)):
         print("Predicted: ", predictions[x], "Data: ", x_test[x], "Actual: ", y_test[x] )
+    '''
 
 
-x_test, y_test = prepare_data()
-
-index = get_brand_index("Ferrari")
-test_data = [(28, 2019, 15000, 1)]
-predict(test_data, x_test, y_test)
 
 
 
