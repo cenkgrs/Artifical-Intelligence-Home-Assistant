@@ -40,4 +40,7 @@ abort_q = ["stop it", "don't", "not now"]
 add_q = ["add this", "add it"]
 send_q = ["send it", "send the email", "send the email Oracle"]
 
-finish_a = ["It's done boss", "It completed successfully boss"]
+finish_a = ["It's done boss", "It completed successfully boss", "Boss it finished", "It completed successfully sir"]
+
+predict_q = ["Oracle predict this product value" ,"predict", "product"]
+predict_a = ["is it house or car sir ?"]

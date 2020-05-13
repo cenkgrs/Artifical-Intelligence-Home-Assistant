@@ -284,6 +284,11 @@ function check_command(audio, type){
     }
     else if (add_q.includes(audio) && type == "todo"){}
 
+    /* Predictions */
+
+    else if (predict_q.includes(audio)) {
+        predictions()
+    }
 
     return audio
 }
@@ -339,34 +344,9 @@ function get_email_info(){ //
 
     speak("Who we are sending this mail ?")
 
-    new Promise(function(fulfill, reject){
-        //do something for 5 seconds
-        get_listen_input.then(function(result){
-            $("#to").val(result)
-            fulfill(result);
-        })
-
-    }).then(function(result){
-        return new Promise(function(fulfill, reject){
-            //do something for 5 seconds
-            speak("What is the subject ?")
-            get_listen_input.then(function(result){
-                $("#body").val(result)
-                fulfill(result);
-            })
-
-            fulfill(result);
-        });
-    }).then(function(result){
-        return new Promise(function(fulfill, reject){
-            //do something for 8 seconds
-            speak("And what should i write in 
-            fulfill(result);
-        });
-    }).then(function(result){
-        //do something with the result
-    });
-
+    get_listen_input.then(function(result){
+        $("#to").val(result)
+    })
     /*
     speak("What is the subject ?")
     subject = $("#subject")
@@ -438,6 +418,13 @@ function record_command(text, command, type)
     });
 }
 
+function predictions () {
+    console.log("a")
+    speak(predict_a[Math.floor(Math.random() * predict_a.length)])
+    get_listen_input.then(function(result){
+        speak("So you want the " + result + " price")
+    })
+}
 
 
 $(document).ready(function(){

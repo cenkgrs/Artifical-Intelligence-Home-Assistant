@@ -81,3 +81,4 @@ change music - music-change - 9
 play music - music-start - 4
 change music - music-change - 9
 oracle change music - music-change - 9
+thank you - thank - 3

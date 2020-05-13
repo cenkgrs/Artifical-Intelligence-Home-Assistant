@@ -1,9 +1,12 @@
 showTime()
 showWeather()
-idle_listen()
+//idle_listen()
+//speak("This is the works you should do in little time sir")
 get_todo()
-
+predictions()
 /* To - Do Page */
+
+
 
 function add_todo_item(){
     date = document.querySelector('input[name="day_selector"]:checked').value;
@@ -15,9 +18,13 @@ function add_todo_item(){
         data: JSON.stringify({"date": date, "todo": todo})
      }).done(function(data) {
 
-        if (data == "success")
+        if (data)
         {
+            console.log(data)
             speak(finish_a[Math.floor(Math.random() * finish_a.length)])
+
+            fill_panel(data)
+
         }
         else{
             //
@@ -30,6 +37,13 @@ function get_todo(){
         url: "http://localhost:5000/get_todo",
         type: "GET",
     }).done(function(data) {
+
+        fill_panel(data)
+
+    });
+}
+
+function fill_panel(data){
 
     today_todo = data[0]["today"]
 
@@ -55,5 +69,4 @@ function get_todo(){
 
     })
 
-    });
 }
