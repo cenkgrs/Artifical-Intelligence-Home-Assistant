@@ -259,8 +259,8 @@ def motor_on():
             speak("Good Bye !")
 
 
-p1 = multiprocessing.Process(target=motor_on())
-p1.start()
+#p1 = multiprocessing.Process(target=motor_on())
+#p1.start()
 
 #p2 = multiprocessing.Process(target=start_interface())
 #p2.start()
