@@ -6,7 +6,6 @@ import random
 import speech_recognition as sr
 import answers
 import pyttsx3
-from sphinx import *
 from datetime import datetime
 import time
 

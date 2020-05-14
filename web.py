@@ -162,4 +162,3 @@ def start_interface():
     p2 = multiprocessing.Process(target=opens)
     #p2.start()
 
-start_interface()

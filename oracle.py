@@ -1,13 +1,14 @@
 from alarm import alarm, check_alarm
 from currency import get_currency
 from youtube import get_video
-from motors import right, left, backward, forward, stop
+from motors import right, left, backward, forward, stop, start_motors
 from web import start_interface
 import multiprocessing
 import RPi.GPIO as GPIO
 import time
 import pyttsx3
 import random
+
 # from apscheduler.schedulers.blocking import BlockingScheduler
 
 import sqlite3
@@ -42,11 +43,11 @@ GPIO.output(7, True)
 GPIO.output(8, True)
 GPIO.output(11, True)
 
-en = 25  # Engine 1
+'''en = 25  # Engine 1
 en2 = 22  # Engine 2
 p = GPIO.PWM(en, 1000)
 p2 = GPIO.PWM(en2, 1000)
-
+'''
 
 # Starting servos
 p3 = GPIO.PWM(servo,50) 
@@ -151,10 +152,11 @@ def pick_route(type, last_act, distance):
         result = rotate_servo(decide) # Check if the decided direction is empty
 
         if not result: # If decided direction is not empty choose any other valid direction
-            decide = random.choice((remaining_choices.append(choices)).remove(decide))
-
+            #decide = random.choice((remaining_choices.append(choices).remove(decide)))
+            decide = random.choice(choices)
+            
         # Record last two actions
-        cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")
+        #cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")
         cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
 
     elif type == 1:  # Means it can go all the three ways and last action was backward
@@ -165,11 +167,12 @@ def pick_route(type, last_act, distance):
         result = rotate_servo(decide)  # Check if the decided direction is empty
 
         if not result:  # If decided direction is not empty choose any other valid direction
-            decide = random.choice((remaining_choices.append(choices)).remove(decide))
+            #decide = random.choice((remaining_choices.append(choices).remove(decide)))
+            decide = random.choice(choices)
+            
+        #cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
 
-        cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
-
-    conn.commit()
+    #conn.commit()
     print(decide)
 
     # Run the function that came from decision
@@ -181,9 +184,7 @@ def pick_route(type, last_act, distance):
         method(1)
     else:
         method()
-
-
-
+        
 
 time.sleep(2)
 
@@ -197,11 +198,11 @@ st = Status()
 def rotate_servo(direction):
     try:
         if direction == "left":
-            p.ChangeDutyCycle(3)
+            p3.ChangeDutyCycle(3)
         elif direction == "right":
-            p.ChangeDutyCycle(9)
+            p3.ChangeDutyCycle(9)
         else:
-            p.ChangeDutyCycle(6)
+            p3.ChangeDutyCycle(6)
     except KeyboardInterrupt:
         GPIO.cleanup()
 
@@ -213,12 +214,7 @@ def rotate_servo(direction):
 
 
 def motor_on():
-    # Starting the motors
-    p.start(25)
-    p2.start(22)
-
-    # Set all motors to stop first
-    stop()
+    start_motors()
 
     count = 0
     while(count < 50):
@@ -246,9 +242,9 @@ def motor_on():
             st.status = True
 
         # Update the last action result and success
-        cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
-                       , (distance, result))
-        conn.commit()
+        '''cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
+                       , (distance, result))'''
+        #conn.commit()
         count = count + 1
     else:
         # If st.status is False then
@@ -264,10 +260,10 @@ def motor_on():
 
 
 p1 = multiprocessing.Process(target=motor_on())
-# p1.start()
+p1.start()
 
-p2 = multiprocessing.Process(target=start_interface())
-p2.start()
+#p2 = multiprocessing.Process(target=start_interface())
+#p2.start()
 
 
 # Code for manually controlling Oracle with numpads - i will add dualshock control
