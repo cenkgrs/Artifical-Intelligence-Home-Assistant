@@ -125,7 +125,10 @@ def car_predict():
     response = request.get_json()
     print(response)
 
-    predicted_data = predict(response["brand"], response["year"], response["mileage"], response["transmission"])
+    predicted_data, error_line = predict(response["brand"], response["year"], response["mileage"], response["transmission"])
+
+    if not predicted_data:
+        return jsonify({"success": False, "error_line": error_line})
 
     return jsonify({"success": True, "price": predicted_data[0]})
 

@@ -15,14 +15,21 @@ def get_brand_index(val):
     le = preprocessing.LabelEncoder()
 
     brands = sorted(set(sorted(list(data["brand"]))))
-    return brands.index(val)
+
+    try:
+        return brands.index(val)
+    except ValueError:
+        return False
 
 def get_transmission_index(val):
     transmissions = ["Automanual", "Automatic", "CVT", "Manual"]
-    return transmissions.index(val)
+    try:
+        return transmissions.index(val)
+    except ValueError:
+        return False
 
 def train_model(x_train, x_test, y_train, y_test):
-    new_model = KNeighborsClassifier(n_neighbors=5)
+    new_model = KNeighborsClassifier(n_neighbors=10)
 
     new_model.fit(x_train, y_train)
     acc = new_model.score(x_test, y_test)
@@ -48,12 +55,18 @@ def prepare_data():
 
     x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)
 
-    return x_test, y_test
+    return x_test, y_test, y_train, y_test
 
 
 def predict(brand, year, mileage, transmission):
     brand = get_brand_index(brand)
     transmission = get_transmission_index(transmission)
+    print(brand, transmission)
+
+    if not brand:
+        return False, "brand"
+    elif not transmission:
+        return False, "transmission"
 
     test = [(brand, year, mileage, transmission)]
 
@@ -64,7 +77,7 @@ def predict(brand, year, mileage, transmission):
     predicted_data = model.predict(test)
     print(predicted_data)
 
-    return predicted_data
+    return predicted_data, False
     '''
     predictions = model.predict(x_test)
     for x in range(len(predictions)):

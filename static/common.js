@@ -118,6 +118,7 @@ function idle_listen(){
     rec.lang = "en-UK";
 
     rec.start()
+    console.log("started")
 
     rec.addEventListener('speechstart', function() {
         listen("default")
@@ -147,27 +148,27 @@ function listen(type){
         }
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-        console.log("waited")
         console.log(finalTranscript)
+        finalTranscript = check_command(finalTranscript, type)
+
         if (type == "form" && finalTranscript != ""){
-            console.log("checked")
             return finalTranscript
         }
 
-        finalTranscript = check_command(finalTranscript, type)
+
     }
     recognition.start();
 
     recognition.onspeechend = function() {
-      recognition.stop();
-      idle_listen()
+        recognition.stop();
+        idle_listen()
     }
 
 }
 
 const get_listen_input = new Promise(function(resolve, reject){
     beep()
-
+    console.log("b")
     var streaming = new webkitSpeechRecognition();
     streaming.lang = 'en-IN';
     streaming.continuous = true;
@@ -217,6 +218,10 @@ function check_command(audio, type){
 
         return ""
     }
+    else if (how_q.includes(audio)){
+        speak(how_a[Math.floor(Math.random() * how_a.length)])
+
+    }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
         record_command(audio, "thank", 3)
@@ -224,6 +229,8 @@ function check_command(audio, type){
 
         return ""
     }
+
+    /* Music Commands */
     else if (bg_music_q.includes(audio) || audio.includes("play music")) {  // Start the music
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "music-start", 4)
@@ -248,6 +255,7 @@ function check_command(audio, type){
 
         return ""
     }
+
     else if ( audio.includes("open mails") || audio.includes("open emails") ){ // Open mails page
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         setTimeout(() => { location.href = '/mails';}, 2000);
@@ -288,6 +296,8 @@ function check_command(audio, type){
 
     else if (predict_q.includes(audio)) {
         predictions()
+
+        return ""
     }
 
     return audio
@@ -370,13 +380,11 @@ function get_email_info(){ //
 }
 
 
-function get_input (input, callback){
+function get_input (input){
 
     get_listen_input.then(function(result){
         input.val(result)
-        callback();
     })
-
 
 }
 
@@ -423,6 +431,14 @@ function predictions () {
     speak(predict_a[Math.floor(Math.random() * predict_a.length)])
     get_listen_input.then(function(result){
         speak("So you want the " + result + " price")
+        $(".predict_modal").fadeToggle()
+        $(".predict-button").attr("data-predict-type", result)
+
+        result == "house" ? $('#house_check').prop('checked', true) : $('#car_check').prop('checked', true)
+
+
+        speak("Please give me the detail of the " + result + "and i'll do tha calculations sir ")
+
     })
 }
 
