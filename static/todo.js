@@ -1,9 +1,8 @@
 showTime()
 showWeather()
-//idle_listen()
+idle_listen()
 //speak("This is the works you should do in little time sir")
 get_todo()
-predictions()
 /* To - Do Page */
 
 

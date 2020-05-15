@@ -21,12 +21,14 @@ def get_brand_index(val):
     except ValueError:
         return False
 
+
 def get_transmission_index(val):
     transmissions = ["Automanual", "Automatic", "CVT", "Manual"]
     try:
         return transmissions.index(val)
     except ValueError:
         return False
+
 
 def train_model(x_train, x_test, y_train, y_test):
     new_model = KNeighborsClassifier(n_neighbors=10)
@@ -36,12 +38,12 @@ def train_model(x_train, x_test, y_train, y_test):
 
     print(acc)
 
-    with open("car_price_model.pickle", "wb") as f:
+    with open("car_price_model_1.pickle", "wb") as f:
         pickle.dump(new_model, f)
 
 
 def prepare_data():
-    data = pd.read_csv("car-data.csv")
+    data = pd.read_csv("car-data_1.csv")
 
     le = preprocessing.LabelEncoder()
     brand = le.fit_transform(list(data["brand"]))
@@ -55,7 +57,7 @@ def prepare_data():
 
     x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)
 
-    return x_test, y_test, y_train, y_test
+    return x_train, x_test, y_train, y_test
 
 
 def predict(brand, year, mileage, transmission):
@@ -78,11 +80,24 @@ def predict(brand, year, mileage, transmission):
     print(predicted_data)
 
     return predicted_data, False
-    '''
+
+
+def test_predict(x_test, y_test):
+    # This will open saved model and put it inside model variable( that ill use for predict)
+    pickle_in = open("car_price_model_1.pickle", "rb")
+    model = pickle.load(pickle_in)
+
     predictions = model.predict(x_test)
     for x in range(len(predictions)):
         print("Predicted: ", predictions[x], "Data: ", x_test[x], "Actual: ", y_test[x] )
-    '''
+
+
+'''x_train, x_test, y_train, y_test = prepare_data()
+train_model(x_train, x_test, y_train, y_test)
+
+test_predict(x_test, y_test)'''
+
+#predict("Audi", 2020, 50000, "Manual")
 
 
 

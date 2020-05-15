@@ -3,6 +3,8 @@ function beep() {
     snd.play();
 }
 
+
+
 function showTime(){
     var date = new Date();
     h = date.getHours(); // 0 - 23
@@ -221,6 +223,7 @@ function check_command(audio, type){
     else if (how_q.includes(audio)){
         speak(how_a[Math.floor(Math.random() * how_a.length)])
 
+        return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
@@ -300,6 +303,37 @@ function check_command(audio, type){
         return ""
     }
 
+    else if (audio.includes("timer")){
+        var bmpDigits = /[0-9\u0660-\u0669\u06F0-\u06F9\u07C0-\u07C9\u0966-\u096F\u09E6-\u09EF\u0A66-\u0AE6\u0AE6-\u0AEF\u0B66-\u0B6F\u0BE6-\u0BEF\u0C66-\u0C6F\u0CE6-\u0CEF\u0D66-\u0D6F\u0DE6-\u0DEF\u0E50-\u0E59\u0ED0-\u0ED9\u0F20-\u0F29\u1040-\u1049\u1090-\u1099\u17E0-\u17E9\u1810-\u1819\u1946-\u194F\u19D0-\u19D9\u1A80-\u1A89\u1A90-\u1A99\u1B50-\u1B59\u1BB0-\u1BB9\u1C40-\u1C49\u1C50-\u1C59\uA620-\uA629\uA8D0-\uA8D9\uA900-\uA909\uA9D0-\uA9D9\uA9F0-\uA9F9\uAA50-\uAA59\uABF0-\uABF9\uFF10-\uFF19]/;
+        var hasNumber = RegExp.prototype.test.bind(bmpDigits);
+
+        has = hasNumber(audio)
+        if(has) {
+            var date = new Date();
+            number = audio.match(/\d+/)[0] // "3"
+            speak("Timer is started sir")
+
+            if( audio.includes("minute") || audio.includes("minute")){
+                date.setMinutes( date.getMinutes() + parseInt(number) );
+                console.log(date)
+            }
+            else if( audio.includes("hour") || audio.includes("hours") ){
+                date.setHours( date.getHours() + parseInt(number) );
+            }
+            else if ( audio.includes("second") || audio.includes("seconds")) {
+                date.setSeconds( date.getSeconds() + parseInt(number) );
+            }
+            else{
+                speak("Did you said hour or minute sir ?")
+                return ;
+            }
+            localStorage.setItem("stored-timer",date);
+            sessionStorage.setItem("timer", date);
+            setTimer(date)
+            return ''
+        }
+    }
+
     return audio
 }
 
@@ -321,7 +355,7 @@ function play_bg_music(task){
         alert(window.random)
         $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[random]] + " type='audio/mpeg'>");
 
-        $(".audio-stop").fadeToggle();
+        $(".audio-stop").fadeIn();
 
         $(".my_audio").trigger('play');
     }
@@ -427,7 +461,7 @@ function record_command(text, command, type)
 }
 
 function predictions () {
-    console.log("a")
+
     speak(predict_a[Math.floor(Math.random() * predict_a.length)])
     get_listen_input.then(function(result){
         speak("So you want the " + result + " price")
@@ -442,8 +476,58 @@ function predictions () {
     })
 }
 
+function setTimer(countDownDate){
+    //var countDownDate = sessionStorage.getItem("timer");
+    $(".timer").fadeIn();
+
+    var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date();
+        console.log(now)
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+        console.log(distance)
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        console.log(days, hours, minutes, seconds)
+        // Display the result in the element with id="demo"
+
+        if (hours >= 1 ){
+            console.log("got here 1");
+            (hours < 10) ? $("#timer-1").html("0" + hours) : $("#timer-1").html(hours);
+            (minutes < 10) ? $("#timer-2").html("0" + minutes) : $("#timer-2").html(minutes);
+
+        }
+        else{
+            console.log("got here 2");
+            (minutes < 10) ? $("#timer-1").html("0" + minutes) : $("#timer-1").html(minutes);
+            (seconds < 10) ? $("#timer-2").html("0" + seconds) : $("#timer-2").html(seconds);
+        }
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            $("#timer-1").html("00")
+            $("#timer-2").html("00")
+
+            speak("Time is over sir")
+
+            $(".timer").fadeOut();
+        }
+    }, 1000);
+}
+
 
 $(document).ready(function(){
+
+
 
     $(".circle-1, .text-box").click(function(){
         listen($(this).data("type"))
