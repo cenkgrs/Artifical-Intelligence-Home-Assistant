@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{% include 'partials/header.html' %}
-
-<body>
     <section>
         <div class="container-fluid">
-
-            {% include 'partials/navigation.html' %}
-
-
             <div class="row mt30">
                 <div class="col-lg-4">
                     <div class="todo-list">
@@ -69,7 +59,6 @@ s
                     </div>
 
                 </div>
-
             </div>
 
             <div class="row mt30">
@@ -90,7 +79,7 @@ s
 
             </div>
 
-            <div class="section">
+            <div class="section-oracle">
                 <div class="oracle-box">
 
                 </div>
@@ -103,8 +92,3 @@ s
             </div>
         </div>
     </section>
-
-    {% include 'partials/footer.html' %}
-</body>
-</html>
-<script type="text/javascript" src="{{ url_for('static', filename='todo.js') }}"></script>

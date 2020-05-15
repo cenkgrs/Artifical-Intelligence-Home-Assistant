@@ -14,7 +14,7 @@ how_a = ["I am okay sir how about you"]
 who_q = ["who are you", "who are you ma'm", "tell me your name"]
 who_a = ["i am oracle", "my name is oracle", "i am an artifical intelligence"]
 
-thanks_q = ["thank you Oracle", "thanks Oracle", "well done Oracle", "thank you", "thank you oracle", "thanks to you"]
+thanks_q = ["thank you Oracle", "thanks Oracle", "well done Oracle", "thank you", "thank you oracle", "thanks to you", "thanks"]
 thanks_a = ["you're welcome sir"]
 
 complete_a = ["Right away sir", "Just a moment sir", "Just a moment boss", "You got it sir", "Will do sir", "Right away sir", "Okay boss", "Will do boss"]

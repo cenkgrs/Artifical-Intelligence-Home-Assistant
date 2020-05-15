@@ -3,8 +3,6 @@ function beep() {
     snd.play();
 }
 
-
-
 function showTime(){
     var date = new Date();
     h = date.getHours(); // 0 - 23
@@ -114,20 +112,31 @@ async function speak(text){
     speechSynthesis.speak(msg);
 }
 
-function idle_listen(){
+function idle_listen(type){
+
     var rec = new webkitSpeechRecognition() || new SpeechRecognition();
     //let rec = new window.SpeechRecognition();
     rec.lang = "en-UK";
 
     rec.start()
-    console.log("started")
 
-    rec.addEventListener('speechstart', function() {
-        listen("default")
+    type = (typeof type == "undefined") ? type = null : 'stop'
+    console.log(type)
+    if(type == "stop" ){
+        rec.stop();
+        console.log("stopped")
+        return;
+    }
+
+    rec.addEventListener('speechstart', function(event) {
+        result = listen("default")
+
+        if (result == "stop") { rec.stop(); return;}
+
     });
 }
 
-function listen(type){
+ function listen(type) {
     beep()
 
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -139,7 +148,10 @@ function listen(type){
     recognition.continuous = true;
     recognition.lang = "en-UK";
 
+    recognition.start();
+
     recognition.onresult = (event) => {
+       let resultScript = null
       let interimTranscript = '';
       for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
         let transcript = event.results[i][0].transcript;
@@ -150,8 +162,14 @@ function listen(type){
         }
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-        console.log(finalTranscript)
-        finalTranscript = check_command(finalTranscript, type)
+
+        if ( finalTranscript != ""){ resultScript = check_command(finalTranscript, type) }
+
+        if ( resultScript == finalTranscript) { speak("Did not get that sir, please repeat"), listen("default")}
+
+        if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
+
+        if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_listen("stop") }
 
         if (type == "form" && finalTranscript != ""){
             return finalTranscript
@@ -159,7 +177,6 @@ function listen(type){
 
 
     }
-    recognition.start();
 
     recognition.onspeechend = function() {
         recognition.stop();
@@ -170,14 +187,13 @@ function listen(type){
 
 const get_listen_input = new Promise(function(resolve, reject){
     beep()
-    console.log("b")
+    console.log("i'm listening")
     var streaming = new webkitSpeechRecognition();
     streaming.lang = 'en-IN';
     streaming.continuous = true;
     streaming.interimResults = true;
 
     streaming.onresult = function(event) {
-
 
         l_pos = event.results.length - 1 ;
         document.getElementById('user-input').innerHTML = event.results[l_pos][0].transcript;
@@ -197,11 +213,11 @@ const get_listen_input = new Promise(function(resolve, reject){
 
 function check_command(audio, type){
     audio = audio.toString().toLowerCase();
-
+    console.log(audio)
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
         record_command(audio, "greeting", 1)
-        setTimeout(() => { listen("default") }, 4000);
+        //setTimeout(() => { idle_listen("default") }, 4000);
 
         return ""
     }
@@ -209,26 +225,28 @@ function check_command(audio, type){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "message", 8)
 
-        setTimeout(() => { location.href = '/messages';}, 2000);
+        setTimeout(() => { open_messages() }, 2000);
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
         record_command(audio, "who", 2)
-        setTimeout(() => { listen("default") }, 4000);
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
     }
     else if (how_q.includes(audio)){
         speak(how_a[Math.floor(Math.random() * how_a.length)])
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
         record_command(audio, "thank", 3)
-        setTimeout(() => { listen("default") }, 4000);
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
     }
@@ -259,11 +277,6 @@ function check_command(audio, type){
         return ""
     }
 
-    else if ( audio.includes("open mails") || audio.includes("open emails") ){ // Open mails page
-        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        setTimeout(() => { location.href = '/mails';}, 2000);
-
-    }
     else if (currency_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "currency", 6)
@@ -277,6 +290,12 @@ function check_command(audio, type){
 
     /* Mails Page */
 
+    else if ( audio.includes("open mails") || audio.includes("open emails") ){ // Open mails page
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        setTimeout(() => {  open_mails() }, 4000);
+
+        return "stop"
+    }
     else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ){
 
         get_email_info()
@@ -383,68 +402,7 @@ function play_bg_music(task){
 
 }
 
-/* Mail Page */
-function get_email_info(){ //
 
-    speak("Who we are sending this mail ?")
-
-    get_listen_input.then(function(result){
-        $("#to").val(result)
-    })
-    /*
-    speak("What is the subject ?")
-    subject = $("#subject")
-    subject = get_input(subject)
-
-    speak("And what should i write in the body ?")
-    body = $("#body")
-    body = get_input(body)
-
-    speak("All done sir, i will send the mail to is there anything you want to change or should i send the mail now")
-
-    command =  listen("form")
-
-    if (confirm_q.includes(command)){
-
-    }
-    else{
-        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-    }
-    */
-}
-
-
-function get_input (input){
-
-    get_listen_input.then(function(result){
-        input.val(result)
-    })
-
-}
-
-function send_email(){
-    speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-
-    to = $("#to").val()
-    subject = $("#subject").val()
-    message = $("#body").val()
-
-    $.ajax({
-        url: "http://localhost:5000/email_send",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({"to": to, "subject": subject, "message": message})
-    }).done(function(data) {
-
-        if (data == "success")
-        {
-            speak(finish_a[Math.floor(Math.random() * finish_a.length)])
-        }
-        else{
-            //
-        }
-    });
-}
 
 
 function record_command(text, command, type)
@@ -484,11 +442,9 @@ function setTimer(countDownDate){
 
         // Get today's date and time
         var now = new Date();
-        console.log(now)
 
         // Find the distance between now and the count down date
         var distance = countDownDate - now;
-        console.log(distance)
 
         // Time calculations for days, hours, minutes and seconds
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -496,7 +452,6 @@ function setTimer(countDownDate){
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        console.log(days, hours, minutes, seconds)
         // Display the result in the element with id="demo"
 
         if (hours >= 1 ){

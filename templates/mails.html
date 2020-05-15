@@ -1,98 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
+ <section>
+     <div class="container-fluid">
 
-{% include 'partials/header.html' %}
+        <div class="row mt30">
+            <div class="col-lg-4">
+                <div class="mails">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 class="text-center color-white p8">Mails</h2>
+                        </div>
+                    </div>
+                </div>
 
-<body>
-    <section>
-        <div class="container-fluid">
-
-            {% include 'partials/navigation.html' %}
+            </div>
+            <div class="col-lg-4">
 
 
-            <div class="row mt30">
-                <div class="col-lg-4">
-                    <div class="mails">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h2 class="text-center color-white p8">Mails</h2>
+            </div>
+            <div class="col-lg-4">
+                <div class="mail-sender">
+                    <div class="row ">
+                        <div class="col-lg-12">
+                            <h2 class="text-center color-white p8 letter-s-1">Mail Sender</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h3 class="mail-to">
+                                To:
+                            </h3>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="to" class="mail-input" value="">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h3 class="mail-subject">
+                                Subject:
+                            </h3>
+                        </div>
+                         <div class="col-lg-9">
+                            <input id="subject" class="mail-input" value="">
+                         </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mail-body">
+                                <textarea id="body" class="mail-body-input" spellcheck="false"></textarea>
                             </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt20">
+                        <div class="col-lg-12 text-center">
+                            <button onclick="send_email()" id="send" class="mail-send-button">Send</button>
                         </div>
                     </div>
 
-                </div>
-                <div class="col-lg-4">
-
-
-                </div>
-                <div class="col-lg-4">
-                    <div class="mail-sender">
-                        <div class="row ">
-                            <div class="col-lg-12">
-                                <h2 class="text-center color-white p8 letter-s-1">Mail Sender</h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <h3 class="mail-to">
-                                    To:
-                                </h3>
-                            </div>
-                            <div class="col-lg-9">
-                                <input id="to" class="mail-input" value="">
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <h3 class="mail-subject">
-                                    Subject:
-                                </h3>
-                            </div>
-                             <div class="col-lg-9">
-                                <input id="subject" class="mail-input" value="">
-                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mail-body">
-                                    <textarea id="body" class="mail-body-input" spellcheck="false"></textarea>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row mt30">
-                            <div class="col-lg-12 text-center">
-                                <button onclick="send_email()" id="send" class="mail-send-button">Send</button>
-                            </div>
-                        </div>
-
-
-                    </div>
 
                 </div>
 
             </div>
 
-            <div class="section">
-                <div class="oracle-box">
+        </div>
 
-                </div>
-                <div class="circle-1" data-type="mails">
-                    <div class="half-background"></div>
-                </div>
-                <div class="text-box" data-type="mails">
-                    <h1>ORACLE</h1>
-                </div>
+        <div class="section-oracle">
+            <div class="oracle-box">
+
+            </div>
+            <div class="circle-1" data-type="mails">
+                <div class="half-background"></div>
+            </div>
+            <div class="text-box" data-type="mails">
+                <h1>ORACLE</h1>
             </div>
         </div>
-    </section>
+     </div>
 
-    {% include 'partials/footer.html' %}
+</section>
 
-
-</body>
-</html>
-<script type="text/javascript" src="{{ url_for('static', filename='mails.js') }}"></script>

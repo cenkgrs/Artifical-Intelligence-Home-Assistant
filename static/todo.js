@@ -1,7 +1,7 @@
 showTime()
 showWeather()
 idle_listen()
-//speak("This is the works you should do in little time sir")
+speak("This is the works you should do in little time sir")
 get_todo()
 /* To - Do Page */
 

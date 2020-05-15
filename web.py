@@ -88,7 +88,6 @@ def getCurrency():
 @app.route("/add_todo", methods=["POST"])
 def add_todo():
     response = request.get_json()
-    print(response)
     status = add_todo_item(response["date"], response["todo"])
 
     if status:
@@ -99,13 +98,11 @@ def add_todo():
 @app.route("/get_todo", methods=["GET"])
 def getTodo():
     data = get_todo()
-    print(data)
     return jsonify(data)
 
 
 @app.route("/quit", methods=["POST"])
 def shut_down():
-    print("got here")
     os.kill(os.getpid(), signal.SIGINT)
     return jsonify({"success": True, "message": "Server is shutting down..."})
 

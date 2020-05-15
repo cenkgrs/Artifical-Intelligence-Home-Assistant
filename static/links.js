@@ -1,11 +1,44 @@
+var sections = $(".section");
+
 $('#msg-link').on('click', function() {
-    location.href = '/messages';
+    open_messages()
 });
 
 $('#mail-link').on('click', function() {
-    location.href = '/mails';
+    open_mails()
 });
 
 $('#todo-link').on('click', function() {
-    location.href = '/todo';
+    open_todo()
 });
+
+$("#calendar-link").on('click', function() {
+    open_calendar()
+})
+
+const open_messages = function(){
+    sections.not( $("#messages-section") ).css({"display": "none"})
+
+    $("#messages-section").fadeIn()
+    predictions()
+}
+const open_mails = function(){
+    sections.not( $("#mails-section") ).css({"display": "none"})
+
+    $("#mails-section").fadeIn()
+    speak("Who we are sending this mail ?")
+
+    get_email_info()
+}
+const open_todo = function(){
+    sections.not( $("#todo-section") ).css({"display": "none"})
+    $("#todo-section").fadeIn()
+
+    speak("This is the works you should do in little time sir")
+    get_todo()
+    idle_listen()
+}
+const open_calendar = function(){
+    sections.not( $("#calendar-section") ).css({"display": "none"})
+    $("#calendar-section").fadeIn()
+}

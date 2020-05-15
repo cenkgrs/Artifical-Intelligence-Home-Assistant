@@ -8,7 +8,19 @@
         <div class="container-fluid">
             {% include 'partials/navigation.html' %}
 
-            <div class="section">
+            <div class="section" id="mails-section" style="display:none">
+                {% include 'mails.html' %}
+            </div>
+
+            <div class="section" id="todo-section" style="display:none">
+                {% include 'todo.html' %}
+            </div>
+
+            <div class="section" id="messages-section" style="display:none">
+                {% include 'messages.html' %}
+            </div>
+
+            <div class="section" id="index-section">
                 <div class="oracle-box">
 
                 </div>
@@ -32,6 +44,7 @@
 
     {% include 'partials/footer.html' %}
 
+    {% include 'partials/predict_modal.html' %}
 
 </body>
 </html>

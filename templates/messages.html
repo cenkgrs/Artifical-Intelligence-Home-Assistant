@@ -1,53 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+<section>
+    <div class="container-fluid">
 
-{% include 'partials/header.html' %}
-
-<body>
-    <section>
-        <div class="container-fluid">
-
-            {% include 'partials/navigation.html' %}
-
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="messenger-messages">
-
-                    </div>
-
-                </div>
-                <div class="col-lg-4">
-
-
-                </div>
-                <div class="col-lg-4">
-                    <div class="wp-messages">
-
-                    </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="messenger-messages">
 
                 </div>
 
             </div>
+            <div class="col-lg-4">
 
-            <div class="section">
-                <div class="oracle-box">
+
+            </div>
+            <div class="col-lg-4">
+                <div class="wp-messages">
 
                 </div>
-                <div class="circle-1" data-type="messages">
-                    <div class="half-background"></div>
-                </div>
-                <div class="text-box" data-type="messages">
-                    <h1>ORACLE</h1>
-                </div>
+
             </div>
         </div>
-    </section>
-    {% include 'partials/footer.html' %}
 
+        <div class="section-oracle">
+            <div class="oracle-box">
 
-</body>
-</html>
-    {% include 'partials/predict_modal.html' %}
-
-<script type="text/javascript" src="{{ url_for('static', filename='messages.js') }}"></script>
+            </div>
+            <div class="circle-1" data-type="messages">
+                <div class="half-background"></div>
+            </div>
+            <div class="text-box" data-type="messages">
+                <h1>ORACLE</h1>
+            </div>
+        </div>
+    </div>
+</section>
