@@ -114,6 +114,7 @@ async function speak(text){
 
 function idle_listen(type){
 
+
     var rec = new webkitSpeechRecognition() || new SpeechRecognition();
     //let rec = new window.SpeechRecognition();
     rec.lang = "en-UK";
@@ -123,17 +124,18 @@ function idle_listen(type){
     type = (typeof type == "undefined") ? type = null : 'stop'
     console.log(type)
     if(type == "stop" ){
-        rec.stop();
         console.log("stopped")
-        return;
+        rec.stop();
     }
 
     rec.addEventListener('speechstart', function(event) {
-        result = listen("default")
+        console.log(oracleType);
+        result = listen(oracleType);
 
         if (result == "stop") { rec.stop(); return;}
 
     });
+
 }
 
  function listen(type) {
@@ -310,16 +312,23 @@ function check_command(audio, type){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "todo", 8)
 
-        setTimeout(() => { location.href = '/todo';}, 2000);
-    }
-    else if (add_q.includes(audio) && type == "todo"){}
+        setTimeout(() => { open_todo() }, 2000);
 
+        return ""
+    }
+    else if (add_q.includes(audio) && type == "todo"){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+
+        setTimeout(() => { add_todo_item() }, 2000);
+
+        return ""
+    }
     /* Predictions */
 
     else if (predict_q.includes(audio)) {
-        predictions()
+        setTimeout(() => {  predictions() }, 4000);
 
-        return ""
+        return "stop"
     }
 
     else if (audio.includes("timer")){
@@ -455,13 +464,11 @@ function setTimer(countDownDate){
         // Display the result in the element with id="demo"
 
         if (hours >= 1 ){
-            console.log("got here 1");
             (hours < 10) ? $("#timer-1").html("0" + hours) : $("#timer-1").html(hours);
             (minutes < 10) ? $("#timer-2").html("0" + minutes) : $("#timer-2").html(minutes);
 
         }
         else{
-            console.log("got here 2");
             (minutes < 10) ? $("#timer-1").html("0" + minutes) : $("#timer-1").html(minutes);
             (seconds < 10) ? $("#timer-2").html("0" + seconds) : $("#timer-2").html(seconds);
         }
@@ -479,6 +486,16 @@ function setTimer(countDownDate){
     }, 1000);
 }
 
+function checkClock(){
+    var date = new Date();
+    h = date.getHours(); // 0 - 23
+
+    if ( h != 9 && h !== 12 && h != 18 ){
+        return false
+    }else{
+        return h
+    }
+}
 
 $(document).ready(function(){
 
