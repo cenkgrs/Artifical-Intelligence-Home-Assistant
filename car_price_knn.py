@@ -11,7 +11,7 @@ from matplotlib import style
 
 
 def get_brand_index(val):
-    data = pd.read_csv("car-data.csv")
+    data = pd.read_csv("csv/car-data.csv")
     le = preprocessing.LabelEncoder()
 
     brands = sorted(set(sorted(list(data["brand"]))))
@@ -43,7 +43,7 @@ def train_model(x_train, x_test, y_train, y_test):
 
 
 def prepare_data():
-    data = pd.read_csv("car-data_1.csv")
+    data = pd.read_csv("csv/car-data_1.csv")
 
     le = preprocessing.LabelEncoder()
     brand = le.fit_transform(list(data["brand"]))

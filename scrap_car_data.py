@@ -76,7 +76,7 @@ while page_num < 51:
 
 
 
-with open('car-data_1.csv', 'a', newline='') as outcsv:
+with open('csv/car-data_1.csv', 'a', newline='') as outcsv:
     writer = csv.writer(outcsv)
     #writer.writerow(["brand", "years", "mileage", "transmission", "price"])
 
