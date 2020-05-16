@@ -51,6 +51,7 @@ def listen():
 
 def send_mail(subject, msg, to_email):
     try:
+        print(subject, msg, to_email)
         server = smtplib.SMTP('smtp.gmail.com:587')
         server.ehlo()
         server.starttls()
@@ -60,7 +61,7 @@ def send_mail(subject, msg, to_email):
         server.quit()
 
         return True
-    except:
+    except Exception as e:
         return False
 
 
@@ -126,6 +127,7 @@ def read_email_from_gmail():
             print(f'Subject: {mail_subject}')
             print(f'Content: {mail_content}')
 
+
 def check_new_email():
     mail = imaplib.IMAP4_SSL(SMTP_SERVER)
     mail.login(config.EMAIL_ADDRESS, config.PASSWORD)
@@ -147,5 +149,6 @@ def check_new_email():
             raw_email = data[0][1]
             latest_email_uid == data[0].split()[-1]
             time.sleep(120)  # put your value here, be sure that this value is sufficient ( see @tripleee comment below)
+
 
 

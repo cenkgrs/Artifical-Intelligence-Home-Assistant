@@ -70,9 +70,11 @@ def send_email():
     response = request.get_json()
     print(response)
     status = send_mail(response["subject"], response["message"], response["to"])
+    print(status)
+    if not status:
+        return jsonify({"success": False})
 
-    if status:
-        return "success"
+    return jsonify({"success": True})
 
 
 @app.route("/get_currency", methods=["POST"])

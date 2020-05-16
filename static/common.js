@@ -132,15 +132,23 @@ function idle_listen(type){
         console.log("predicted")
         rec.stop()
         setTimeout(() => {  predictions() }, 2000);
-
     }
 
     rec.addEventListener('speechstart', function(event) {
+        console.log(event)
         console.log(oracleType);
         result = listen(oracleType);
         console.log("didnt wait")
         if (result == "stop") { rec.stop(); return;}
 
+    });
+
+
+    rec.addEventListener('speechend', function(event) {
+        console.log(event)
+        rec.stop();
+        console.log("restarting")
+        idle_listen()
     });
 
 }
@@ -176,7 +184,7 @@ function idle_listen(type){
 
         if ( resultScript == "no command") { speak("Did not get that sir, please repeat"), listen("index")}
 
-        //if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
+        if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
 
         if( resultScript == "predict") { console.log("got form"); recognition.stop(); idle_listen("predict") }
 
@@ -376,7 +384,7 @@ function check_command(audio, type){
             localStorage.setItem("stored-timer",date);
             sessionStorage.setItem("timer", date);
             setTimer(date)
-            return ''
+            return ""
         }
     }
 
@@ -456,6 +464,7 @@ function predictions () {
         result == "house" ? $('#house_check').prop('checked', true) : $('#car_check').prop('checked', true)
 
         speak("Please give me the detail of the " + result + "and i'll do tha calculations sir ")
+        idle_listen()
     });
 
     /*get_listen_input.then(function(result){

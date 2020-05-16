@@ -4,7 +4,7 @@ $('#msg-link').on('click', function() {
     open_messages()
 });
 
-$('#mail-link').on('click', function() {
+$('#mail-link').on('click', function() {get_email_info
     open_mails()
 });
 
@@ -29,6 +29,8 @@ const open_mails = function(){
 
     $("#mails-section").fadeIn()
     speak("Who we are sending this mail ?")
+
+    get_email_info()
 
 }
 const open_todo = function(){
