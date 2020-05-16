@@ -121,17 +121,24 @@ function idle_listen(type){
 
     rec.start()
 
-    type = (typeof type == "undefined") ? type = null : 'stop'
+    type = (typeof type == "undefined") ? type = null : type
     console.log(type)
     if(type == "stop" ){
         console.log("stopped")
         rec.stop();
     }
 
+    if(type == "predict"){
+        console.log("predicted")
+        rec.stop()
+        setTimeout(() => {  predictions() }, 2000);
+
+    }
+
     rec.addEventListener('speechstart', function(event) {
         console.log(oracleType);
         result = listen(oracleType);
-
+        console.log("didnt wait")
         if (result == "stop") { rec.stop(); return;}
 
     });
@@ -165,29 +172,33 @@ function idle_listen(type){
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
 
-        if ( finalTranscript != ""){ resultScript = check_command(finalTranscript, type) }
+            if ( finalTranscript != ""){ resultScript = check_command(finalTranscript, type) }
 
-        if ( resultScript == finalTranscript) { speak("Did not get that sir, please repeat"), listen("default")}
+        if ( resultScript == "no command") { speak("Did not get that sir, please repeat"), listen("index")}
 
-        if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
+        //if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
 
-        if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_listen("stop") }
+        if( resultScript == "predict") { console.log("got form"); recognition.stop(); idle_listen("predict") }
 
-        if (type == "form" && finalTranscript != ""){
+        //if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); return "stop"; }
+
+        /*if (type == "form" && finalTranscript != ""){
             return finalTranscript
-        }
+        }*/
 
 
     }
 
     recognition.onspeechend = function() {
         recognition.stop();
-        idle_listen()
+        //idle_listen()
     }
 
 }
 
-const get_listen_input = new Promise(function(resolve, reject){
+//var get_listen_input = new Promise(function(resolve, reject){
+function get_listen_input(callback) {
+    console.trace();
     beep()
     console.log("i'm listening")
     var streaming = new webkitSpeechRecognition();
@@ -196,13 +207,20 @@ const get_listen_input = new Promise(function(resolve, reject){
     streaming.interimResults = true;
 
     streaming.onresult = function(event) {
-
+        console.log(event)
         l_pos = event.results.length - 1 ;
         document.getElementById('user-input').innerHTML = event.results[l_pos][0].transcript;
-        result = event.results[l_pos][0].transcript
-        console.log(result)
 
-        setTimeout(() => { resolve(result) }, 3000);
+        //setTimeout(() => { resolve(result) }, 3000);
+
+        setTimeout(() => {
+            if(event.results[l_pos].isFinal){
+                result = event.results[l_pos][0].transcript;
+                streaming.stop()
+                callback(result);
+            }
+         } , 3000);
+
 
     }
 
@@ -211,7 +229,7 @@ const get_listen_input = new Promise(function(resolve, reject){
     }
 
     streaming.start();
-})
+}
 
 function check_command(audio, type){
     audio = audio.toString().toLowerCase();
@@ -326,9 +344,9 @@ function check_command(audio, type){
     /* Predictions */
 
     else if (predict_q.includes(audio)) {
-        setTimeout(() => {  predictions() }, 4000);
+        speak(predict_a[Math.floor(Math.random() * predict_a.length)])
 
-        return "stop"
+        return "predict"
     }
 
     else if (audio.includes("timer")){
@@ -362,7 +380,7 @@ function check_command(audio, type){
         }
     }
 
-    return audio
+    return "no command"
 }
 
 function play_intro_music(){
@@ -429,8 +447,19 @@ function record_command(text, command, type)
 
 function predictions () {
 
-    speak(predict_a[Math.floor(Math.random() * predict_a.length)])
-    get_listen_input.then(function(result){
+    get_listen_input( function(result){
+        console.log(result)
+        speak("So you want the " + result + " price")
+        $(".predict_modal").fadeToggle()
+        $(".predict-button").attr("data-predict-type", result)
+
+        result == "house" ? $('#house_check').prop('checked', true) : $('#car_check').prop('checked', true)
+
+        speak("Please give me the detail of the " + result + "and i'll do tha calculations sir ")
+    });
+
+    /*get_listen_input.then(function(result){
+        console.log("waited")
         speak("So you want the " + result + " price")
         $(".predict_modal").fadeToggle()
         $(".predict-button").attr("data-predict-type", result)
@@ -440,7 +469,20 @@ function predictions () {
 
         speak("Please give me the detail of the " + result + "and i'll do tha calculations sir ")
 
-    })
+    })*/
+}
+
+function trial(){
+    get_listen_input( function(result){
+        console.log(result)
+        speak("You said " + result)
+
+        get_listen_input( function (result) {
+            console.log(result)
+            speak("You said" + result)
+        });
+
+    });
 }
 
 function setTimer(countDownDate){

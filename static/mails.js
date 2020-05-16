@@ -5,11 +5,9 @@ showWeather()
 
 //listen("mails")
 
-get_email_info()
 
 /* Mail Page */
 function get_email_info(){ //
-    idle_listen("stop")
 
     get_listen_input.then(function(result){
         $("#to").val(result)

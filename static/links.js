@@ -30,7 +30,6 @@ const open_mails = function(){
     $("#mails-section").fadeIn()
     speak("Who we are sending this mail ?")
 
-    get_email_info()
 }
 const open_todo = function(){
     oracleType = "todo"

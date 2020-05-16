@@ -34,7 +34,7 @@ setInterval(function(){
 
 
 
-idle_listen()
+trial()
 //speak("If you want anything for me to do just click one of the links and i'll do the rest");
 
 //speak("For starters hour is " + h + " " + m)

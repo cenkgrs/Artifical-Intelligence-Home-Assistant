@@ -60,5 +60,3 @@ evening_a.push["Evening is a good time to look back at the day and think about a
 evening_a.push("It’s a perfect time to get rid of your worries and make yourself prepared for what’s coming tomorrow. Make this evening the beginning of a wonderful journey.")
 evening_a.push("Look at the sunset and then smile, Look at the horizon and smile, Enjoy this beautiful evening today, And have a nice time, Good evening to you!")
 evening_a.push("I hope you are having a refreshing evening as I am having here being with you sir . Good evening to you.")
-
-console.log(greetings_a)
