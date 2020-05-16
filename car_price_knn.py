@@ -38,7 +38,7 @@ def train_model(x_train, x_test, y_train, y_test):
 
     print(acc)
 
-    with open("car_price_model_1.pickle", "wb") as f:
+    with open("models/car_price_model_1.pickle", "wb") as f:
         pickle.dump(new_model, f)
 
 
@@ -73,7 +73,7 @@ def predict(brand, year, mileage, transmission):
     test = [(brand, year, mileage, transmission)]
 
     # This will open saved model and put it inside model variable( that ill use for predict)
-    pickle_in = open("car_price_model.pickle", "rb")
+    pickle_in = open("models/car_price_model.pickle", "rb")
     model = pickle.load(pickle_in)
 
     predicted_data = model.predict(test)
@@ -84,7 +84,7 @@ def predict(brand, year, mileage, transmission):
 
 def test_predict(x_test, y_test):
     # This will open saved model and put it inside model variable( that ill use for predict)
-    pickle_in = open("car_price_model_1.pickle", "rb")
+    pickle_in = open("models/car_price_model_1.pickle", "rb")
     model = pickle.load(pickle_in)
 
     predictions = model.predict(x_test)

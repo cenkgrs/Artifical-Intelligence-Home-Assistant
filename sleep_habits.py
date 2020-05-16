@@ -21,7 +21,7 @@ def get_from():
         date = date[1].split(":")  # Will seperate time
         date = date[0]  # Will get hour from time
 
-        new_dates.append(date)
+        new_dates.append(int(date))
 
     #start_hours = le.fit_transform(list(new_dates))
 
@@ -43,7 +43,7 @@ def get_to():
         date = date[1].split(":")  # Will seperate time
         date = date[0]  # Will get hour from time
 
-        new_dates.append(date)
+        new_dates.append(int(date))
 
     #end_hours = le.fit_transform(list(new_dates))
 
@@ -87,6 +87,7 @@ def get_wake_up_status():
     le = preprocessing.LabelEncoder()
 
     quality = list(data["Sleep quality"])
+    times = list(data["Time in bed"])
     status = list(data["Wake up"])
 
     for index, stat in enumerate(status):
@@ -94,14 +95,27 @@ def get_wake_up_status():
             qual = quality[index]
             qual = int(qual.replace("%", ""))  # Convert 78% this to this 78
 
-            if qual < 50:
+            hour = times[index].replace(":", ".")  # Converts 8:32 to 8.32
+            hour = round(float(hour))
+
+            if qual < 50 and hour < 5:
                 status[index] = ":|"
                 continue
+            elif qual < 50 and hour > 5:
+                status[index] = ":)"
+                continue
+            elif qual > 50 and hour < 5:
+                status[index] = ":|"
+                continue
+            elif qual > 75 and 3 <= hour <= 5:
+                status[index] = ":)"
+                continue
+            elif qual >= 59 and hour > 5:
+                status[index] = ":)"
+                continue
 
-            status[index] = ":)"
-
-
-    status = le.fit_transform(list(status))
+            status[index] = ":|"
+    status = list(status)
 
     print("lenght:" , len(status))
 
@@ -109,17 +123,11 @@ def get_wake_up_status():
 
 
 def prepare_data():
-    print("0")
     start_hours = get_from()
-    print("1")
     end_hours = get_to()
-    print("2")
     sleep_times = get_sleep_time()
-    print("3")
     sleep_qualitys = get_sleep_quality()
-    print("4")
     wake_status = get_wake_up_status()
-    print("5")
 
     X = list(zip(start_hours, end_hours, sleep_qualitys, sleep_times))
     y = list(wake_status)
@@ -137,7 +145,7 @@ def train_model(x_train, x_test, y_train, y_test):
 
     print(acc)
 
-    with open("sleep_habits_1.pickle", "wb") as f:
+    with open("models/sleep_habits_2.pickle", "wb") as f:
         pickle.dump(new_model, f)
 
     predictions = new_model.predict(x_test)
@@ -150,7 +158,7 @@ def predict(bedtime, get_up, quality, sleep_time):
     test = [(bedtime, get_up, quality, sleep_time)]
 
     # This will open saved model and put it inside model variable( that ill use for predict)
-    pickle_in = open("sleep_habits.pickle", "rb")
+    pickle_in = open("models/sleep_habits_2.pickle", "rb")
     model = pickle.load(pickle_in)
 
     predicted_data = model.predict(test)
@@ -158,18 +166,20 @@ def predict(bedtime, get_up, quality, sleep_time):
 
     return predicted_data
 
+
 def test_predict(x_test, y_test):
     # This will open saved model and put it inside model variable( that ill use for predict)
-    pickle_in = open("sleep_habits.pickle", "rb")
+    pickle_in = open("models/sleep_habits_2.pickle", "rb")
     model = pickle.load(pickle_in)
 
     predictions = model.predict(x_test)
     for x in range(len(predictions)):
         print("Predicted: ", predictions[x], "Data: ", x_test[x], "Actual: ", y_test[x] )
 
-#get_sleep_quality()
-x_train, x_test, y_train, y_test = prepare_data()
-test_predict(x_test, y_test)
 
-test_data = [('03', '04', 10, 1)]
-predict('05', '07', 30, 2)
+#x_train, x_test, y_train, y_test = prepare_data()
+#train_model(x_train, x_test, y_train, y_test)
+#test_predict(x_test, y_test)
+
+#test_data = [('03', '04', 10, 1)]
+#predict(1, 9, 75, 8)
