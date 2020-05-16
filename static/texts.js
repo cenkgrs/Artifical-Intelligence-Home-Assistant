@@ -25,7 +25,7 @@ bg_music_s = ["Oracle stop the music", "shut the music", "cut the music", "stop 
 
 quit_q = ["shut down oracle", "shutdown oracle",  "shut down", "power off", "close oracle", "power off oracle"]
 quit_q.push("shut down Oracle", "shutdown Oracle", "close Oracle", "power off Oracle")
-quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir"]
+quit_a = ["okay sir see you tomorrow", "bye sir", "see you sir", "take care boss"]
 
 currency_q = ["give me currency status", "currency status"]
 
@@ -47,7 +47,7 @@ predict_a = ["is it house or car sir ?"]
 
 /* Day Messages */
 
-night_q = ["good night Oracle", "goodnight", "goodnight Oracle" "night night", "good night to you"]
+night_q = ["good night Oracle", "goodnight", "goodnight Oracle", "night night", "good night to you"]
 night_a = ["good night to you too sir", "thanks, good night sir", "good night boss, sleep well"]
 
 /* Special Hour Messages */

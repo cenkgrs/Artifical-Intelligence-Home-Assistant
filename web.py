@@ -149,10 +149,10 @@ def update_sleep():
     input = request.get_json()
     print(input)
 
-    status = update_bedtime(input["waketime"])
+    status, sleep = update_bedtime(input["waketime"])
 
     if status:
-        return jsonify({"success": True})
+        return jsonify({"success": True, "sleep": sleep})
 
 
 @app.after_request

@@ -159,15 +159,16 @@ def train_model(x_train, x_test, y_train, y_test):
 def predict(bedtime, get_up, quality, sleep_time):
 
     test = [(bedtime, get_up, quality, sleep_time)]
-
     # This will open saved model and put it inside model variable( that ill use for predict)
     pickle_in = open("models/sleep_habits_2.pickle", "rb")
     model = pickle.load(pickle_in)
 
     predicted_data = model.predict(test)
-    print(predicted_data)
 
-    return predicted_data
+    if predicted_data == ':)':
+        return 1
+    else:
+        return 0
 
 
 def test_predict(x_test, y_test):

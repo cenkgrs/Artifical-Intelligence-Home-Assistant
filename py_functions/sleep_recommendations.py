@@ -25,31 +25,36 @@ def update_bedtime(waketime):
     with sqlite3.connect("Oracle") as con:
         cursor = con.cursor()
         try:
-            cursor.execute("UPDATE sleep_records SET waketime = (?) WHERE id = (SELECT MAX(id) FROM sleep_records) "
-                           , (waketime,))
 
             last_data = cursor.execute("SELECT * FROM sleep_records WHERE id = (SELECT MAX(id) FROM sleep_records)")
             last_data = last_data.fetchone()
 
-            print(last_data)
             bedtime = last_data[1]
-            wake = last_data[2]
-            rate = last_data[3]
+            wake = waketime
+            rate = last_data[4]
 
-            calculate_sleep_time(bedtime, wake)
+            sleep_time = calculate_sleep_time(bedtime, waketime)
 
-            predict(bedtime, wake, rate, )
+            status = predict(bedtime, waketime, rate, sleep_time)
 
-            return True
+            cursor.execute("UPDATE sleep_records SET waketime = (?), sleep_time = (?), status = (?) "
+                           "WHERE id = (SELECT MAX(id) FROM sleep_records) "
+                           , (waketime, sleep_time, status))
+
+            return True, status
 
         except Exception as e:
-            logger.error('Failed to upload to ftp: ' + str(e))
+            logger.error('Error: ' + str(e))
             return False
 
 
 def calculate_sleep_time(start, end):
-    print(start)
-    print(end)
+    start = int(start)
+    end = int(end)
 
-update_bedtime("06")
-#insert_bedtime("00", "07", "20.05.2020", 80)
+    end = end + 24 if end < 10 else end  # If is end hour like 4, 8 it will become 32, 40
+    start = start + 24 if start < 10 else start  # If start hour is not like 20 22, it will add 24 for
+
+    sleep_time = end - start  # This is like 1 + 24 = 25 and 6 + 24 = 30 -> 30 - 24 = 6 hours sleep time
+
+    return sleep_time

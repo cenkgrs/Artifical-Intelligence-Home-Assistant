@@ -186,7 +186,7 @@ function idle_listen(type){
 
         if( resultScript == "predict") { console.log("got form"); recognition.stop(); idle_listen("predict") }
 
-        //if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); return "stop"; }
+        if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_liste("stop"); }
 
         /*if (type == "form" && finalTranscript != ""){
             return finalTranscript
@@ -282,7 +282,7 @@ function check_command(audio, type){
     else if (night_q.includes(audio)) {
         record_bedtime()
 
-        return ""
+        return "stop"
     }
 
     /* Music Commands */
