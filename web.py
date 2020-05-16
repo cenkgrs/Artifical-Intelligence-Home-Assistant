@@ -16,6 +16,7 @@ from currency import get_currency
 from mail_sender import send_mail
 from py_functions.record_command import insert_command
 from car_price_knn import predict
+from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 
 
 app = Flask(__name__)
@@ -130,6 +131,28 @@ def car_predict():
         return jsonify({"success": False, "error_line": error_line})
 
     return jsonify({"success": True, "price": predicted_data[0]})
+
+
+@app.route("/record_bedtime", methods=["POST"])
+def record_sleep():
+    inputs = request.get_json()
+    print(input)
+
+    status = insert_bedtime(inputs["bedtime"], inputs["waketime"], inputs["date"], inputs["rate"])
+
+    if status:
+        return jsonify({"success": True})
+
+
+@app.route("/update_waketime", methods=["POST"])
+def update_sleep():
+    input = request.get_json()
+    print(input)
+
+    status = update_bedtime(input["waketime"])
+
+    if status:
+        return jsonify({"success": True})
 
 
 @app.after_request

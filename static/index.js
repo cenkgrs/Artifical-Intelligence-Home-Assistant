@@ -9,10 +9,11 @@ showWeather();
 clockAvailable = checkClock()
 
 if ( ! clockAvailable ){
+
     speak(greetings_a[Math.floor(Math.random() * greetings_a.length)]);
 }else{
     didClocked = true
-    if( h == 9 ){ speak("It is currently " + h + " o'clock sir" );  speak(morning_a[Math.floor(Math.random() * morning_a.length)]); }
+    if( 6 < h < 9 ){ speak("It is currently " + h + " o'clock sir" );  speak(morning_a[Math.floor(Math.random() * morning_a.length)]); }
     else if ( h == 12 ) { speak("It is currently " + h + " o'clock sir" ); speak(afternoon_a[Math.floor(Math.random() * afternoon_a.length)]); }
     else if ( h == 18 ) { speak("It is currently " + h + " o'clock sir" ); speak(evening_a[Math.floor(Math.random() * evening_a.length)]); }
 
@@ -35,7 +36,7 @@ setInterval(function(){
 
 
 
-idle_listen()
+update_waketime()
 //speak("If you want anything for me to do just click one of the links and i'll do the rest");
 
 //speak("For starters hour is " + h + " " + m)

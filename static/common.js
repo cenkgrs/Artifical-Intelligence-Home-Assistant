@@ -145,10 +145,8 @@ function idle_listen(type){
 
 
     rec.addEventListener('speechend', function(event) {
-        console.log(event)
-        rec.stop();
-        console.log("restarting")
-        idle_listen()
+        //rec.stop();
+        //idle_listen()
     });
 
 }
@@ -275,6 +273,14 @@ function check_command(audio, type){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
         record_command(audio, "thank", 3)
         setTimeout(() => { idle_listen() }, 4000);
+
+        return ""
+    }
+
+    /* Day Messages */
+
+    else if (night_q.includes(audio)) {
+        record_bedtime()
 
         return ""
     }

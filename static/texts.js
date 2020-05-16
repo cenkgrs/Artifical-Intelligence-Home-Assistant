@@ -1,3 +1,4 @@
+/* Greeting Messages */
 greetings_q = ["hello", "hi", "hey", "hello Oracle", "hi Oracle", "hey Oracle", "Oracle are you there", "are you there Oracle"]
 greetings_a = ["Welcome to my user interface sir", "Welcome boss", "Welcome again boss", "It's good to see you sir", "You wanted some control here right sir ?"]
 greetings_a.push("at your service sir","hi sir", "hello sir", "hey there sir")
@@ -44,6 +45,10 @@ finish_a = ["It's done boss", "It completed successfully boss", "Boss it finishe
 predict_q = ["Oracle predict this product value" ,"predict", "product"]
 predict_a = ["is it house or car sir ?"]
 
+/* Day Messages */
+
+night_q = ["good night Oracle", "goodnight", "goodnight Oracle" "night night", "good night to you"]
+night_a = ["good night to you too sir", "thanks, good night sir", "good night boss, sleep well"]
 
 /* Special Hour Messages */
 

@@ -30,6 +30,7 @@ def get_from():
 
     return start_hours
 
+
 def get_to():
     new_dates = []
     data = pd.read_csv("csv/sleepdata.csv", sep=";")
@@ -68,6 +69,7 @@ def get_sleep_time():
 
     return sleep_times
 
+
 def get_sleep_quality():
     sleep_qualitys = []
     data = pd.read_csv("csv/sleepdata.csv", sep=";")
@@ -81,6 +83,7 @@ def get_sleep_quality():
         sleep_qualitys.append(qual)
 
     return sleep_qualitys
+
 
 def get_wake_up_status():
     data = pd.read_csv("csv/sleepdata.csv", sep=";")
@@ -177,9 +180,9 @@ def test_predict(x_test, y_test):
         print("Predicted: ", predictions[x], "Data: ", x_test[x], "Actual: ", y_test[x] )
 
 
-#x_train, x_test, y_train, y_test = prepare_data()
-#train_model(x_train, x_test, y_train, y_test)
-#test_predict(x_test, y_test)
+# x_train, x_test, y_train, y_test = prepare_data()
+# train_model(x_train, x_test, y_train, y_test)
+# test_predict(x_test, y_test)
 
-#test_data = [('03', '04', 10, 1)]
-#predict(1, 9, 75, 8)
+# test_data = [('03', '04', 10, 1)]
+# predict(1, 9, 75, 8)
