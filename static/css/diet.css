@@ -214,11 +214,42 @@
 .calorie-modal{
     z-index: 9000;
     background-color: rgba(58, 99, 123, 0.25);
-    width: max-content;
+    width: 90rem;
     margin:auto;
     border-radius: 75px;
     margin: auto;
     box-shadow: 0px 0px 15px 0px #507795;
     text-align:center;
     padding:30px;
+}
+
+.calorie-radio-label {
+  height: 100%;
+  border: 2px solid hsla(202, 61%, 22%, 1);
+  border-radius: 20px;
+  padding: 0.6rem 2rem;
+  box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);
+}
+
+.calorie-radio:checked + .calorie-radio-label {
+  background: hsla(203, 66%, 9%, 0.65);
+  color: hsla(215, 0%, 100%, 1);
+  box-shadow: 0px 0px 20px hsla(202, 71%, 42%, 1);
+  font-size:15px;
+}
+
+.calorie-radio#control_05:checked + .calorie-radio-label {
+  background: red;
+  border-color: red;
+}
+
+.calorie-button{
+    width: 25%;
+    text-align: center;
+    margin: auto;
+    background: #1e94ff40 !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 15px;
+    padding: 8px;
 }

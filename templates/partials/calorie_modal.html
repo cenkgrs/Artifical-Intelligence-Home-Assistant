@@ -1,38 +1,89 @@
-<div class="calorie_modal">
+<div class="calorie-modal mt100">
 
     <div class="row">
         <div class="col-lg-6">
-          <input class="modal-radio" type="radio" id="house_check" name="select" value="1" >
-          <label class="modal-radio-label" for="house_check">
-            <h2 style="font-size:19px">House</h2>
+          <input class="calorie-radio" type="radio" id="male_check" name="gender" value="male" checked>
+          <label class="calorie-radio-label" for="male_check">
+            <h2 style="font-size:19px">Male</h2>
           </label>
         </div>
         <div class="col-lg-6">
-          <input class="modal-radio" type="radio" id="car_check" name="select" value="2" checked>
-          <label class="modal-radio-label" for="car_check">
-            <h2 style="font-size:19px">Car</h2>
+          <input class="calorie-radio" type="radio" id="female_check" name="gender" value="female" >
+          <label class="calorie-radio-label" for="female_check">
+            <h2 style="font-size:19px">Female</h2>
           </label>
+        </div>
+    </div>
+
+
+    <div class="row mt20">
+        <div class="col-lg-4">
+          <input class="calorie-radio" type="radio" id="lose_check" name="aim" value="lose" checked>
+          <label class="calorie-radio-label" for="lose_check">
+            <h2 style="font-size:19px">Lose Weight</h2>
+          </label>
+        </div>
+        <div class="col-lg-4">
+          <input class="calorie-radio" type="radio" id="maintain_check" name="aim" value="maintain" >
+          <label class="calorie-radio-label" for="maintain_check">
+            <h2 style="font-size:19px">Maintain Weight</h2>
+          </label>
+        </div>
+       <div class="col-lg-4">
+          <input class="calorie-radio" type="radio" id="gain_check" name="aim" value="gain" >
+          <label class="calorie-radio-label" for="gain_check">
+            <h2 style="font-size:19px">Gain Weight</h2>
+          </label>
+        </div>
+    </div>
+
+    <div class="row mt20">
+        <div class="col-lg-3">
+          <input class="calorie-radio" type="radio" id="light_check" name="activity" value="light" checked>
+          <label class="calorie-radio-label" for="light_check">
+            <h2 style="font-size:19px">Light</h2>
+          </label>
+        </div>
+        <div class="col-lg-3">
+          <input class="calorie-radio" type="radio" id="moderate_check" name="activity" value="moderate" >
+          <label class="calorie-radio-label" for="moderate_check">
+            <h2 style="font-size:19px">Moderate</h2>
+          </label>
+        </div>
+       <div class="col-lg-3">
+          <input class="calorie-radio" type="radio" id="heavy_check" name="activity" value="heavy" >
+          <label class="calorie-radio-label" for="heavy_check">
+            <h2 style="font-size:19px">Heavy</h2>
+          </label>
+        </div>
+             <div class="col-lg-3">
+          <input class="calorie-radio" type="radio" id="extreme_check" name="activity" value="extreme" >
+          <label class="calorie-radio-label" for="extreme_check">
+            <h2 style="font-size:19px">Extreme</h2>
+          </label>
+        </div>
+    </div>
+
+
+    <div class="row mt50" id="car-predict" >
+        <div class="col-lg-4">
+            <label for="height-input"> Height (cm) </label>
+            <input id="height-input" type="text" class="modal-input">
+        </div>
+        <div class="col-lg-4">
+             <label for="age-input"> Age </label>
+            <input id="age-input" type="text" min="5" max="100" class="modal-input">
+        </div>
+         <div class="col-lg-4">
+             <label for="weight-input"> Weight (kg) </label>
+            <input id="weight-input" type="text" min="5" max="200" class="modal-input">
         </div>
 
     </div>
 
-    <div class="row mt30" id="car-predict" >
-        <div class="col-lg-3">
-            <label for="brand-input"> Brand </label>
-            <input id="brand-input" type="text" class="modal-input">
-        </div>
-         <div class="col-lg-3">
-             <label for="year-input">Year</label>
-            <input id="year-input" type="text" min="2000" max="2020" class="modal-input">
-        </div>
-         <div class="col-lg-3">
-             <label for="mileage-input">Mileage</label>
-            <input id="mileage-input" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  class="modal-input">
-        </div>
-        <div class="col-lg-3">
-             <label for="transmission-input">Transmission</label>
-            <input id="transmission-input" type="text" class="modal-input">
-        </div>
-
+    <div class="row mt20">
+        <button class="calorie-button">
+            Calculate
+        </button>
     </div>
 </div>

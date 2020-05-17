@@ -63,7 +63,7 @@ def get_weather():
     temp = int(pytemperature.k2c(json_data["main"]["temp"])) # Changing kelvin to celcius
 
     formatted_data = [{"Status": status, "Temp": temp}]
-
+    print(formatted_data)
     return jsonify(formatted_data)
 
 
