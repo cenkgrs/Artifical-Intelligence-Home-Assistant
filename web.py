@@ -180,9 +180,15 @@ def calculate_kcal():
     if kcal:
         return jsonify({"success": True, "kcal": kcal})
 
+
 @app.route("/check_cal", methods=["POST"])
 def check_calories():
     kcal = check_cal()
+
+    if not kcal:
+        return jsonify({"kcal": ""})
+
+    return jsonify({"kcal": kcal})
 
 @app.after_request
 def add_headers(response):

@@ -39,6 +39,7 @@ def calculate_activity(activity_level, bmr_result):
 
     return int(activity_level)
 
+
 def gain_or_lose(activity_level, goals):
 
     if goals == 'lose':
@@ -68,20 +69,22 @@ def result(gender, height, weight, age, activity_level, goals):
 
     bmr_result = c1 + hm + wm - am
 
-    activity_level = calculate_activity(activity_level, bmr_result)
+    activity = calculate_activity(activity_level, bmr_result)
 
-    calories = gain_or_lose(activity_level, goals)
+    calories = gain_or_lose(activity, goals)
 
-    insert_cal(calories, gender, (float(height) / 2.54), int(weight), int(age), activity_level, goals)
+    insert_cal(calories, gender, int(height), int(weight), int(age), activity_level, goals)
 
     return calories
+
 
 def insert_cal(calories, gender, height, weight, age, activity_level, goals):
 
     with sqlite3.connect("Oracle") as con:
         cursor = con.cursor()
         try:
-            cursor.execute("INSERT INTO person_diets (calories, gender, height, weight, age, activity_level, goals) VALUES (?, ?, ?, ?, ?, ?) ",
+            cursor.execute("INSERT INTO person_diets (calories, gender, height, weight, age, activity_level, goal) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?) ",
                            (calories, gender, height, weight, age, activity_level, goals))
             con.commit()
 
@@ -93,6 +96,27 @@ def insert_cal(calories, gender, height, weight, age, activity_level, goals):
 
 
 def check_cal():
+
+    with sqlite3.connect("Oracle") as con:
+        cursor = con.cursor()
+
+        try:
+            data = cursor.execute("SELECT * FROM person_diets WHERE id = (SELECT MAX(id) FROM person_diets)")
+            data = data.fetchone()
+
+            if data:
+                kcal = data[1]
+                return kcal
+            else:
+                return False
+
+        except Exception as e:
+            logger.error('Error: ' + str(e))
+            return False
+
+
+
+
 
 
 

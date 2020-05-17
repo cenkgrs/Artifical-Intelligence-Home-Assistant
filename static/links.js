@@ -1,5 +1,5 @@
 var sections = $(".section");
-
+console.log(sections)
 $('#msg-link').on('click', function() {
     open_messages()
 });
@@ -49,12 +49,21 @@ const open_todo = function(){
 const open_diet = function(){
     oracleType = "diet"
 
-    get_listen_input(function ( result ) {
-        check_cal()
+    check_cal(function ( result ) {
+        if (!result){
+            speak("I need you to fill this form for giving advice and preparing your diet program sir")
+            speak("Don't worry this is for the first and last time")
+            sections.not( $("#calorie-section") ).css({"display": "none"})
+            $("#calorie-section").fadeIn()
+
+        }else{
+            sections.not( $("#diet-section") ).css({"display": "none"})
+            $("#diet-section").fadeIn()
+        }
 
     })
-    sections.not( $("#calorie-section") ).css({"display": "none"})
-    $("#calorie-section").fadeIn()
+    sections.not( $("#diet-section") ).css({"display": "none"})
+    $("#diet-section").fadeIn()
 
 
 }

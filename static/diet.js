@@ -17,10 +17,16 @@ $(document).ready(function(){
             contentType: "application/json",
             data: JSON.stringify(post_data)
          }).done(function(data) {
-            console.log(data)
             if (data)
             {
                 console.log(data)
+                speak("Thank you for trusting me about your data sir")
+                speak("You can be sure that i will only use them for your health")
+
+                $("#daily_kcal").html(data["kcal"])
+                sections.not( $("#diet-section") ).css({"display": "none"})
+                $("#calorie-section").fadeOut()
+                $("#diet-section").fadeIn()
             }
             else{
                 //
@@ -31,17 +37,20 @@ $(document).ready(function(){
 
 })
 
-function check_cal() {
+function check_cal(callback) {
     $.ajax({
         url: "http://localhost:5000/check_cal",
         type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(post_data)
     }).done(function(data) {
         console.log(data)
         if (data)
         {
-        console.log(data)
+            if(data["kcal"] != ""){
+                $("#daily_kcal").html(data["kcal"])
+                callback(true);
+            }else{
+                callback(false)
+            }
         }
         else{
         //
