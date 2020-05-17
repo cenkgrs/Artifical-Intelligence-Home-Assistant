@@ -12,9 +12,13 @@ $('#todo-link').on('click', function() {
     open_todo()
 });
 
+$('#diet-link').on('click', function() {
+    open_diet()
+});
+
 $("#calendar-link").on('click', function() {
     open_calendar()
-})
+});
 
 const open_messages = function(){
     oracleType = "messages"
@@ -42,6 +46,13 @@ const open_todo = function(){
     get_todo()
     idle_listen()
 }
+const open_diet = function(){
+    oracleType = "diet"
+    sections.not( $("#diet-section") ).css({"display": "none"})
+    $("#diet-section").fadeIn()
+
+}
+
 const open_calendar = function(){
     oracleType = "calendar"
     sections.not( $("#calendar-section") ).css({"display": "none"})

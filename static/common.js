@@ -186,7 +186,7 @@ function idle_listen(type){
 
         if( resultScript == "predict") { console.log("got form"); recognition.stop(); idle_listen("predict") }
 
-        if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_liste("stop"); }
+        if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_listen("stop"); }
 
         /*if (type == "form" && finalTranscript != ""){
             return finalTranscript
@@ -334,9 +334,10 @@ function check_command(audio, type){
 
         get_email_info()
     }
-    else if (send_q.includes(audio) && type == "mails"){
+    else if (send_q.includes(audio) && (type == "mails" || oracleType == "mails")){
         send_email()
-        listen("mails")
+
+        return "stop"
     }
 
     /* to-do page */
@@ -444,8 +445,6 @@ function play_bg_music(task){
 }
 
 
-
-
 function record_command(text, command, type)
 {
     console.log(command)
@@ -465,6 +464,10 @@ function predictions () {
         console.log(result)
         speak("So you want the " + result + " price")
         $(".predict_modal").fadeToggle()
+
+        oracleType = "index"
+        sections.css({"display": "none"})
+
         $(".predict-button").attr("data-predict-type", result)
 
         result == "house" ? $('#house_check').prop('checked', true) : $('#car_check').prop('checked', true)
@@ -473,18 +476,6 @@ function predictions () {
         idle_listen()
     });
 
-    /*get_listen_input.then(function(result){
-        console.log("waited")
-        speak("So you want the " + result + " price")
-        $(".predict_modal").fadeToggle()
-        $(".predict-button").attr("data-predict-type", result)
-
-        result == "house" ? $('#house_check').prop('checked', true) : $('#car_check').prop('checked', true)
-
-
-        speak("Please give me the detail of the " + result + "and i'll do tha calculations sir ")
-
-    })*/
 }
 
 function trial(){
@@ -547,7 +538,7 @@ function checkClock(){
     var date = new Date();
     h = date.getHours(); // 0 - 23
 
-    if ( h != 9 && h !== 12 && h != 18 ){
+    if ( h !== 6 && h !== 7 && h !== 8 && h !== 9 && h !== 10 && h !== 12 && h != 18 ){
         return false
     }else{
         return h

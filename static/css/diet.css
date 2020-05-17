@@ -1,0 +1,12 @@
+.meal-list{
+    background-color: rgba(0, 0, 0, 0.23);
+    border: 3px solid #4a474752;
+    border-radius: 15px;
+    animation: glow-box 1s ease-in-out infinite alternate;
+    padding:15px;
+    color: #d8d8d8ed;
+    font-weight: bold;
+    display:block;
+    margin:auto;
+    text-align:center;
+}

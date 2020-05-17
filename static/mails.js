@@ -8,31 +8,33 @@ showWeather()
 function get_email_info(){ //
 
     get_listen_input( function(result){
-        console.log(result)
-        speak("So i will send this mail to " + result)
-        $("#to").val(result)
+        to = result
+        speak("So i will send this mail to " + to)
+        $("#to").val(to)
         speak("What is the subject")
 
         get_listen_input( function (result) {
-            console.log(result)
-            $("#subject").val(result)
-            speak("Then subject is" + result)
+            subject = result
+            $("#subject").val(subject)
+            speak("Then subject is" + subject)
             speak("Lastly what will be the body")
 
             get_listen_input(function ( result ) {
-                console.log(result)
-                $("#body").val()
+                $("#body").val(result)
                 speak("I wrote to body this " + result)
-                speak("All done sir, i will send the mail to " + to + " is there anything you want to change or should i send the mail now")
+                speak("All done sir, i will send the mail to " + to + " with " + subject + " subject. Is there anything you want to change or should i send the mail now")
 
                 get_listen_input(function ( result ) {
                     console.log(result)
 
-                    if(confirm_q.includes(command)) {
+                    if(confirm_q.includes(result)) {
                         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
                         send_email()
+                    }else if(abort_q.includes(result)){
+                        speak("Okay sir when you ready just ask me to send it")
                     }else{
-
+                        speak("Did not get that sir, please repeat")
+                        idle_listen()
                     }
                 });
             });

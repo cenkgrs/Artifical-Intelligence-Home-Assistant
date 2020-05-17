@@ -1412,3 +1412,30 @@ JavaScript error: resource://gre/modules/UpdateTimerManager.jsm, line 352: TypeE
 JavaScript error: resource://gre/modules/ModulesPing.jsm, line 70: NS_ERROR_XPC_JAVASCRIPT_ERROR_WITH_DETAILS: [JavaScript Error: "setting getter-only property "gLogEnabled"" {file: "resource://gre/modules/UpdateTimerManager.jsm" line: 352}]'[JavaScript Error: "setting getter-only property "gLogEnabled"" {file: "resource://gre/modules/UpdateTimerManager.jsm" line: 352}]' when calling method: [nsIUpdateTimerManager::registerTimer]
 1587081089332	Marionette	INFO	Stopped listening on port 45087
 1587081090742	Marionette	INFO	Stopped listening on port 46527
+1589701370643	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.9ALEzZehAIJZ"
+1589701370643	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.4bsqe2KYg1rY"
+1589701376884	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1589701376884	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1589701376956	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1589701376956	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1589701376957	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1589701376957	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1589701376957	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1589701376957	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1589701376957	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1589701376957	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1589701385776	Marionette	INFO	Listening on port 33571
+1589701385776	Marionette	INFO	Listening on port 39785
+1589701385853	Marionette	WARN	TLS certificate errors will be ignored for this session
+1589701385854	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://127.0.0.1:5000/static/common.js, line 26: TypeError: document.getElementById(...) is null
+JavaScript error: http://127.0.0.1:5000/static/common.js, line 26: TypeError: document.getElementById(...) is null
+JavaScript error: http://127.0.0.1:5000/static/common.js, line 26: TypeError: document.getElementById(...) is null
+JavaScript error: http://127.0.0.1:5000/static/common.js, line 26: TypeError: document.getElementById(...) is null
+JavaScript error: http://127.0.0.1:5000/static/common.js, line 118: ReferenceError: webkitSpeechRecognition is not defined
+JavaScript error: http://127.0.0.1:5000/static/common.js, line 118: ReferenceError: webkitSpeechRecognition is not defined
+1589701411091	Marionette	INFO	Stopped listening on port 33571
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1589701414113	Marionette	INFO	Stopped listening on port 39785

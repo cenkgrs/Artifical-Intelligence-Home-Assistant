@@ -39,16 +39,20 @@ $(document).ready(function(){
             {
                 if (!data["success"]){
                     speak("Sir there is and error at the" + data["error_line"] + "you gave me please send me valid" + data["error_line"])
+
                     return;
                 }
-
-                console.log(data)
                 //speak(finish_a[Math.floor(Math.random() * finish_a.length)])
                 price = data["price"].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 price = price.split(",")
 
                 speak("I think that this type of car would worth" + price + "US Dollars boss")
 
+                $(".predict-result").fadeIn()
+                $(".predict-result").html(data["price"] + " $");
+
+
+                setTimeout(() => { $(".predict_modal").fadeOut(); $(".predict-result").fadeOut(); $("#index-section").fadeIn() }, 4000);
             }
             else{
                 //

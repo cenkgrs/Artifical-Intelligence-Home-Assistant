@@ -37,7 +37,12 @@ form_q = ["fill the forms", "can you please fill the forms", "Oracle fill the fo
 confirm_q = ["hit it", "send it", "do it", "go"]
 abort_q = ["stop it", "don't", "not now"]
 
+/* TO DO Page */
+
 add_q = ["add this", "add it", "insert this"]
+
+/* Email Page */
+
 send_q = ["send it", "send the email", "send the email Oracle"]
 
 finish_a = ["It's done boss", "It completed successfully boss", "Boss it finished", "It completed successfully sir"]

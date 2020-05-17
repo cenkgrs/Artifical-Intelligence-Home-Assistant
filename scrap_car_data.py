@@ -18,11 +18,6 @@ car = {
     "brand": "",
 }
 
-prices_list = []
-mileages_list = []
-titles_list = []
-properties_list = []
-
 base_url = f"https://www.cars.com/for-sale/searchresults.action/?page={page_num}&perPage=100&searchSource=PAGINATION&sort=relevance&stkTypId=28881&zc=34110"
 
 print(base_url)

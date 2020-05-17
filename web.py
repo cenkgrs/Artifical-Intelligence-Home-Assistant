@@ -10,6 +10,7 @@ import pyttsx3
 import requests
 from flask_cors import CORS
 import pytemperature
+import webbrowser
 
 from todo import add_todo_item, get_todo
 from currency import get_currency
@@ -163,7 +164,7 @@ def add_headers(response):
 
 
 def start():
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
 
 
 def opens():
@@ -178,10 +179,16 @@ def opens():
     speak("Welcome to my user interface sir.")
 
 
+def open_gui():
+    url = "http://127.0.0.1:5000/"
+    webbrowser.get(using='google-chrome').open(url, new=2)
+
+
 def start_interface():
     p1 = multiprocessing.Process(target=start)
     p1.start()
-    p2 = multiprocessing.Process(target=opens)
-    #p2.start()
+    p2 = multiprocessing.Process(target=open_gui)
+    p2.start()
+
 
 start_interface()
