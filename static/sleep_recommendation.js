@@ -69,13 +69,17 @@ function update_waketime(){
         console.log(data)
         if (data)
         {
-            console.log("good")
-            if(data["sleep"] == 1){
-                speak("Looks like you got a good sleep last night sir")
-                speak("Please continue to sleep well for your health")
+            if(data["sleep"] == "updated"){ // This could be the second time that Oracle opening today - So prevent the update again
+
             }else{
-                speak("Sir as for my records you did not get a good sleep last night.")
-                speak("Please be careful and sleep well this night")
+            console.log("good")
+                if(data["sleep"] == 1){
+                    speak("Looks like you got a good sleep last night sir")
+                    speak("Please continue to sleep well for your health")
+                }else{
+                    speak("Sir as for my records you did not get a good sleep last night.")
+                    speak("Please be careful and sleep well this night")
+                }
             }
 
         }
