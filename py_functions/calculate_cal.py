@@ -1,3 +1,8 @@
+import sqlite3
+import logging
+
+logger = logging.Logger('catch_all')
+
 def user_info():
     age = int(input('What is your age: '))
     gender = input('What is your gender: ')
@@ -19,9 +24,7 @@ def user_info():
 
     return int(bmr_result)
 
-
-def calculate_activity(bmr_result):
-    activity_level = input('What is your activity level (none, light, moderate, heavy, or extreme): ')
+def calculate_activity(activity_level, bmr_result):
 
     if activity_level == 'none':
         activity_level = 1.2 * bmr_result
@@ -36,22 +39,60 @@ def calculate_activity(bmr_result):
 
     return int(activity_level)
 
-
-def gain_or_lose(activity_level):
-    goals = input('Do you want to lose, maintain, or gain weight: ')
+def gain_or_lose(activity_level, goals):
 
     if goals == 'lose':
         calories = activity_level - 500
     elif goals == 'maintain':
         calories = activity_level
     elif goals == 'gain':
-        gain = int(input('Gain 1 or 2 pounds per week? Enter 1 or 2: '))
+        gain = 1
         if gain == 1:
-            calories = activity_level + 500
+            return activity_level + 500
         elif gain == 2:
-            calories = activity_level + 1000
-
-    print('in order to ', goals, 'weight, your daily caloric goals should be', int(calories), '!')
+            return activity_level + 1000
 
 
-gain_or_lose(calculate_activity(user_info()))
+def result(gender, height, weight, age, activity_level, goals):
+
+    if gender == 'male':
+        c1 = 66
+        hm = 6.2 * (float(height) / 2.54)
+        wm = 12.7 * int(weight)
+        am = 6.76 * int(age)
+    elif gender == 'female':
+        c1 = 655.1
+        hm = 4.35 * height
+        wm = 4.7 * weight
+        am = 4.7 * age
+
+    bmr_result = c1 + hm + wm - am
+
+    activity_level = calculate_activity(activity_level, bmr_result)
+
+    calories = gain_or_lose(activity_level, goals)
+
+    insert_cal(calories, gender, (float(height) / 2.54), int(weight), int(age), activity_level, goals)
+
+    return calories
+
+def insert_cal(calories, gender, height, weight, age, activity_level, goals):
+
+    with sqlite3.connect("Oracle") as con:
+        cursor = con.cursor()
+        try:
+            cursor.execute("INSERT INTO person_diets (calories, gender, height, weight, age, activity_level, goals) VALUES (?, ?, ?, ?, ?, ?) ",
+                           (calories, gender, height, weight, age, activity_level, goals))
+            con.commit()
+
+            return True
+
+        except Exception as e:
+            logger.error('Error: ' + str(e))
+            return False
+
+
+def check_cal():
+
+
+

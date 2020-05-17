@@ -18,6 +18,7 @@ from mail_sender import send_mail
 from py_functions.record_command import insert_command
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
+from py_functions.calculate_cal import result, check_cal
 
 
 app = Flask(__name__)
@@ -31,6 +32,8 @@ def speak(text):
         engine.say(text)
         engine.runAndWait()
 
+
+# Links
 
 @app.route("/")
 def home():
@@ -51,6 +54,7 @@ def mails():
 def todo():
     return render_template("todo.html")
 
+# Classic data requests
 
 @app.route("/weather", methods=["POST"])
 def get_weather():
@@ -66,6 +70,17 @@ def get_weather():
     print(formatted_data)
     return jsonify(formatted_data)
 
+@app.route("/get_currency", methods=["POST"])
+def getCurrency():
+    response = request.get_json()
+    print(response)
+
+    data = get_currency()
+    print(data)
+    return jsonify(data)
+
+# Email requests
+
 
 @app.route("/email_send", methods=["POST"])
 def send_email():
@@ -78,15 +93,7 @@ def send_email():
 
     return jsonify({"success": True})
 
-
-@app.route("/get_currency", methods=["POST"])
-def getCurrency():
-    response = request.get_json()
-    print(response)
-
-    data = get_currency()
-    print(data)
-    return jsonify(data)
+# To do page requests
 
 
 @app.route("/add_todo", methods=["POST"])
@@ -120,6 +127,8 @@ def rec_command():
 
     return "Success"
 
+# Price prediction systems requests
+
 
 @app.route("/car_predict", methods=["POST"])
 def car_predict():
@@ -133,6 +142,8 @@ def car_predict():
 
     return jsonify({"success": True, "price": predicted_data[0]})
 
+
+# Sleep recommendation system requests
 
 @app.route("/record_bedtime", methods=["POST"])
 def record_sleep():
@@ -155,6 +166,23 @@ def update_sleep():
     if status:
         return jsonify({"success": True, "sleep": sleep})
 
+
+# Diet requests
+
+@app.route("/calculate_cal", methods=["POST"])
+def calculate_kcal():
+    input = request.get_json()
+    print(input)
+
+    kcal = result(input["gender"], input["height"], input["weight"], input["age"], input["activity"], input["aim"])
+
+    print(kcal)
+    if kcal:
+        return jsonify({"success": True, "kcal": kcal})
+
+@app.route("/check_cal", methods=["POST"])
+def check_calories():
+    kcal = check_cal()
 
 @app.after_request
 def add_headers(response):
