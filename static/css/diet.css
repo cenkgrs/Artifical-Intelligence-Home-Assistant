@@ -1,12 +1,224 @@
-.meal-list{
-    background-color: rgba(0, 0, 0, 0.23);
-    border: 3px solid #4a474752;
-    border-radius: 15px;
-    animation: glow-box 1s ease-in-out infinite alternate;
-    padding:15px;
-    color: #d8d8d8ed;
-    font-weight: bold;
-    display:block;
+/* Meals List */
+    .meals{
+        background-color: rgba(0, 0, 0, 0.23);
+        border: 3px solid #4a474752;
+        border-radius: 15px;
+        animation: glow-box 1s ease-in-out infinite alternate;
+        color: #d8d8d8ed;
+        font-weight: bold;
+        display:block;
+        margin:auto;
+        height:10rem;
+        overflow: hidden;
+        padding:15px;
+
+    }
+    .meal-list{
+        overflow: scrollbar;
+        width: 100%;
+        height: 8rem;
+        overflow: auto;
+    }
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
+    }
+
+    .meal-item{
+        display: block;
+        width: 100%;
+        height:auto;
+        color: #c9f1fbf2;
+        margin: 0 10px;
+        padding: 10px;
+        word-break: break-word;
+    }
+
+    .nutritional-bar{
+        width:4rem;
+        height:20rem;
+        border-radius: 35px;
+        border: 3px solid #4cb1bc38;
+        position:relative;
+
+    }
+    .nutritional-bar-inside{
+        animation: glow-bar 1s ease-in-out infinite alternate;
+
+        height: 10rem;
+        background: #1e1d1d8a;
+        border-radius: 35px;
+        bottom: 0%;
+        position: absolute;
+        left: 0%;
+        width: 3.6rem;
+    }
+
+    .nutritional-header{
+        color: #d8d8d8ed;
+    }
+    .nutrition-status{
+        color: #d8d8d8ed;
+    }
+    @keyframes glow-bar {
+        from {
+          box-shadow: 0 0 10px #313131;
+        }
+        to {
+          box-shadow: 0 0 0px #0c202c, 0 0 0px #4a474752;
+        }
+    }
+
+/* Add Meals */
+    .meal-add{
+       height: 10rem;
+        background-color: rgba(0, 0, 0, 0.23);
+        border: 3px solid #4a474752;
+        border-radius: 15px;
+        animation: glow-box 1s ease-in-out infinite alternate;
+    }
+
+    .meal-add-header{
+        text-align:center;
+        color: #d8d8d8ed;
+    }
+    .meal-add-body{
+        padding: 15px;
+        text-align:center;
+    }
+
+    .meal-add-input{
+        border: none;
+        background: none;
+        border-bottom: 1px solid #225a8a70;
+        width: 96%;
+        margin-top: 5px;
+        outline: 0;
+        color: #ffffff;
+    }
+
+    .meal-add-button{
+        margin-top:0.8rem;
+        width: 60%;
+        text-align: center;
+        background: #275f92 !important;
+        border: none !important;
+        color: white !important;
+        border-radius: 15px;
+        padding: 8px;
+    }
+
+
+/* Get Meal Recipe */
+    .meal-get-recipes{
+        background-color: rgba(0, 0, 0, 0.23);
+        border: 3px solid #4a474752;
+        border-radius: 15px;
+        animation: glow-box 1s ease-in-out infinite alternate;
+        color: #d8d8d8ed;
+        font-weight: bold;
+        display:block;
+        margin:auto;
+        height:10rem;
+        overflow: hidden;
+        padding:15px;
+    }
+    .meal-get-recipes-header{
+        text-align:center;
+        color: #d8d8d8ed;
+    }
+/* Calorie Need */
+    .calorie-need{
+        z-index: 9000;
+        background-color: rgba(58, 99, 123, 0.25);
+        width: max-content;
+        border-radius: 75px;
+        margin: auto;
+        box-shadow: 0px 0px 15px 4px #507795;
+        font-size:2rem;
+        text-align:center;
+        padding:30px;
+        color: #ffffff;
+        font-weight: bold;
+        text-shadow: 4px 2px #212529;
+    }
+
+/* Oracle Animation */
+
+    .oracle-box-diet{
+        margin: auto;
+        top: 29%;
+        left: 25%;
+        position: absolute;
+        background: rgba(4, 177, 245, 0.171);
+        border: 10px solid #7da6ca4b;
+        border-top: 10px solid #0088ff3a;
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        animation: turn 1s infinite linear;
+        box-shadow: 10px 10px 10px -10px #275173
+    }
+    @keyframes turn {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+    .circle-1-diet{
+        background: rgba(42, 91, 148, 0.21);
+        height: 225px;
+        width: 225px;
+        border-radius: 50%;
+        margin: auto;
+        border: 20px solid #0088ff31;
+        border-top: 20px solid #0088ff8e;
+        vertical-align: middle;
+        top: 36%;
+        left: 33.8%;
+        position: absolute;
+        animation: inside_turn 1s infinite ease;
+        box-shadow: 10px 10px 10px -10px #507795;
+    }
+    @keyframes inside_turn{
+        0% { transform: rotate(360deg); }
+        100% { transform: rotate(0deg); }
+    }
+    .text-box-diet{
+        text-align: center;
+
+        margin: auto;
+        position: absolute;
+        top: 46.3%;
+        left: 39.6%;
+        color: #4db1bc;
+        animation: glow 1s ease-in-out infinite alternate;
+        margin-left: 4px;
+    }
+    .text-box-diet h1{
+    font-size: 2.2rem !important;
+    }
+    @keyframes glow {
+        from {
+          text-shadow: 0 0 20px #2d9da9;
+        }
+        to {
+          text-shadow: 0 0 45px #34b3c1, 0 0 10px #4dbbc7;
+        }
+      }
+
+/* Oracle Animation End */
+
+
+/* Calorie Modal */
+
+.calorie-modal{
+    z-index: 9000;
+    background-color: rgba(58, 99, 123, 0.25);
+    width: max-content;
     margin:auto;
+    border-radius: 75px;
+    margin: auto;
+    box-shadow: 0px 0px 15px 0px #507795;
     text-align:center;
+    padding:30px;
 }

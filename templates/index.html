@@ -50,6 +50,12 @@
 
     {% include 'partials/predict_modal.html' %}
 
+    <div class="section" id="calorie-section" style="display:none">
+        {% include 'partials/calorie_modal.html' %}
+    </div>
+
+
+
 </body>
 </html>
 <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>

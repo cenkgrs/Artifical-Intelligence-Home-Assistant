@@ -48,8 +48,8 @@ const open_todo = function(){
 }
 const open_diet = function(){
     oracleType = "diet"
-    sections.not( $("#diet-section") ).css({"display": "none"})
-    $("#diet-section").fadeIn()
+    sections.not( $("#calorie-section") ).css({"display": "none"})
+    $("#calorie-section").fadeIn()
 
 }
 

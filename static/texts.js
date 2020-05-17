@@ -39,7 +39,7 @@ abort_q = ["stop it", "don't", "not now"]
 
 /* TO DO Page */
 
-add_q = ["add this", "add it", "insert this"]
+add_q = ["add this", "add it", "insert this", "add"]
 
 /* Email Page */
 

@@ -349,7 +349,7 @@ function check_command(audio, type){
 
         return ""
     }
-    else if (add_q.includes(audio) && type == "todo"){
+    else if (add_q.includes(audio) && oracleType == "todo"){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
 
         setTimeout(() => { add_todo_item() }, 2000);
@@ -549,7 +549,7 @@ $(document).ready(function(){
 
 
 
-    $(".circle-1, .text-box").click(function(){
+    $(".circle-1, .text-box, .circle-1-diet").click(function(){
         listen($(this).data("type"))
     });
 

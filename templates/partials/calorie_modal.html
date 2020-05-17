@@ -1,0 +1,38 @@
+<div class="calorie_modal">
+
+    <div class="row">
+        <div class="col-lg-6">
+          <input class="modal-radio" type="radio" id="house_check" name="select" value="1" >
+          <label class="modal-radio-label" for="house_check">
+            <h2 style="font-size:19px">House</h2>
+          </label>
+        </div>
+        <div class="col-lg-6">
+          <input class="modal-radio" type="radio" id="car_check" name="select" value="2" checked>
+          <label class="modal-radio-label" for="car_check">
+            <h2 style="font-size:19px">Car</h2>
+          </label>
+        </div>
+
+    </div>
+
+    <div class="row mt30" id="car-predict" >
+        <div class="col-lg-3">
+            <label for="brand-input"> Brand </label>
+            <input id="brand-input" type="text" class="modal-input">
+        </div>
+         <div class="col-lg-3">
+             <label for="year-input">Year</label>
+            <input id="year-input" type="text" min="2000" max="2020" class="modal-input">
+        </div>
+         <div class="col-lg-3">
+             <label for="mileage-input">Mileage</label>
+            <input id="mileage-input" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  class="modal-input">
+        </div>
+        <div class="col-lg-3">
+             <label for="transmission-input">Transmission</label>
+            <input id="transmission-input" type="text" class="modal-input">
+        </div>
+
+    </div>
+</div>
