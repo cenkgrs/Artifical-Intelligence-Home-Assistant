@@ -47,30 +47,30 @@
                     <div class="col-lg-3">
                         <h3 class="nutritional-header">KCal</h3>
                         <div class="nutritional-bar">
-                            <div class="nutritional-bar-inside" id="nutritional-cal"></div>
+                            <div class="nutritional-bar-inside" id="nutritional-kcal-bar"></div>
                         </div>
-                        <h4 class="nutrition-status">25/50g</h4>
+                        <h4 class="nutrition-status" id="nutrition-kcal"> </h4>
                     </div>
                      <div class="col-lg-3">
                          <h3 class="nutritional-header">Protein</h3>
                         <div class="nutritional-bar">
-                            <div class="nutritional-bar-inside" id="nutritional-prot"></div>
+                            <div class="nutritional-bar-inside" id="nutritional-prot-bar"></div>
                         </div>
-                         <h4 class="nutrition-status">25/50g</h4>
+                         <h4 class="nutrition-status" id="nutrition-prot"> </h4>
                     </div>
                      <div class="col-lg-3">
                          <h3 class="nutritional-header">Carb</h3>
                         <div class="nutritional-bar">
-                            <div class="nutritional-bar-inside" id="nutritional-carb"></div>
+                            <div class="nutritional-bar-inside" id="nutritional-carb-bar"></div>
                         </div>
-                         <h4 class="nutrition-status">25/50g</h4>
+                         <h4 class="nutrition-status" id="nutrition-carb"> </h4>
                     </div>
                      <div class="col-lg-3">
                          <h3 class="nutritional-header">Fat</h3>
                         <div class="nutritional-bar">
-                            <div class="nutritional-bar-inside" id="nutritional-fat"></div>
+                            <div class="nutritional-bar-inside" id="nutritional-fat-bar"></div>
                         </div>
-                         <h4 class="nutrition-status">25/50g</h4>
+                         <h4 class="nutrition-status" id="nutrition-fat"> </h4>
                     </div>
                 </div>
 
@@ -106,16 +106,16 @@
                             </div>
 
                             <div class="meal-add-body">
-                                <input class="meal-add-input" data-type="morning" id="meal-morning">
-                                <div class="meal-input-items-morning">
+                                <input class="meal-add-input" data-meal-id="" data-meal-gram="" data-type="morning" id="meal-morning">
+                                <div class="meal-input-items" id="meal-input-items-morning">
 
                                 </div>
 
-                                <select class="mt20" style="width:100%">
-                                    <option value="25">25g</option>
-                                    <option value="50">50g</option>
-                                    <option value="75">75g</option>
+                                <select class="gr-morning" class="mt20" style="width:100%">
                                     <option value="100">100g</option>
+                                    <option value="75">75g</option>
+                                    <option value="50">50g</option>
+                                    <option value="25">25g</option>
                                 </select>
                                 <button type="button" class="meal-add-button" data-type="morning" id="add-morning-meal"> Add </button>
                             </div>
@@ -128,7 +128,18 @@
                             </div>
 
                             <div class="meal-add-body">
-                                <input class="meal-add-input" id="meal-evening">
+                                <input class="meal-add-input" data-meal-id="" data-meal-gram="" data-type="evening" id="meal-evening">
+                                <div class="meal-input-items" id="meal-input-items-evening">
+
+                                </div>
+
+                                <select class="gr-evening" class="mt20" style="width:100%">
+                                    <option value="100" selected>100g</option>
+                                    <option value="75">75g</option>
+                                    <option value="50">50g</option>
+                                    <option value="25">25g</option>
+
+                                </select>
 
                                 <button type="button" class="meal-add-button" data-type="evening" id="add-evening-meal"> Add </button>
                             </div>

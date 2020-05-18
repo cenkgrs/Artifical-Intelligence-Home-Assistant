@@ -172,11 +172,9 @@ def update_sleep():
 @app.route("/calculate_cal", methods=["POST"])
 def calculate_kcal():
     input = request.get_json()
-    print(input)
 
     kcal = result(input["gender"], input["height"], input["weight"], input["age"], input["activity"], input["aim"])
 
-    print(kcal)
     if kcal:
         return jsonify({"success": True, "kcal": kcal})
 
@@ -194,9 +192,8 @@ def check_calories():
 @app.route("/add_meal", methods=["POST"])
 def addMeal():
     input = request.get_json()
-    print(input)
 
-    status = add_meal(input["meal"], input["type"])
+    status = add_meal(input["meal"], input["type"], input["meal-id"], input["meal-gram"])
 
     if status:
         data = get_meals()
@@ -207,7 +204,6 @@ def addMeal():
 
 @app.route("/get_meals", methods=["GET"])
 def getMeals():
-    print("got here")
     data = get_meals()
 
     return jsonify(data)
@@ -216,7 +212,6 @@ def getMeals():
 @app.route("/get_meal_input", methods=["POST"])
 def getMealInput():
     input = request.get_json()
-    print(input)
 
     data = get_meal_input(input["inp"])
 

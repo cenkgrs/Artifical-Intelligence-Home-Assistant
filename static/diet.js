@@ -38,7 +38,6 @@ $(document).ready(function(){
     $(".meal-add-input").keyup(function( event ) {
         type = $(this).data("type")
         inp = $(this).val()
-        alert(inp)
 
         if (inp.length >= 1){
                 $.ajax({
@@ -50,45 +49,59 @@ $(document).ready(function(){
                 console.log(data)
                 if (data)
                 {
-                    $(".meal-input-items-"+ type).empty()
+                    $("#meal-input-items-"+ type).empty()
+                    $("#meal-input-items-"+ type).fadeIn()
                     data.forEach(function(entry, i) {
                         name = entry[1]
 
                         item = document.createElement("strong");
                         item.className = "meal-input-item";
-                        item.data
+                        item.setAttribute("data-type", type)
                         item.id = "meal-input-item-" + entry[0];
                         item.innerHTML = name;
-                        $(".meal-input-items-"+ type).append(item)
+                        $("#meal-input-items-"+ type).append(item)
                     })
-                }
-                else{
                 }
             });
         }else{
             $(".meal-input-items-"+ type).empty()
+            $("#meal-input-items-"+ type).fadeOut()
 
         }
-
-
     })
 
+    $(document).on("click", ".meal-input-item", function() {
+        id = $(this).attr("id")
+        id = id.replace("meal-input-item-", "")
+
+        type = $(this).data("type")
+        gram = $(".gr-"+type).val()
+
+
+        $("#meal-"+ type).val($(this).html())
+        $("#meal-"+ type).attr("data-meal-id", id)
+        $("#meal-"+ type).attr("data-meal-gram", gram)
+        $(".meal-input-items-"+ type).empty()
+        $("#meal-input-items-"+ type).fadeOut()
+    })
+
+
     $(document).on("click", ".meal-add-button", function() {
-        console.log($(this))
         type = $(this).data("type")
 
+        meal_id = $("#meal-"+type).data("meal-id")
+        meal_gram = $(".gr-"+type).val()
+        alert(meal_gram)
         meal = $("#meal-"+ type).val()
-        console.log(meal, type)
          $.ajax({
             url: "http://localhost:5000/add_meal",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({"meal": meal, "type": type})
+            data: JSON.stringify({"meal": meal, "meal-id": meal_id, "meal-gram": meal_gram, "type": type})
          }).done(function(data) {
-            console.log(data)
             if (data)
             {
-                fill_panel(data)
+                fill_meal_panel(data)
             }
             else{
 
@@ -99,15 +112,14 @@ $(document).ready(function(){
 })
 
 function get_meals(){
-    console.log("worked")
     $.ajax({
             url: "http://localhost:5000/get_meals",
             type: "GET",
          }).done(function(data) {
-            console.log(data)
             if (data)
             {
-                fill_panel(data)
+                console.log(data)
+                fill_meal_panel(data)
             }
             else{
 
@@ -115,7 +127,7 @@ function get_meals(){
         });
 }
 
-function fill_panel(data){
+function fill_meal_panel(data){
     $(".morning-meals").empty();
     $(".evening-meals").empty();
     $(".afternoon-meals").empty();
@@ -149,6 +161,14 @@ function fill_panel(data){
         item.innerHTML = (i = i + 1) + " - " + entry;
         $(".afternoon-meals").append(item)
     })
+
+    nutrition_values = data[0]["nutrition"]
+
+    $("#nutrition-kcal").html(nutrition_values["kcal"] + " / " + $("#daily_kcal").html())
+    $("#nutrition-carb").html(nutrition_values["carb"] + " / " + $("#daily_kcal").html())
+    $("#nutrition-prot").html(nutrition_values["prot"] + " / " + $("#daily_kcal").html())
+    $("#nutrition-fat").html(nutrition_values["fat"] + " / " + $("#daily_kcal").html())
+
 }
 
 function check_cal(callback) {
@@ -156,7 +176,6 @@ function check_cal(callback) {
         url: "http://localhost:5000/check_cal",
         type: "POST",
     }).done(function(data) {
-        console.log(data)
         if (data)
         {
             if(data["kcal"] != ""){
