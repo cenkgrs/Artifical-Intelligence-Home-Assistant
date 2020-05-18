@@ -35,8 +35,41 @@ $(document).ready(function(){
 
     })
 
-    $(".meal-add-input").keypress(function( event ) {
-        alert("changed")
+    $(".meal-add-input").keyup(function( event ) {
+        type = $(this).data("type")
+        inp = $(this).val()
+        alert(inp)
+
+        if (inp.length >= 1){
+                $.ajax({
+                url: "http://localhost:5000/get_meal_input",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({"inp": inp,})
+            }).done(function(data) {
+                console.log(data)
+                if (data)
+                {
+                    $(".meal-input-items-"+ type).empty()
+                    data.forEach(function(entry, i) {
+                        name = entry[1]
+
+                        item = document.createElement("strong");
+                        item.className = "meal-input-item";
+                        item.data
+                        item.id = "meal-input-item-" + entry[0];
+                        item.innerHTML = name;
+                        $(".meal-input-items-"+ type).append(item)
+                    })
+                }
+                else{
+                }
+            });
+        }else{
+            $(".meal-input-items-"+ type).empty()
+
+        }
+
 
     })
 
@@ -86,10 +119,7 @@ function fill_panel(data){
     $(".morning-meals").empty();
     $(".evening-meals").empty();
     $(".afternoon-meals").empty();
-    console.log(data)
-    console.log(data[0])
-    console.log(data["morning"])
-    console.log(data[0]["morning"])
+
     morning_meals = data[0]["morning"]
 
     morning_meals.forEach(function(entry, i) {

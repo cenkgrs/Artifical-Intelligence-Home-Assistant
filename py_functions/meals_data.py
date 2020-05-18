@@ -44,3 +44,20 @@ def get_meals():
             return data
         except sqlite3.OperationalError:
             return False
+
+
+def get_meal_input(inp):
+    with sqlite3.connect("Oracle") as con:
+        try:
+            cursor = con.cursor()
+            print("got here")
+            print(inp)
+            db = cursor.execute("Select * From recipes Where name Like ?",
+                                (inp + '%',))
+            if not db:
+                return False
+
+            data = db.fetchall()
+            return data
+        except sqlite3.OperationalError:
+            return False

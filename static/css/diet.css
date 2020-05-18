@@ -98,6 +98,25 @@
         color: #ffffff;
     }
 
+    .meal-input-items{
+        height: max-content;
+        background-color: rgba(0, 0, 0, 0.23);
+        border: 3px solid #4a474752;
+        border-radius: 15px;
+        animation: glow-box 1s ease-in-out infinite alternate;
+    }
+    .meal-input-item{
+        font-weight: bold;
+        border-bottom: 1px solid white;
+        text-align: left;
+        float: left;
+        padding: 5px;
+        width: 80%;
+        /* text-align: center; */
+        margin: 5px;
+        color: #ffffffbf;
+    }
+
     .meal-add-button{
         margin-top:0.8rem;
         width: 60%;
