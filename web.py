@@ -19,7 +19,7 @@ from py_functions.record_command import insert_command
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
-
+from py_functions.meals_data import add_meal, get_meals
 
 app = Flask(__name__)
 CORS(app)
@@ -190,6 +190,28 @@ def check_calories():
 
     return jsonify({"kcal": kcal})
 
+
+@app.route("/add_meal", methods=["POST"])
+def addMeal():
+    input = request.get_json()
+    print(input)
+
+    status = add_meal(input["meal"], input["type"])
+
+    if status:
+        data = get_meals()
+        return jsonify(data)
+    else:
+        return False
+
+
+@app.route("/get_meals", methods=["GET"])
+def getMeals():
+    print("got here")
+    data = get_meals()
+
+    return jsonify(data)
+
 @app.after_request
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -222,7 +244,7 @@ def start_interface():
     p1 = multiprocessing.Process(target=start)
     p1.start()
     p2 = multiprocessing.Process(target=open_gui)
-    p2.start()
+    #p2.start()
 
 
 start_interface()

@@ -12,11 +12,8 @@
                             <div class="meal-header">
                                 <h3 class="text-center">Morning</h3>
                             </div>
-                            <div class="meal-list">
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
+                            <div class="meal-list morning-meals">
+
                             </div>
                         </div>
                     </div>
@@ -25,11 +22,8 @@
                             <div class="meal-header">
                                 <h3 class="text-center">Afternoon</h3>
                             </div>
-                            <div class="meal-list">
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
+                            <div class="meal-list afternoon-meals">
+
                             </div>
                         </div>
                     </div>
@@ -42,11 +36,8 @@
                             <div class="meal-header">
                                 <h3 class="text-center">Evening</h3>
                             </div>
-                            <div class="meal-list">
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
-                                    <strong class="meal-item">Pilav - 300 KCal</strong>
+                            <div class="meal-list evening-meals">
+
                             </div>
                         </div>
                     </div>
@@ -115,9 +106,14 @@
                             </div>
 
                             <div class="meal-add-body">
-                                <input class="meal-add-input">
-
-                                <button class="meal-add-button" id="add-morning-meal"> Add </button>
+                                <input class="meal-add-input" id="meal-morning">
+                                <select class="mt20" style="width:100%">
+                                    <option value="25">25g</option>
+                                    <option value="50">50g</option>
+                                    <option value="75">75g</option>
+                                    <option value="100">100g</option>
+                                </select>
+                                <button type="button" class="meal-add-button" data-type="morning" id="add-morning-meal"> Add </button>
                             </div>
                         </div>
                     </div>
@@ -128,9 +124,9 @@
                             </div>
 
                             <div class="meal-add-body">
-                                <input class="meal-add-input">
+                                <input class="meal-add-input" id="meal-evening">
 
-                                <button class="meal-add-button" id="add-evening-meal"> Add </button>
+                                <button type="button" class="meal-add-button" data-type="evening" id="add-evening-meal"> Add </button>
                             </div>
                         </div>
                     </div>

@@ -35,7 +35,91 @@ $(document).ready(function(){
 
     })
 
+    $(".meal-add-input").keypress(function( event ) {
+        alert("changed")
+
+    })
+
+    $(document).on("click", ".meal-add-button", function() {
+        console.log($(this))
+        type = $(this).data("type")
+
+        meal = $("#meal-"+ type).val()
+        console.log(meal, type)
+         $.ajax({
+            url: "http://localhost:5000/add_meal",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({"meal": meal, "type": type})
+         }).done(function(data) {
+            console.log(data)
+            if (data)
+            {
+                fill_panel(data)
+            }
+            else{
+
+            }
+        });
+    })
+
 })
+
+function get_meals(){
+    console.log("worked")
+    $.ajax({
+            url: "http://localhost:5000/get_meals",
+            type: "GET",
+         }).done(function(data) {
+            console.log(data)
+            if (data)
+            {
+                fill_panel(data)
+            }
+            else{
+
+            }
+        });
+}
+
+function fill_panel(data){
+    $(".morning-meals").empty();
+    $(".evening-meals").empty();
+    $(".afternoon-meals").empty();
+    console.log(data)
+    console.log(data[0])
+    console.log(data["morning"])
+    console.log(data[0]["morning"])
+    morning_meals = data[0]["morning"]
+
+    morning_meals.forEach(function(entry, i) {
+        item = document.createElement("strong");
+        item.className = "meal-item";
+        item.id = "morning-meal-" + i;
+        item.innerHTML = (i = i + 1) + " - " + entry;
+        $(".morning-meals").append(item)
+    })
+
+    evening_meals = data[0]["evening"]
+
+    evening_meals.forEach(function(entry, i) {
+        item = document.createElement("strong");
+        item.className = "meal-item";
+        item.id = "evening-meal-" + i;
+        item.innerHTML = (i = i + 1) + " - " + entry;
+        $(".evening-meals").append(item)
+    })
+
+    afternoon_meals = data[0]["afternoon"]
+
+    afternoon_meals.forEach(function(entry, i) {
+        item = document.createElement("strong");
+        item.className = "meal-item";
+        item.id = "afternoon-meal-" + i;
+        item.innerHTML = (i = i + 1) + " - " + entry;
+        $(".afternoon-meals").append(item)
+    })
+}
 
 function check_cal(callback) {
     $.ajax({
@@ -57,3 +141,6 @@ function check_cal(callback) {
         }
     });
 }
+
+
+

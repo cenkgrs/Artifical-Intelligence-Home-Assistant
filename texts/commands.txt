@@ -107,3 +107,5 @@ show me today's work - todo - 8
 show me today's work - todo - 8
 hi - greeting - 1
 thank you - thank - 3
+hello - greeting - 1
+hello - greeting - 1

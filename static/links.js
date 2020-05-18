@@ -59,13 +59,15 @@ const open_diet = function(){
         }else{
             sections.not( $("#diet-section") ).css({"display": "none"})
             $("#diet-section").fadeIn()
+
         }
 
     })
     sections.not( $("#diet-section") ).css({"display": "none"})
     $("#diet-section").fadeIn()
 
-
+    get_meals()
+    idle_listen()
 }
 
 const open_calendar = function(){
