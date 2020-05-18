@@ -37,7 +37,7 @@
     .nutritional-bar{
         width:4rem;
         height:20rem;
-        border-radius: 35px;
+        border-radius: 35px 35px 0 0;
         border: 3px solid #4cb1bc38;
         position:relative;
         margin:auto;
@@ -48,7 +48,7 @@
 
         height: 10rem;
         background: #1e1d1d8a;
-        border-radius: 35px;
+        border-radius: 35px 35px 0 0;
         bottom: 0%;
         position: absolute;
         left: 0%;

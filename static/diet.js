@@ -164,10 +164,26 @@ function fill_meal_panel(data){
 
     nutrition_values = data[0]["nutrition"]
 
-    $("#nutrition-kcal").html(nutrition_values["kcal"] + " / " + $("#daily_kcal").html())
-    $("#nutrition-carb").html(nutrition_values["carb"] + " / " + $("#daily_kcal").html())
-    $("#nutrition-prot").html(nutrition_values["prot"] + " / " + $("#daily_kcal").html())
-    $("#nutrition-fat").html(nutrition_values["fat"] + " / " + $("#daily_kcal").html())
+    $("#nutrition-kcal").html(nutrition_values["kcal"].toFixed(2) + " / " + $("#daily_kcal").html())
+    $("#nutrition-carb").html(nutrition_values["carb"].toFixed(2) + " / " + 175)
+    $("#nutrition-prot").html(nutrition_values["prot"].toFixed(2) + " / " + 75)
+    $("#nutrition-fat").html(nutrition_values["fat"].toFixed(2) + " / " + 35)
+
+    // 100% nutrition need is 313 px
+
+    // Ex :  129,50(current calorie) / 2787 (target calorie) = 0.046.. * 313(full px of nutrition bar) = 14.54.. px (current height of nutrition bar)
+    kcal_ratio = ((nutrition_values["kcal"] / $("#daily_kcal").html()) * 313)
+    $("#nutritional-kcal-bar").css({"height": kcal_ratio})
+
+    prot_ratio = ((nutrition_values["prot"] / 75) * 313)
+    $("#nutritional-prot-bar").css({"height": prot_ratio})
+
+    carb_ratio = ((nutrition_values["carb"] / 175) * 313)
+    $("#nutritional-carb-bar").css({"height": carb_ratio})
+
+    fat_ratio = ((nutrition_values["fat"] / 35) * 313)
+    $("#nutritional-fat-bar").css({"height": fat_ratio})
+
 
 }
 

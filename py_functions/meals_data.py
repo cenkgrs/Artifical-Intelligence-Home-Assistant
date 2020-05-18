@@ -19,9 +19,9 @@ def add_meal(meal, meal_time, meal_id, meal_gram):
             prot = data[0][4] * meal_gram
             fat = data[0][5] * meal_gram
             print(kcal, carb, prot, fat)
-            if meal_time == "morning":
-                cursor.execute("INSERT INTO meals (date, meal_time, meal, kcal, carb, prot, fat) "
-                               "VALUES (?, ?, ?, ?, ?, ?, ?) ", (date, meal_time, meal, kcal, carb, prot, fat))
+
+            cursor.execute("INSERT INTO meals (date, meal_time, meal, kcal, carb, prot, fat) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?) ", (date, meal_time, meal, kcal, carb, prot, fat))
 
             con.commit()
 
