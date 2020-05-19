@@ -18,10 +18,10 @@ def get_mails():
 
     status, messages = imap.select("INBOX")
     # number of top emails to fetch
-    N = 10
+    N = 6
     # total number of emails
     messages = int(messages[0])
-    print(messages)
+
     mail_data = []
 
     for i in range(messages, messages-N, -1):
@@ -96,11 +96,9 @@ def get_mails():
                     '''
                 print("="*100)
 
-        print(mail_item)
 
     imap.close()
     imap.logout()
-    print(mail_data)
     return mail_data
 
-get_mails()
+
