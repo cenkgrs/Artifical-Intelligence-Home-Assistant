@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from requests import get
 import re
-import texts
+import pickle
 
 fruits = []
 vegetables = []
@@ -22,7 +22,12 @@ def get_fruit_data():
         for litag in ultag.find_all('li'):
             fruit = re.sub('\n', '', litag.text).lstrip(" ")
             fruit, sep, tail = fruit.partition(" ")
-            fruits.append(fruit)
+            fruits.append(fruit.lower())
+
+    with open("fruits.txt", "wb") as fp:  # Pickling
+        pickle.dump(fruits, fp)
+
+    return fruits
 
 
 def get_vegetable_data():
@@ -37,7 +42,12 @@ def get_vegetable_data():
     vegetable_items = html_soup.find_all('div',  class_=["wordlist-item"])
 
     for vegetable in vegetable_items:
-        vegetables.append(vegetable.text)
+        vegetables.append(vegetable.text.lower())
+
+    with open("vegetables.txt", "wb") as fp:  # Pickling
+        pickle.dump(vegetables, fp)
+
+    return vegetables
 
 
 def get_meal_data():
@@ -48,11 +58,12 @@ def get_meal_data():
 
     response = get(url)
     html_soup = BeautifulSoup(response.text, "html.parser")
-    print(html_soup)
+
     meal_items = html_soup.find_all("a", class_=["no-smoothstate"])
-    print(meal_items)
+
     for meal in meal_items:
         print(meal)
 
 
-get_meal_data()
+get_fruit_data()
+get_vegetable_data()

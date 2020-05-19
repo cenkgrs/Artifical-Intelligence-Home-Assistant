@@ -225,13 +225,18 @@ def getMealInput():
 def addMealNatural():
     text = request.get_json()
 
-    status = add_meal_natural(text)
+    status, error = add_meal_natural(text)
+
+    print(status)
 
     if status:
+        print("truueed")
         data = get_meals()
+        print(data)
         return jsonify(data)
     else:
-        return False
+        print("faaalseeed")
+        return jsonify({"status": status, "error": error})
 
 @app.after_request
 def add_headers(response):

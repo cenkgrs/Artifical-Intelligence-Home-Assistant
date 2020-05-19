@@ -218,29 +218,31 @@ function get_meal_input(){
 
         get_listen_input( function(result){
         console.log(result)
-
+        text = result
         speak("Should i save this sir ?")
         $("#todo-body").val(result)
         get_listen_input( function (result) {
 
             if(confirm_q.includes(result)){
+                    speak(complete_a[Math.floor(Math.random() * complete_a.length)])
                     $.ajax({
                         url: "http://localhost:5000/add_meal_natural",
                         type: "POST",
                         contentType: "application/json",
-                        data: JSON.stringify({"text": result})
+                        data: JSON.stringify({"text": text})
                     }).done(function(data) {
                         if (data)
                         {
-
+                            fill_meal_panel(data)
                         }
                         else{
-
+                            speak("There is an "+ data["error"] + "sir")
                         }
                     });
 
             }else{
                 speak("If you want to save it just let me know")
+
             }
 
         })
