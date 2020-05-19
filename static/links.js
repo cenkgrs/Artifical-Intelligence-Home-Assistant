@@ -31,10 +31,12 @@ const open_mails = function(){
     oracleType = "mails"
     sections.not( $("#mails-section") ).css({"display": "none"})
 
-    $("#mails-section").fadeIn()
-    speak("Who we are sending this mail ?")
+    //get_last_emails()
 
-    get_email_info()
+    $("#mails-section").fadeIn()
+    //speak("Who we are sending this mail ?")
+
+    //get_email_info()
 
 }
 const open_todo = function(){

@@ -15,6 +15,7 @@ import webbrowser
 from todo import add_todo_item, get_todo
 from currency import get_currency
 from mail_sender import send_mail
+from py_functions.gmail import get_mails
 from py_functions.record_command import insert_command
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
@@ -92,6 +93,14 @@ def send_email():
         return jsonify({"success": False})
 
     return jsonify({"success": True})
+
+
+@app.route("/get_emails", methods=["GET"])
+def getEmails():
+
+    data = get_mails()
+    print(data)
+    return jsonify(data)
 
 # To do page requests
 
@@ -227,15 +236,10 @@ def addMealNatural():
 
     status, error = add_meal_natural(text)
 
-    print(status)
-
     if status:
-        print("truueed")
         data = get_meals()
-        print(data)
         return jsonify(data)
     else:
-        print("faaalseeed")
         return jsonify({"status": status, "error": error})
 
 @app.after_request

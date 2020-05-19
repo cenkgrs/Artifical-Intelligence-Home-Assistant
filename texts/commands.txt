@@ -117,3 +117,4 @@ tell me today's work - todo - 8
 thank you - thank - 3
 thanks - thank - 3
 thank you - thank - 3
+hello - greeting - 1

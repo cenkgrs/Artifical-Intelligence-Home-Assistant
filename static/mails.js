@@ -67,3 +67,43 @@ function send_email(){
         }
     });
 }
+
+function get_last_emails(){
+
+    $.ajax({
+        url: "http://localhost:5000/get_emails",
+        type: "GET",
+    }).done(function(data) {
+
+        if (data)
+        {
+            console.log(data)
+
+            $(".mails-list").empty();
+
+            data.forEach(function(entry, i) {
+                if ( i % 2 == 0){
+                    mail_item = document.createElement('div');
+                    mail_item.className = "mail-item";
+                    mail_item.innerHTML = ' <div class="mail-item"> ' +
+                                                    '<div class="row"> '+
+                                                       '<div class="col-lg-4"> '+
+                                                            '<div class="mail-item-from"> '+ entry["from"] +' </div>'+
+                                                        '</div>'+
+                                                        '<div class="col-lg-8">'+
+                                                            '<div class="mail-item-subject"> '+ entry["subject"] +' </div>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                '</div>'
+
+
+                    $(".mails-list").append(mail_item)
+                }
+            })
+        }
+        else{
+            //
+        }
+    });
+
+}

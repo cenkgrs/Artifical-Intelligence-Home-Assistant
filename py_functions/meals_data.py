@@ -130,7 +130,6 @@ def add_meal_natural(text):
     # If meals list empty ( there wasn't any number in list) -> get meals from txt files
     if not meals:
         no_number = True
-        print("no number")
         text_tokens = word_tokenize(text)
 
         # Filtering text so there will be less loop

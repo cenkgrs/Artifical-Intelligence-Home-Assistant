@@ -5,6 +5,7 @@ var clockAvailable = false
 var didClocked = false
 showTime();
 showWeather();
+get_last_emails()
 
 clockAvailable = checkClock()
 
