@@ -1,6 +1,13 @@
 import sqlite3
 import datetime
 
+from flask import jsonify
+from word2number import w2n
+
+numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+                "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+                "sixteen", "seventeen", "eighteen", "nineteen"]
+
 
 def add_meal(meal, meal_time, meal_id, meal_gram):
     date = str(datetime.date.today())
@@ -77,3 +84,64 @@ def get_meal_input(inp):
             return data
         except sqlite3.OperationalError:
             return False
+
+
+def add_meal_natural(text):
+    meals = []
+    #text = "i ate 1 banana and 2 apple at morning"
+    print(text)
+    text = text.split(" ")
+
+    for i in text:
+        if i == "morning" or  i == "afternoon" or i == "evening":
+            meal_time = i
+
+    if meal_time is None:
+        return jsonify({"status": False , "error": "expected-meal-time"})
+
+    for index, item in enumerate(text):
+        if item in numbers:
+            number = numbers.index(item)
+            meal = str(number) + " " + text[index + 1]
+            meals.append(meal)
+
+    print(meals)
+
+    if not meals:
+        print("nothing")
+
+    date = str(datetime.date.today())
+    meal_gram = 75
+
+    with sqlite3.connect("Oracle") as con:
+        cursor = con.cursor()
+        for meal in meals:
+            try:
+                quantity = (meal.split(" "))[0]
+                meal = (meal.split(" "))[1]
+                db = cursor.execute("Select * From recipes Where name = ?", (meal,))
+
+                if db is None:
+                    continue
+                data = db.fetchall()
+                print(data)
+                print(data[0])
+                meal_gram = float(meal_gram) / 100  # For using the gr value to get exact nutrition values of the foods
+
+                kcal = data[0][2] * (meal_gram * quantity)
+                carb = data[0][3] * (meal_gram * quantity)
+                prot = data[0][4] * (meal_gram * quantity)
+                fat = data[0][5] * (meal_gram * quantity)
+                print(kcal, carb, prot, fat)
+
+                cursor.execute("INSERT INTO meals (date, meal_time, meal, kcal, carb, prot, fat) "
+                               "VALUES (?, ?, ?, ?, ?, ?, ?) ", (date, meal_time, meal, kcal, carb, prot, fat))
+
+                con.commit()
+
+                continue
+            except sqlite3.OperationalError:
+                continue
+
+
+add_meal_natural("i ate one banana and two apple at morning")

@@ -204,6 +204,7 @@ function idle_listen(type){
 
 //var get_listen_input = new Promise(function(resolve, reject){
 function get_listen_input(callback) {
+    max_confidence = 0
     console.trace();
     beep()
     console.log("i'm listening")
@@ -213,15 +214,24 @@ function get_listen_input(callback) {
     streaming.interimResults = true;
 
     streaming.onresult = function(event) {
-        console.log(event)
+
         l_pos = event.results.length - 1 ;
-        document.getElementById('user-input').innerHTML = event.results[l_pos][0].transcript;
+
+        confidence = event.results[l_pos][0].confidence
+        console.log(confidence)
+        if( confidence > max_confidence ){
+            console.log("max : "+ confidence)
+            console.log(event)
+            max_confidence = confidence
+            transcript = event.results[l_pos][0].transcript;
+            document.getElementById('user-input').innerHTML = transcript
+        }
 
         //setTimeout(() => { resolve(result) }, 3000);
 
         setTimeout(() => {
             if(event.results[l_pos].isFinal){
-                result = event.results[l_pos][0].transcript;
+                result = transcript
                 streaming.stop()
                 callback(result);
             }
@@ -240,6 +250,7 @@ function get_listen_input(callback) {
 function check_command(audio, type){
     audio = audio.toString().toLowerCase();
     console.log(audio)
+    console.log(oracleType)
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
         record_command(audio, "greeting", 1)
@@ -340,6 +351,15 @@ function check_command(audio, type){
         return "stop"
     }
 
+    /* Diet page */
+
+    else if( diet_input_q.includes(audio)  && oracleType == "diet"){
+
+        setTimeout(() => {  get_meal_input() }, 3000);
+
+        return ""
+    }
+
     /* to-do page */
     else if (open_todo_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
@@ -355,9 +375,9 @@ function check_command(audio, type){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "todo", 8)
 
-        setTimeout(() => { open_todo(); tell_works() }, 2000);
+        setTimeout(() => { open_todo(); tell_works() }, 000);
 
-        return ""
+        return "stop"
     }
 
     else if (todo_input_q.includes(audio) && oracleType == "todo"){

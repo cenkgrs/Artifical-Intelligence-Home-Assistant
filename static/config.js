@@ -3,6 +3,9 @@ var days = ["Sunday", "Monday", "February", "Wednesday", "Thursday", "Friday", "
 
 
 var deca = ['zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth']
+var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+                "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+                "sixteen", "seventeen", "eighteen", "nineteen"]
 
 playlist = {
     'song_1' : '../static/audio/bgtech1.mp3',

@@ -32,8 +32,14 @@ what_a = ["What do you want to do boss ?", "What do you want to do sir ?", "Now 
 
 form_q = ["fill the forms", "can you please fill the forms", "Oracle fill the forms", "enter this"]
 
+listening_a = ["I'm listening you sir", "I'm all ears", "Tell me sir"]
+
 confirm_q = ["hit it", "send it", "do it", "go"]
 abort_q = ["stop it", "don't", "not now"]
+
+/* Diet Page */
+
+diet_input_q = ["get meal input", "get input Oracle", "get input" , "Oracle get meal input"]
 
 /* TO DO Page */
 

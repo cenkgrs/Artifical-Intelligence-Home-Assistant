@@ -211,5 +211,42 @@ function check_cal(callback) {
     });
 }
 
+function get_meal_input(){
+    setTimeout(() => {
+
+        speak(listening_a[Math.floor(Math.random() * listening_a.length)])
+
+        get_listen_input( function(result){
+        console.log(result)
+
+        speak("Should i save this sir ?")
+        $("#todo-body").val(result)
+        get_listen_input( function (result) {
+
+            if(confirm_q.includes(result)){
+                    $.ajax({
+                        url: "http://localhost:5000/add_meal_natural",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({"text": result})
+                    }).done(function(data) {
+                        if (data)
+                        {
+
+                        }
+                        else{
+
+                        }
+                    });
+
+            }else{
+                speak("If you want to save it just let me know")
+            }
+
+        })
+        });
+    }, 2000);
+}
+
 
 

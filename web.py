@@ -19,7 +19,7 @@ from py_functions.record_command import insert_command
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
-from py_functions.meals_data import add_meal, get_meals, get_meal_input
+from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
 
 app = Flask(__name__)
 CORS(app)
@@ -220,6 +220,18 @@ def getMealInput():
     else:
         return "null"
 
+
+@app.route("/add_meal_natural", methods=["POST"])
+def addMealNatural():
+    text = request.get_json()
+
+    status = add_meal_natural(text)
+
+    if status:
+        data = get_meals()
+        return jsonify(data)
+    else:
+        return False
 
 @app.after_request
 def add_headers(response):
