@@ -16,7 +16,7 @@ $('#diet-link').on('click', function() {
     open_diet()
 });
 
-$("#calendar-link").on('click', function() {
+$("#calendar-link, #cal-link").on('click', function() {
     open_calendar()
 });
 
@@ -42,9 +42,9 @@ const open_todo = function(){
     sections.not( $("#todo-section") ).css({"display": "none"})
     $("#todo-section").fadeIn()
 
-    speak("This is the works you should do in little time sir")
     get_todo()
-    idle_listen()
+    tell_works()
+    //idle_listen()
 }
 const open_diet = function(){
     oracleType = "diet"

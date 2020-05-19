@@ -1,6 +1,9 @@
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var days = ["Sunday", "Monday", "February", "Wednesday", "Thursday", "Friday", "Saturday"]
 
+
+var deca = ['zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth']
+
 playlist = {
     'song_1' : '../static/audio/bgtech1.mp3',
     'song_2' : '../static/audio/bgtech2.mp3',

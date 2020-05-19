@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    var daily_kcal = ""
+
     $(".calorie-button").on("click", function() {
         console.log($("#age-input").val())
         post_data = {
@@ -164,7 +166,7 @@ function fill_meal_panel(data){
 
     nutrition_values = data[0]["nutrition"]
 
-    $("#nutrition-kcal").html(nutrition_values["kcal"].toFixed(2) + " / " + $("#daily_kcal").html())
+    $("#nutrition-kcal").html(nutrition_values["kcal"].toFixed(2) + " / " + daily_kcal)
     $("#nutrition-carb").html(nutrition_values["carb"].toFixed(2) + " / " + 175)
     $("#nutrition-prot").html(nutrition_values["prot"].toFixed(2) + " / " + 75)
     $("#nutrition-fat").html(nutrition_values["fat"].toFixed(2) + " / " + 35)
@@ -172,7 +174,7 @@ function fill_meal_panel(data){
     // 100% nutrition need is 313 px
 
     // Ex :  129,50(current calorie) / 2787 (target calorie) = 0.046.. * 313(full px of nutrition bar) = 14.54.. px (current height of nutrition bar)
-    kcal_ratio = ((nutrition_values["kcal"] / $("#daily_kcal").html()) * 313)
+    kcal_ratio = ((nutrition_values["kcal"] / daily_kcal) * 313)
     $("#nutritional-kcal-bar").css({"height": kcal_ratio})
 
     prot_ratio = ((nutrition_values["prot"] / 75) * 313)
@@ -195,7 +197,8 @@ function check_cal(callback) {
         if (data)
         {
             if(data["kcal"] != ""){
-                $("#daily_kcal").html(data["kcal"])
+                daily_kcal = data["kcal"]
+                $("#daily_kcal").html(daily_kcal + " Kcal")
                 callback(true);
             }else{
                 callback(false)

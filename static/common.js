@@ -344,10 +344,46 @@ function check_command(audio, type){
     else if (todo_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "todo", 8)
+        speak("This is the works you should do in little time sir")
+
+        open_todo()
+    }
+
+    else if (todo_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "todo", 8)
 
         setTimeout(() => { open_todo() }, 2000);
 
         return ""
+    }
+
+    else if (todo_input_q.includes(audio) && oracleType == "todo"){
+        //open_todo()
+
+       setTimeout(() => {
+
+        speak("I'm listening you sir")
+
+            get_listen_input( function(result){
+                console.log(result)
+
+                speak("Should i save this sir ?")
+                $("#todo-body").val(result)
+                get_listen_input( function (result) {
+                    console.log(result)
+
+                    if(confirm_q.includes(result)){
+                        add_todo_item()
+                    }else{
+                        speak("If you want to save it just let me know")
+                    }
+
+                })
+            });
+        }, 2000);
+
+        return "stop"
     }
     else if (add_q.includes(audio) && oracleType == "todo"){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
