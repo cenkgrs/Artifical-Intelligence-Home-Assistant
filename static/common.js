@@ -280,7 +280,7 @@ function check_command(audio, type){
     /* Day Messages */
 
     else if (night_q.includes(audio)) {
-        record_bedtime()
+        setTimeout(() => { record_bedtime() }, 2000);
 
         return "stop"
     }
@@ -341,19 +341,21 @@ function check_command(audio, type){
     }
 
     /* to-do page */
-    else if (todo_q.includes(audio)){
+    else if (open_todo_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "todo", 8)
         speak("This is the works you should do in little time sir")
 
         open_todo()
+
+        return ""
     }
 
     else if (todo_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "todo", 8)
 
-        setTimeout(() => { open_todo() }, 2000);
+        setTimeout(() => { open_todo(); tell_works() }, 2000);
 
         return ""
     }

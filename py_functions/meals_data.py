@@ -39,13 +39,13 @@ def get_meals():
         cursor = con.cursor()
 
         try:
-            db = cursor.execute("Select meal From meals Where meal_time = ?", ("morning",))
+            db = cursor.execute("Select meal From meals Where meal_time = ? and date = ?", ("morning", date,))
             data[0]["morning"] = db.fetchall()
 
-            db = cursor.execute("Select meal From meals Where meal_time = ?", ("afternoon",))
+            db = cursor.execute("Select meal From meals Where meal_time = ? and date = ?", ("afternoon", date,))
             data[0]["afternoon"] = db.fetchall()
 
-            db = cursor.execute("Select meal From meals Where meal_time = ?", ("evening",))
+            db = cursor.execute("Select meal From meals Where meal_time = ? and date = ?", ("evening", date,))
             data[0]["evening"] = db.fetchall()
 
             db = cursor.execute("Select sum(kcal) as kcal, sum(carb) as carb, sum(prot) as prot, sum(fat) as fat"

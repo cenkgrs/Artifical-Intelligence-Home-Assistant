@@ -49,8 +49,9 @@ $(document).ready(function(){
                 data: JSON.stringify({"inp": inp,})
             }).done(function(data) {
                 console.log(data)
-                if (data)
+                if (data && data != null)
                 {
+                    console.log(data)
                     $("#meal-input-items-"+ type).empty()
                     $("#meal-input-items-"+ type).fadeIn()
                     data.forEach(function(entry, i) {

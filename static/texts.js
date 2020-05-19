@@ -37,9 +37,9 @@ abort_q = ["stop it", "don't", "not now"]
 
 /* TO DO Page */
 
-open_todo_q = ["open the to do list", "show me today's work", "Oracle open to-do page", "Oracle open to do page" , "Oracle open today's work"]
+open_todo_q = ["open the to do list", "Oracle open to-do page", "Oracle open to do page" , "Oracle open today's work"]
 
-todo_q = ["Oracle tell me the things that has to be done for today", "open the to do list", "Oracle what is on today's to do list", "show me today's work"]
+todo_q = ["Oracle tell me the things that has to be done for today", "open the to do list", "Oracle what is on today's to do list", "show me today's work", "tell me today's work"]
 todo_q.push("show me things to be done for today", "show me what i have to do today")
 
 todo_input_q = ["Oracle get input", "get input", "get this input", "Oracle get this input"]

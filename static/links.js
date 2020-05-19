@@ -43,7 +43,6 @@ const open_todo = function(){
     $("#todo-section").fadeIn()
 
     get_todo()
-    tell_works()
     //idle_listen()
 }
 const open_diet = function(){

@@ -111,3 +111,8 @@ hello - greeting - 1
 hello - greeting - 1
 thank you oracle - thank - 3
 thanks - thank - 3
+show me today's work - todo - 8
+show me today's work - todo - 8
+tell me today's work - todo - 8
+thank you - thank - 3
+thanks - thank - 3

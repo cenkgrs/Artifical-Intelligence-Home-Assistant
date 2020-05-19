@@ -29,7 +29,8 @@ def update_bedtime(waketime):
             last_data = cursor.execute("SELECT * FROM sleep_records WHERE id = (SELECT MAX(id) FROM sleep_records)")
             last_data = last_data.fetchone()
 
-            if last_data[2] is not "":
+            if last_data[2] is not None:
+                print(last_data[2])
                 return True, "updated"
 
             bedtime = last_data[1]
