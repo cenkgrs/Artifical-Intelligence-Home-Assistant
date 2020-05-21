@@ -31,8 +31,6 @@ const open_mails = function(){
     oracleType = "mails"
     sections.not( $("#mails-section") ).css({"display": "none"})
 
-    //get_last_emails()
-
     $("#mails-section").fadeIn()
     //speak("Who we are sending this mail ?")
 

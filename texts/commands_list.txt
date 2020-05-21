@@ -1,0 +1,100 @@
+thank you Oracle,thank
+hello,greeting
+hello,greeting
+thank you,greeting
+hello,greeting
+hello,greeting
+who are you,who
+play music,music-start
+play music,music-start
+play music,music-start
+change music,music-change
+stop music,music-stop
+play music,music-start
+stop music,music-stop
+music,music-start
+music,music-start
+play music,music-start
+play music,music-start
+music,music-start
+stop music,music-stop
+music,music-start
+play music,music-start
+stop music,music-stop
+play music,music-start
+play music,music-start
+stop music,music-stop
+play music,music-start
+play music,music-start
+stop music,music-stop
+play music,music-start
+play music,music-start
+stop music,music-stop
+play music,music-start
+change music,music-change
+play music,music-start
+change music,music-change
+play music,music-start
+change music,music-change
+stop music,music-stop
+change music,music-change
+google play music,music-start
+change music,music-change
+hello,greeting
+thank you,thank
+play music,music-start
+change music,music-change
+play music,music-start
+change music,music-change
+change music,music-change
+stop music,music-stop
+play music,music-start
+play music,music-start
+change music,music-change
+play music,music-start
+change music,music-change
+oracle play music,music-start
+change music,music-change
+play music,music-start
+change music,music-change
+play music,music-start
+change music,music-change
+oracle change music,music-change
+thank you,thank
+thank you,thank
+play music,music-start
+change music,music-change
+change music,music-change
+change music,music-change
+play music,music-start
+change music,music-change
+change music,music-change
+google play music play toaster,music-start
+play music,music-start
+thank you,thank
+hello,greeting
+hello,greeting
+hello,greeting
+hello,greeting
+thank you,thank
+show me today's work,to do
+show me today's work,to do
+show me today's work,to do
+show me today's work,to do
+show me today's work,to do
+show me today's work,to do
+show me today's work,to do
+hi,greeting
+thank you,thank
+hello,greeting
+hello,greeting
+thank you oracle,thank
+thanks,thank
+show me today's work,to do
+show me today's work,to do
+tell me today's work,to do
+thank you,thank
+thanks,thank
+thank you,thank
+hello,greeting
+thank you Oracle,thank

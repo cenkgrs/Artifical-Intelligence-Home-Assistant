@@ -165,15 +165,23 @@ function fill_meal_panel(data){
         $(".afternoon-meals").append(item)
     })
 
+    // Get nutrition values from json
     nutrition_values = data[0]["nutrition"]
 
-    $("#nutrition-kcal").html(nutrition_values["kcal"].toFixed(2) + " / " + daily_kcal)
-    $("#nutrition-carb").html(nutrition_values["carb"].toFixed(2) + " / " + 175)
-    $("#nutrition-prot").html(nutrition_values["prot"].toFixed(2) + " / " + 75)
-    $("#nutrition-fat").html(nutrition_values["fat"].toFixed(2) + " / " + 35)
+    kcal = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
+    carb = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
+    prot = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
+    fat = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
+
+
+    $("#nutrition-kcal").html(kcal + " / " + daily_kcal + " kcal")
+    $("#nutrition-carb").html(carb + " / " + 175 + " g")
+    $("#nutrition-prot").html(prot + " / " + 75 + " g")
+    $("#nutrition-fat").html(fat + " / " + 35 + " g")
 
     // 100% nutrition need is 313 px
 
+    // Calculate the height of the nutrition bars
     // Ex :  129,50(current calorie) / 2787 (target calorie) = 0.046.. * 313(full px of nutrition bar) = 14.54.. px (current height of nutrition bar)
     kcal_ratio = ((nutrition_values["kcal"] / daily_kcal) * 313)
     $("#nutritional-kcal-bar").css({"height": kcal_ratio})

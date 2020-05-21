@@ -2,17 +2,15 @@ import sqlite3
 import datetime
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from flask import jsonify
-from word2number import w2n
-from scrap_meal_list import get_vegetable_data, get_fruit_data
 import pickle
 
 numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
-                "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-                "sixteen", "seventeen", "eighteen", "nineteen"]
+           "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+           "sixteen", "seventeen", "eighteen", "nineteen"]
 
 stop_words = set(stopwords.words('english'))
 
+# I'm getting the fruits and vegetables data from the pickle file that i fill with web scrapping
 with open("fruits.txt", "rb") as fp:  # Unpickling
     fruits = pickle.load(fp)
 
@@ -48,10 +46,12 @@ def add_meal(meal, meal_time, meal_id, meal_gram):
             return False
 
 
+# This is for getting meal records and total nutrition values of today
 def get_meals():
     date = str(datetime.date.today())
 
-    data = [{"morning": '', "afternoon": '', 'evening': '', "nutrition": {"kcal": '', "carb": '', "prot": '', "fat": ''}}]
+    data = [
+        {"morning": '', "afternoon": '', 'evening': '', "nutrition": {"kcal": '', "carb": '', "prot": '', "fat": ''}}]
     date = str(datetime.date.today())
 
     with sqlite3.connect("Oracle") as con:
@@ -77,13 +77,14 @@ def get_meals():
             data[0]["nutrition"]["kcal"] = nutritions[0][0]
             data[0]["nutrition"]["carb"] = nutritions[0][1]
             data[0]["nutrition"]["prot"] = nutritions[0][2]
-            data[0]["nutrition"]["fat"]  = nutritions[0][3]
+            data[0]["nutrition"]["fat"] = nutritions[0][3]
 
             return data
         except sqlite3.OperationalError:
             return False
 
 
+# This functions get the meal records like user typed and returns similar records
 def get_meal_input(inp):
     with sqlite3.connect("Oracle") as con:
         try:
@@ -100,6 +101,7 @@ def get_meal_input(inp):
             return False
 
 
+# This function is for getting meal record with speech recognition
 def add_meal_natural(text):
     no_number = False
     meals = []

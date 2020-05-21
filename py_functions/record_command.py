@@ -24,3 +24,24 @@ def write_command(text, command, command_type):
         commands.write(text + " - " + command + " - " + str(command_type) + "\n")
 
         return True
+
+
+def get_command_to_txt():
+    with sqlite3.connect("Oracle") as con:
+        cursor = con.cursor()
+        print("got here")
+        db = cursor.execute("SELECT text, command FROM commands")
+
+        data = db.fetchall()
+
+        for x in data:
+            if x[1] == "todo":
+                write_command(x[0], "to do")
+                continue
+
+            write_command(x[0], x[1])
+
+        return True
+
+
+

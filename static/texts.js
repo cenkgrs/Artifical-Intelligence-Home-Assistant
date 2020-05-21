@@ -54,7 +54,11 @@ add_q = ["add this", "add it", "insert this", "add"]
 
 /* Email Page */
 
-send_q = ["send it", "send the email", "send the email Oracle"]
+open_emails_q = ["open emails page", "open my emails", "show me the emails", "show me the emails Oracle"]
+
+send_email_q = ["send it", "send the email", "send the email Oracle"]
+
+email_input_q = ["let's send and email Oracle", "send an email Oracle", "send an email oracle"]
 
 finish_a = ["It's done boss", "It completed successfully boss", "Boss it finished", "It completed successfully sir"]
 

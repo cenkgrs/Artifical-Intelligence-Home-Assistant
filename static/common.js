@@ -248,7 +248,7 @@ function get_listen_input(callback) {
 }
 
 function check_command(audio, type){
-    audio = audio.toString().toLowerCase();
+    //audio = audio.toString().toLowerCase();
     console.log(audio)
     console.log(oracleType)
     if(greetings_q.includes(audio)){
@@ -335,20 +335,32 @@ function check_command(audio, type){
 
     /* Mails Page */
 
-    else if ( audio.includes("open mails") || audio.includes("open emails") ){ // Open mails page
+    else if ( audio.includes("open mails") || audio.includes("open emails") || open_emails_q.includes(audio) ){ // Open mails page
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         setTimeout(() => {  open_mails() }, 4000);
 
+        return ""
+    }
+    else if ( email_input_q.includes(audio) ){
+
+        open_mails()
+        setTimeout(() => {  get_email_info() }, 2000);
+
+
         return "stop"
     }
-    else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ){
-
-        get_email_info()
-    }
-    else if (send_q.includes(audio) && (type == "mails" || oracleType == "mails")){
+    else if (send_email_q.includes(audio) && (type == "mails" || oracleType == "mails")){
         send_email()
 
         return "stop"
+    }
+
+    /* Alarms Page */
+
+    else if ( audio.includes("alarm") || audio.includes("alarms")){
+        alarm(audio)
+
+        return ""
     }
 
     /* Diet page */
@@ -622,5 +634,12 @@ $(document).ready(function(){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         $(".my_audio").trigger('pause');
         $(".audio-stop").fadeToggle();
+        $(".my_audio").prop("currentTime",0);
     });
+
+    var x = setInterval(function() {
+
+        check_alarm()
+
+    }, 300000)
 });

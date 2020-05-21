@@ -19,6 +19,9 @@ playlist = {
 intro = {
     'intro_1' : "../static/audio/intro1.mp3"
 }
+alarm = {
+    'alarm' : "../static/audio/alarm.mp3"
+}
 
 commands = {
     1 : "greeting",

@@ -11,16 +11,19 @@ import requests
 from flask_cors import CORS
 import pytemperature
 import webbrowser
+from pygame import mixer
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 from todo import add_todo_item, get_todo
 from currency import get_currency
 from mail_sender import send_mail
 from py_functions.gmail import get_mails
-from py_functions.record_command import insert_command
+from py_functions.record_command import insert_command, get_command_to_txt
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
 from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
+from py_functions.alarms import alarm, check_alarm
 
 app = Flask(__name__)
 CORS(app)
@@ -241,6 +244,30 @@ def addMealNatural():
         return jsonify(data)
     else:
         return jsonify({"status": status, "error": error})
+
+
+# Alarm requests
+@app.route("/alarm", methods=["POST"])
+def prepare_alarm():
+    text = request.get_json()
+
+    status, error = alarm(text)
+
+    if status:
+        return jsonify(status)
+    else:
+        return jsonify({"status": status, "error": error})
+
+
+@app.route("/check_alarm", methods=["GET"])
+def checkAlarm():
+    status = check_alarm()
+    print(status)
+    if status:
+        return jsonify({"status": "alarm"})
+
+    return jsonify({"status": "no alarm"})
+
 
 @app.after_request
 def add_headers(response):

@@ -1,4 +1,4 @@
-//play_intro_music()
+//setTimeout(() => { play_intro_music() }, 2000);
 
 var oracleType = "index" // oracleType is a global variable that oracle using to understand where he commands come from
 var clockAvailable = false

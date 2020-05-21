@@ -27,7 +27,7 @@ function get_email_info(){ //
                 get_listen_input(function ( result ) {
                     console.log(result)
 
-                    if(confirm_q.includes(result)) {
+                    if(send_email_q.includes(result)) {
                         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
                         send_email()
                     }else if(abort_q.includes(result)){
