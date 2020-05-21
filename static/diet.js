@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     var daily_kcal = ""
 
+    // This will work when calorie button clicked -> will take the infos and calculates daily calorie needs
     $(".calorie-button").on("click", function() {
         console.log($("#age-input").val())
         post_data = {
@@ -37,6 +38,7 @@ $(document).ready(function(){
 
     })
 
+    // This will work when user starts to type a meal name into input -> will bring similar meal names
     $(".meal-add-input").keyup(function( event ) {
         type = $(this).data("type")
         inp = $(this).val()
@@ -49,7 +51,7 @@ $(document).ready(function(){
                 data: JSON.stringify({"inp": inp,})
             }).done(function(data) {
                 console.log(data)
-                if (data && data != null)
+                if (data && data["status"] != false)
                 {
                     console.log(data)
                     $("#meal-input-items-"+ type).empty()
@@ -73,6 +75,7 @@ $(document).ready(function(){
         }
     })
 
+    // This will work when user click to one of the similar meals and fill the input with it
     $(document).on("click", ".meal-input-item", function() {
         id = $(this).attr("id")
         id = id.replace("meal-input-item-", "")
@@ -88,7 +91,7 @@ $(document).ready(function(){
         $("#meal-input-items-"+ type).fadeOut()
     })
 
-
+    // This will add a meal to list
     $(document).on("click", ".meal-add-button", function() {
         type = $(this).data("type")
 
@@ -102,7 +105,7 @@ $(document).ready(function(){
             contentType: "application/json",
             data: JSON.stringify({"meal": meal, "meal-id": meal_id, "meal-gram": meal_gram, "type": type})
          }).done(function(data) {
-            if (data)
+            if (data && data["status"] != false)
             {
                 fill_meal_panel(data)
             }
@@ -114,6 +117,7 @@ $(document).ready(function(){
 
 })
 
+// This is for getting meal and nutrition values from database
 function get_meals(){
     $.ajax({
             url: "http://localhost:5000/get_meals",
@@ -130,6 +134,7 @@ function get_meals(){
         });
 }
 
+// This function is filling panels with eaten meals and nutrition values
 function fill_meal_panel(data){
     $(".morning-meals").empty();
     $(".evening-meals").empty();

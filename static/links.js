@@ -68,7 +68,14 @@ const open_diet = function(){
     get_meals()
     idle_listen()
 }
+const open_book = function(){
+    oracleType = "book"
 
+    sections.not( $("#book-section") ).css({"display": "none"})
+    $("#book-section").fadeIn()
+    get_book_input()
+
+}
 const open_calendar = function(){
     oracleType = "calendar"
     sections.not( $("#calendar-section") ).css({"display": "none"})

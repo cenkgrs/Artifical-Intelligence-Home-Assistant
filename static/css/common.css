@@ -26,3 +26,16 @@
 
 /* Color */
 .color-white{color: white !important}
+
+input[type="button"]{
+   outline:none;
+}
+input[type="button"]::-moz-focus-inner {
+   border: 0;
+}
+button{
+   outline:none !important;
+}
+button {
+   border: 0;
+}

@@ -26,8 +26,10 @@ def add_meal(meal, meal_time, meal_id, meal_gram):
         try:
             db = cursor.execute("Select * From recipes Where id = ?", (meal_id,))
             data = db.fetchall()
-            print(data)
-            print(data[0])
+
+            if not data:
+                return False
+
             meal_gram = float(meal_gram) / 100  # For using the gr value to get exact nutrition values of the foods
 
             kcal = data[0][2] * meal_gram

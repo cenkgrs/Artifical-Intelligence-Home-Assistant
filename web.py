@@ -1,6 +1,5 @@
 import os
 import signal
-import sys
 
 from flask import Flask, render_template, request, jsonify
 from selenium import webdriver
@@ -11,8 +10,6 @@ import requests
 from flask_cors import CORS
 import pytemperature
 import webbrowser
-from pygame import mixer
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 from todo import add_todo_item, get_todo
 from currency import get_currency
@@ -24,6 +21,7 @@ from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
 from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
 from py_functions.alarms import alarm, check_alarm
+from book_recommendation import get_book_matches, get_book_recommendations
 
 app = Flask(__name__)
 CORS(app)
@@ -31,10 +29,10 @@ CORS(app)
 
 # Runs when Oracle speaks
 def speak(text):
-        engine = pyttsx3.init()
-        engine.setProperty('voice', 'english+f3')
-        engine.say(text)
-        engine.runAndWait()
+    engine = pyttsx3.init()
+    engine.setProperty('voice', 'english+f3')
+    engine.say(text)
+    engine.runAndWait()
 
 
 # Links
@@ -58,6 +56,7 @@ def mails():
 def todo():
     return render_template("todo.html")
 
+
 # Classic data requests
 
 @app.route("/weather", methods=["POST"])
@@ -68,11 +67,12 @@ def get_weather():
     formatted_data = []
     json_data = requests.get(url).json()
     status = json_data['weather'][0]['main']  # Rain, thunderstorm etc.
-    temp = int(pytemperature.k2c(json_data["main"]["temp"])) # Changing kelvin to celcius
+    temp = int(pytemperature.k2c(json_data["main"]["temp"]))  # Changing kelvin to celcius
 
     formatted_data = [{"Status": status, "Temp": temp}]
     print(formatted_data)
     return jsonify(formatted_data)
+
 
 @app.route("/get_currency", methods=["POST"])
 def getCurrency():
@@ -82,6 +82,7 @@ def getCurrency():
     data = get_currency()
     print(data)
     return jsonify(data)
+
 
 # Email requests
 
@@ -100,10 +101,10 @@ def send_email():
 
 @app.route("/get_emails", methods=["GET"])
 def getEmails():
-
     data = get_mails()
     print(data)
     return jsonify(data)
+
 
 # To do page requests
 
@@ -139,6 +140,7 @@ def rec_command():
 
     return "Success"
 
+
 # Price prediction systems requests
 
 
@@ -147,12 +149,40 @@ def car_predict():
     response = request.get_json()
     print(response)
 
-    predicted_data, error_line = predict(response["brand"], response["year"], response["mileage"], response["transmission"])
+    predicted_data, error_line = predict(response["brand"], response["year"], response["mileage"],
+                                         response["transmission"])
 
     if not predicted_data:
         return jsonify({"success": False, "error_line": error_line})
 
     return jsonify({"success": True, "price": predicted_data[0]})
+
+
+# Book Recommendation System
+@app.route("/get_book_input", methods=["POST"])
+def getBookInput():
+    input = request.get_json()
+    print(input)
+
+    data = get_book_matches(input["inp"])
+    print(data)
+
+    if data:
+        return jsonify(data)
+    else:
+        return jsonify({"status": False})
+
+
+@app.route("/get_book_recommendation", methods=["POST"])
+def getBookRecommendation():
+    input = request.get_json()
+    print(input)
+
+    data = get_book_recommendations(input["book_name"])
+    if data:
+        return jsonify(data)
+    else:
+        return jsonify({"status": False})
 
 
 # Sleep recommendation system requests
@@ -211,7 +241,7 @@ def addMeal():
         data = get_meals()
         return jsonify(data)
     else:
-        return False
+        return jsonify({"status": False})
 
 
 @app.route("/get_meals", methods=["GET"])
@@ -230,7 +260,7 @@ def getMealInput():
     if data:
         return jsonify(data)
     else:
-        return "null"
+        return jsonify({"status": False})
 
 
 @app.route("/add_meal_natural", methods=["POST"])
@@ -301,7 +331,7 @@ def start_interface():
     p1 = multiprocessing.Process(target=start)
     p1.start()
     p2 = multiprocessing.Process(target=open_gui)
-    #p2.start()
+    # p2.start()
 
 
 start_interface()
