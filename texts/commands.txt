@@ -233,3 +233,9 @@ play music - music-start - 4
 play music - music-start - 4
 play music - music-start - 4
 play music - music-start - 4
+hello - greeting - 1
+thank you - thank - 3
+hello - greeting - 1
+thank you - thank - 3
+thanks - thank - 3
+show me today's work - todo - 8

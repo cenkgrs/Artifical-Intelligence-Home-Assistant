@@ -51,6 +51,7 @@ function showWeather(){
         contentType: "application/json",
         data: JSON.stringify({"message": message})
     }).done(function(data) {
+        console.log(data)
         weather_status = data[0]["Status"]
         weather_temp = data[0]["Temp"]
         $("#temp").html(weather_temp + "º")
@@ -83,7 +84,7 @@ function getCurrency(){
     });
 }
 
-function quit(){
+function quit(audio){
     speak(quit_a[Math.floor(Math.random() * finish_a.length)])
     record_command(audio, "quit", 7)
 
@@ -330,7 +331,9 @@ function check_command(audio, type){
     }
     else if (quit_q.includes(audio)){
 
-        quit()
+        quit(audio)
+
+        return ""
     }
 
     /* Mails Page */
@@ -445,6 +448,7 @@ function check_command(audio, type){
         return "stop"
     }
 
+    // Timer
     else if (audio.includes("timer")){
         var bmpDigits = /[0-9\u0660-\u0669\u06F0-\u06F9\u07C0-\u07C9\u0966-\u096F\u09E6-\u09EF\u0A66-\u0AE6\u0AE6-\u0AEF\u0B66-\u0B6F\u0BE6-\u0BEF\u0C66-\u0C6F\u0CE6-\u0CEF\u0D66-\u0D6F\u0DE6-\u0DEF\u0E50-\u0E59\u0ED0-\u0ED9\u0F20-\u0F29\u1040-\u1049\u1090-\u1099\u17E0-\u17E9\u1810-\u1819\u1946-\u194F\u19D0-\u19D9\u1A80-\u1A89\u1A90-\u1A99\u1B50-\u1B59\u1BB0-\u1BB9\u1C40-\u1C49\u1C50-\u1C59\uA620-\uA629\uA8D0-\uA8D9\uA900-\uA909\uA9D0-\uA9D9\uA9F0-\uA9F9\uAA50-\uAA59\uABF0-\uABF9\uFF10-\uFF19]/;
         var hasNumber = RegExp.prototype.test.bind(bmpDigits);
@@ -452,9 +456,11 @@ function check_command(audio, type){
         has = hasNumber(audio)
         if(has) {
             var date = new Date();
+            // Get numbers from the audio
             number = audio.match(/\d+/)[0] // "3"
             speak("Timer is started sir")
 
+            // Set date that contains expiration date (likse 10 minutes later)
             if( audio.includes("minute") || audio.includes("minute")){
                 date.setMinutes( date.getMinutes() + parseInt(number) );
                 console.log(date)
@@ -471,7 +477,9 @@ function check_command(audio, type){
             }
             localStorage.setItem("stored-timer",date);
             sessionStorage.setItem("timer", date);
+            // Set timer for initilized date
             setTimer(date)
+
             return ""
         }
     }
@@ -539,6 +547,7 @@ function record_command(text, command, type)
     });
 }
 
+// This function starts the car/house prediction function ->opens modal
 function predictions () {
 
     get_listen_input( function(result){
@@ -572,6 +581,7 @@ function trial(){
     });
 }
 
+// This functions sets an interval for a given time and updates timer every second
 function setTimer(countDownDate){
     //var countDownDate = sessionStorage.getItem("timer");
     $(".timer").fadeIn();
@@ -592,11 +602,12 @@ function setTimer(countDownDate){
 
         // Display the result in the element with id="demo"
 
+        // If given timer in hours unit
         if (hours >= 1 ){
             (hours < 10) ? $("#timer-1").html("0" + hours) : $("#timer-1").html(hours);
             (minutes < 10) ? $("#timer-2").html("0" + minutes) : $("#timer-2").html(minutes);
-
         }
+        // If given timer in minutes/seconds unit
         else{
             (minutes < 10) ? $("#timer-1").html("0" + minutes) : $("#timer-1").html(minutes);
             (seconds < 10) ? $("#timer-2").html("0" + seconds) : $("#timer-2").html(seconds);
@@ -615,6 +626,7 @@ function setTimer(countDownDate){
     }, 1000);
 }
 
+// This function check if we are in a special time of the day ( morning, evening etc.)
 function checkClock(){
     var date = new Date();
     h = date.getHours(); // 0 - 23
@@ -648,6 +660,7 @@ $(document).ready(function(){
         $(".my_audio").prop("currentTime",0);
     });
 
+    // This sets a interval and checks whether the alarm clock has been reached or not every 5 minutes
     var x = setInterval(function() {
 
         check_alarm()

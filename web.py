@@ -10,6 +10,7 @@ import requests
 from flask_cors import CORS
 import pytemperature
 import webbrowser
+from datetime import datetime, timedelta
 
 from todo import add_todo_item, get_todo
 from currency import get_currency
@@ -68,8 +69,24 @@ def get_weather():
     json_data = requests.get(url).json()
     status = json_data['weather'][0]['main']  # Rain, thunderstorm etc.
     temp = int(pytemperature.k2c(json_data["main"]["temp"]))  # Changing kelvin to celcius
+    temp_min = int(pytemperature.k2c(json_data["main"]["temp_min"]))
+    temp_max = int(pytemperature.k2c(json_data["main"]["temp_max"]))
+    pressure = json_data["main"]["pressure"]
+    humidity = json_data["main"]["humidity"]
 
-    formatted_data = [{"Status": status, "Temp": temp}]
+    wind = json_data["wind"]["speed"]
+
+    sunrise = json_data["sys"]["sunrise"]
+    sunrise = datetime.utcfromtimestamp(sunrise) + timedelta(hours=3)  # Converting unix time to timestamp
+    sunrise = sunrise.strftime('%H:%M:%S')
+
+    sunset = json_data["sys"]["sunset"]
+    sunset = datetime.utcfromtimestamp(sunset) + timedelta(hours=3)  # Converting unix time to timestamp
+    sunset = sunset.strftime('%H:%M:%S')
+
+    formatted_data = [{"Status": status, "Temp": temp, "temp_min": temp_min, "temp_max": temp_max,
+                       "pressure": pressure, "humidity": humidity, "wind": wind, "temp_max": temp_max,
+                       "sunrise": sunrise, "sunset": sunset}]
     print(formatted_data)
     return jsonify(formatted_data)
 
@@ -82,7 +99,6 @@ def getCurrency():
     data = get_currency()
     print(data)
     return jsonify(data)
-
 
 # Email requests
 

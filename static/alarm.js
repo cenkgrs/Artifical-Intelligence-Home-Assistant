@@ -6,13 +6,13 @@ function alarm(text){
         data: JSON.stringify({"text": text})
     }).done(function(data) {
         console.log(data)
-        if (data)
+        if (data && data["status"] != false)
         {
             speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-
+            idle_listen()
         }
         else{
-            //speak("There is an "+ data["error"] + "sir")
+            speak("There is an "+ data["error"] + "sir")
         }
     });
 }

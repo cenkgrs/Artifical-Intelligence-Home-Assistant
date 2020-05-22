@@ -37,7 +37,7 @@ function record_bedtime(){
             if (data)
             {
                 speak(night_a[Math.floor(Math.random() * night_a.length)])
-                quit()
+                quit("good night")
             }
             else{
 

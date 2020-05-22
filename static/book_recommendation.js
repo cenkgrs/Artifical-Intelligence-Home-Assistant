@@ -67,6 +67,8 @@ $(document).ready(function(){
                     item.className = "recommended-book-item";
                     item.innerHTML = name;
                     $("#book-recommendations").append(item)
+
+                    idle_listen()
                 })
             }else{
                 speak("I can't give you similar book to this one sir")
