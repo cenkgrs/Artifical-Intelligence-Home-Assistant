@@ -121,3 +121,21 @@ body {
 }
 
 /* WEATHER PREDICTON SYSTEM */
+
+.weather-prediction-modal{
+    z-index: 9000;
+    background-color: rgba(58, 99, 123, 0.25);
+    width: 80%;
+    border-radius: 75px;
+    margin: auto;
+    box-shadow: 0px 0px 15px 0px #507795;
+    text-align:center;
+    padding:30px;
+
+}
+
+.weather-condition{ font-size: 5rem !important; color:#192c37}
+
+.weather-temps{ font-size: 3rem; font-weight: bold; color: #ffffff;}
+
+.weather-properties{font-size: 2rem; font-weight: bold; color: #c2c2c2}

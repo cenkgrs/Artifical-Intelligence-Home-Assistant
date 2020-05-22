@@ -88,14 +88,12 @@ def get_weather():
     formatted_data = [{"Status": status, "Temp": temp, "temp_min": temp_min, "temp_max": temp_max,
                        "pressure": pressure, "humidity": humidity, "wind": wind, "temp_max": temp_max,
                        "sunrise": sunrise, "sunset": sunset}]
-    print(formatted_data)
     return jsonify(formatted_data)
 
 
 @app.route("/get_currency", methods=["POST"])
 def getCurrency():
     response = request.get_json()
-    print(response)
 
     data = get_currency()
     print(data)
@@ -107,9 +105,8 @@ def getCurrency():
 @app.route("/email_send", methods=["POST"])
 def send_email():
     response = request.get_json()
-    print(response)
     status = send_mail(response["subject"], response["message"], response["to"])
-    print(status)
+
     if not status:
         return jsonify({"success": False})
 
@@ -119,7 +116,7 @@ def send_email():
 @app.route("/get_emails", methods=["GET"])
 def getEmails():
     data = get_mails()
-    print(data)
+
     return jsonify(data)
 
 
@@ -179,10 +176,8 @@ def car_predict():
 @app.route("/get_book_input", methods=["POST"])
 def getBookInput():
     input = request.get_json()
-    print(input)
 
     data = get_book_matches(input["inp"])
-    print(data)
 
     if data:
         return jsonify(data)
@@ -193,7 +188,6 @@ def getBookInput():
 @app.route("/get_book_recommendation", methods=["POST"])
 def getBookRecommendation():
     input = request.get_json()
-    print(input)
 
     data = get_book_recommendations(input["book_name"])
     if data:
@@ -321,7 +315,6 @@ def prepare_alarm():
 @app.route("/check_alarm", methods=["GET"])
 def checkAlarm():
     status = check_alarm()
-    print(status)
     if status:
         return jsonify({"status": "alarm"})
 

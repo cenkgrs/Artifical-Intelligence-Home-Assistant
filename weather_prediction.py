@@ -14,6 +14,7 @@ def get_condition_value(index):
     data = pd.read_csv("csv/Istanbul Weather Data.csv", sep=",")
 
     conditions = sorted(set(sorted(list(data["Condition"]))))
+    print(conditions)
     return conditions[index[0]]
 
 
