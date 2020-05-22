@@ -288,7 +288,7 @@ function check_command(audio, type){
 
         return ""
     }
-
+    +
     /* Day Messages */
 
     else if (night_q.includes(audio)) {
@@ -437,6 +437,11 @@ function check_command(audio, type){
         return "predict"
     }
 
+    else if (weather_predict_q.includes(audio)){
+
+
+
+    }
     /* Book Recommendation */
 
     else if (audio.includes("book")){
