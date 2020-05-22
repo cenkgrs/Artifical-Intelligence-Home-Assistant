@@ -23,6 +23,7 @@ from py_functions.calculate_cal import result, check_cal
 from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
 from py_functions.alarms import alarm, check_alarm
 from book_recommendation import get_book_matches, get_book_recommendations
+from weather_prediction import get_predictions
 
 app = Flask(__name__)
 CORS(app)
@@ -224,6 +225,18 @@ def update_sleep():
     if status:
         return jsonify({"success": True, "sleep": sleep})
 
+# Weather predict system requests
+
+@app.route("/get_weather_prediction", methods=["POST"])
+def getWeatherPrediction():
+    input = request.get_json()
+
+    weather_predictions = get_predictions(input["weather_data"])
+    print(weather_predictions)
+
+    if weather_predictions:
+        return jsonify({"data": weather_predictions})
+
 
 # Diet requests
 
@@ -263,7 +276,7 @@ def addMeal():
 @app.route("/get_meals", methods=["GET"])
 def getMeals():
     data = get_meals()
-
+    print(data)
     return jsonify(data)
 
 

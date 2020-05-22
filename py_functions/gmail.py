@@ -94,8 +94,6 @@ def get_mails():
                     # open in the default browser
                     #webbrowser.open(filepath)
                     '''
-                print("="*100)
-
 
     imap.close()
     imap.logout()

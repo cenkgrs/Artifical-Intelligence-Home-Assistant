@@ -101,44 +101,34 @@ def train_model(x_train, x_test, y_train, y_test):
         print("Predicted: ", predictions[x], "Data: ", x_test[x], "Actual: ", y_test[x])
 
 
-def predict_max_temp(date_data, min_temp, sun_rise, sun_set,  wind, humidity, pressure):
-
-    test = [(date_data, min_temp, sun_rise, sun_set,  wind, humidity, pressure)]
+def predict_max_temp(date_data, min_temp, sun_rise, sun_set, wind, humidity, pressure):
+    test = [(date_data, min_temp, sun_rise, sun_set, wind, humidity, pressure)]
     # This will open saved model and put it inside model variable( that ill use for predict)
     pickle_in = open("models/weather_temp_1.pickle", "rb")
     model = pickle.load(pickle_in)
 
-    predicted_data = model.predict(test)
-
-    print(predicted_data)
+    return int(model.predict(test)[0])
 
 
-def predict_min_temp(date_data, max_temp, sun_rise, sun_set,  wind, humidity, pressure):
-
-    test = [(date_data, max_temp, sun_rise, sun_set,  wind, humidity, pressure)]
+def predict_min_temp(date_data, max_temp, sun_rise, sun_set, wind, humidity, pressure):
+    test = [(date_data, max_temp, sun_rise, sun_set, wind, humidity, pressure)]
     # This will open saved model and put it inside model variable( that ill use for predict)
     pickle_in = open("models/weather_min_temp.pickle", "rb")
     model = pickle.load(pickle_in)
 
-    predicted_data = model.predict(test)
-
-    print(predicted_data)
+    return int(model.predict(test)[0])
 
 
 def predict_wind(date_data, min_temp, max_temp, sun_rise, sun_set, humidity, pressure):
-
     test = [(date_data, min_temp, max_temp, sun_rise, sun_set, humidity, pressure)]
     # This will open saved model and put it inside model variable( that ill use for predict)
     pickle_in = open("models/weather_wind.pickle", "rb")
     model = pickle.load(pickle_in)
 
-    predicted_data = model.predict(test)
-
-    print(predicted_data)
+    return int(model.predict(test)[0])
 
 
 def predict_condition(date_data, min_temp, max_temp, sun_rise, sun_set, wind, humidity, pressure):
-
     test = [(date_data, min_temp, max_temp, sun_rise, sun_set, wind, humidity, pressure)]
     # This will open saved model and put it inside model variable( that ill use for predict)
     pickle_in = open("models/weather_condition.pickle", "rb")
@@ -147,16 +137,34 @@ def predict_condition(date_data, min_temp, max_temp, sun_rise, sun_set, wind, hu
     predicted_data = model.predict(test)
 
     result = get_condition_value(predicted_data)
-    print(result)
+
+    return result
 
 
-#x_train, x_test, y_train, y_test = prepare_data()
-#train_model(x_train, x_test, y_train, y_test)
+def get_predictions(weather_data):
+    predicted_condition = predict_condition(weather_data["date"], weather_data["temp_min"], weather_data["temp_max"],
+                                            weather_data["sunrise"], weather_data["sunset"], weather_data["wind"],
+                                            weather_data["humidity"], weather_data["pressure"])
 
-#predict_max_temp('26.05', 17,  5.45, 20.22,  17, 71, 1021)
-#predict_min_temp('24.05', 20,  5.45, 20.22, 28, 30, 1021)
-predict_condition('24.05', 20, 25, 5.45, 20.22, 25, 30,1022)
+    predicted_max_temp = predict_max_temp(weather_data["date"], weather_data["temp_min"],
+                                          weather_data["sunrise"], weather_data["sunset"], weather_data["wind"],
+                                          weather_data["humidity"], weather_data["pressure"])
 
+    predicted_min_temp = predict_min_temp(weather_data["date"], weather_data["temp_max"],
+                                          weather_data["sunrise"], weather_data["sunset"], weather_data["wind"],
+                                          weather_data["humidity"], weather_data["pressure"])
 
-#prepare_data()
+    predicted_wind = predict_max_temp(weather_data["date"], weather_data["temp_min"], weather_data["temp_max"],
+                                      weather_data["sunrise"], weather_data["sunset"],
+                                      weather_data["humidity"], weather_data["pressure"])
 
+    data = [{"condition": predicted_condition, "max_temp": predicted_max_temp,
+            "min_temp": predicted_min_temp, "wind": predicted_wind}]
+
+    return data
+
+# x_train, x_test, y_train, y_test = prepare_data()
+# train_model(x_train, x_test, y_train, y_test)
+
+# res = predict_max_temp('26.05', 17,  5.45, 20.22,  17, 71, 1021)
+# predict_min_temp('24.05', 20,  5.45, 20.22, 28, 30, 1021)
