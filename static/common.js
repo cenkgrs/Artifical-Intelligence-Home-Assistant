@@ -437,9 +437,12 @@ function check_command(audio, type){
     /* Book Recommendation */
 
     else if (audio.includes("book")){
-        open_book()
+        speak("Let's find a book for you sir")
+        speak("Can you give me a book similar to what you want, Sir?")
 
-        return ""
+        setTimeout(() => { open_book() }, 2000 );
+
+        return "stop"
     }
 
     else if (audio.includes("timer")){

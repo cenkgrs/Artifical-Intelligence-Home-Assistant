@@ -1,4 +1,4 @@
- $(document).ready(function(){
+$(document).ready(function(){
 
     // This will work when user starts to type a book name to input
     $("#book-name-input").keyup(function( event ) {
@@ -53,6 +53,8 @@
         }).done(function(data) {
             if (data && data["status"] != false)
             {
+                speak("This is books that i recommend you to read sir")
+                speak("Please enjoy")
                 console.log(data)
                 $("#book-input-items").empty()
                 $("#book-input-items").fadeOut()
@@ -74,6 +76,44 @@
 
  });
 
- function get_book_input(){
+function get_book_input(){
 
- }
+    get_listen_input( function(result){
+
+        $("#book-name-input").val(result)
+
+        $.ajax({
+            url: "http://localhost:5000/get_book_input",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({"inp": result,})
+        }).done(function(data) {
+            console.log(data)
+            if (data && data["status"] != false)
+            {
+                console.log(data)
+                $("#book-input-items").empty()
+                $("#book-input-items").fadeIn()
+                data.forEach(function(entry, i) {
+                    name = entry
+                    console.log(name)
+                    item = document.createElement("strong");
+                    item.className = "book-input-item";
+                    item.innerHTML = name;
+                    $("#book-input-items").append(item)
+                })
+
+                $("#book-input-items").empty()
+                $("#book-input-items").fadeOut()
+                $("#book-name-input").val(data[0])
+
+                $("#recommend-button").click()
+            }
+            else{
+                speak("I couldn't find any record of that book sir can you please tell me again")
+                get_book_input()
+            }
+        });
+    });
+
+}

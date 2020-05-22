@@ -44,7 +44,7 @@ def get_book_matches(word):
 def get_book_recommendations(title):
     book_results = []
     didMatch = get_book_matches(title)
-    print(didMatch)
+
     if didMatch:
         results = authors_recommendations(title)
         for book in results:

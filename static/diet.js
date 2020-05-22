@@ -172,17 +172,17 @@ function fill_meal_panel(data){
 
     // Get nutrition values from json
     nutrition_values = data[0]["nutrition"]
-
+    console.log(nutrition_values)
     kcal = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
-    carb = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
-    prot = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
-    fat = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
-
+    carb = (nutrition_values["carb"]) ? nutrition_values["carb"].toFixed(2) : "0.0"
+    prot = (nutrition_values["prot"]) ? nutrition_values["prot"].toFixed(2) : "0.0"
+    fat = (nutrition_values["fat"]) ? nutrition_values["fat"].toFixed(2) : "0.0"
+    console.log(carb)
 
     $("#nutrition-kcal").html(kcal + " / " + daily_kcal + " kcal")
-    $("#nutrition-carb").html(carb + " / " + 175 + " g")
-    $("#nutrition-prot").html(prot + " / " + 75 + " g")
-    $("#nutrition-fat").html(fat + " / " + 35 + " g")
+    $("#nutrition-carb").html(carb + " / " + 250 + " g")
+    $("#nutrition-prot").html(prot + " / " + 160 + " g")
+    $("#nutrition-fat").html(fat + " / " + 80 + " g")
 
     // 100% nutrition need is 313 px
 
@@ -191,13 +191,13 @@ function fill_meal_panel(data){
     kcal_ratio = ((nutrition_values["kcal"] / daily_kcal) * 313)
     $("#nutritional-kcal-bar").css({"height": kcal_ratio})
 
-    prot_ratio = ((nutrition_values["prot"] / 75) * 313)
+    prot_ratio = ((nutrition_values["prot"] / 160) * 313)
     $("#nutritional-prot-bar").css({"height": prot_ratio})
 
-    carb_ratio = ((nutrition_values["carb"] / 175) * 313)
+    carb_ratio = ((nutrition_values["carb"] / 250) * 313)
     $("#nutritional-carb-bar").css({"height": carb_ratio})
 
-    fat_ratio = ((nutrition_values["fat"] / 35) * 313)
+    fat_ratio = ((nutrition_values["fat"] / 80) * 313)
     $("#nutritional-fat-bar").css({"height": fat_ratio})
 
 
