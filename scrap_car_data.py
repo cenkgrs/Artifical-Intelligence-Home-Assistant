@@ -18,15 +18,16 @@ car = {
     "brand": "",
 }
 
-prices_list = []
-mileages_list = []
-titles_list = []
-properties_list = []
-
 base_url = f"https://www.cars.com/for-sale/searchresults.action/?page={page_num}&perPage=100&searchSource=PAGINATION&sort=relevance&stkTypId=28881&zc=34110"
 
 print(base_url)
-while page_num < 50:
+
+while page_num < 51:
+
+    prices_list = []
+    mileages_list = []
+    titles_list = []
+    properties_list = []
 
     response = get(base_url)
     html_soup = BeautifulSoup(response.text, "html.parser")
@@ -61,16 +62,18 @@ while page_num < 50:
     for x in prices_list:
         prices.append((((x.text.replace("$", "")).replace(" ", "")).replace("\n", "")).replace(",", ""))
 
-print(len(prices))
-print(len(mileages))
-print(len(brands))
-print(len(years))
-print(len(transmissions))
+    print(page_num)
+    print(len(prices))
+    print(len(mileages))
+    print(len(brands))
+    print(len(years))
+    print(len(transmissions))
 
 
-with open('car-data.csv', 'w', newline='') as outcsv:
+
+with open('csv/car-data_1.csv', 'a', newline='') as outcsv:
     writer = csv.writer(outcsv)
-    writer.writerow(["brand", "years", "mileage", "transmission", "price"])
+    #writer.writerow(["brand", "years", "mileage", "transmission", "price"])
 
     for index, value in enumerate(prices):
         print("Car {}-> "

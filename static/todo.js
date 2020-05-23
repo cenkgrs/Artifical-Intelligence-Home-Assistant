@@ -1,11 +1,11 @@
 showTime()
 showWeather()
-//idle_listen()
-//speak("This is the works you should do in little time sir")
-get_todo()
-predictions()
 /* To - Do Page */
 
+$(document).ready(function() {
+    var today_todo
+    var tomorrow_todo
+})
 
 
 function add_todo_item(){
@@ -20,7 +20,7 @@ function add_todo_item(){
 
         if (data)
         {
-            console.log(data)
+            $("#todo-body").val("")
             speak(finish_a[Math.floor(Math.random() * finish_a.length)])
 
             fill_panel(data)
@@ -39,14 +39,15 @@ function get_todo(){
     }).done(function(data) {
 
         fill_panel(data)
-
+        console.log("got here")
+        return data
     });
 }
 
 function fill_panel(data){
 
     today_todo = data[0]["today"]
-
+    console.log("filled")
     $(".todo-today").empty();
 
     today_todo.forEach(function(entry, i) {
@@ -68,5 +69,28 @@ function fill_panel(data){
         $(".todo-tomorrow").append(item)
 
     })
+
+}
+
+function tell_works(){
+
+    setTimeout(() => {
+        speak("Sir today's works are")
+        today_todo.forEach( function (entry, i) {
+            speak(deca[i + 1])
+            speak(entry)
+        })
+
+        speak("And tomorrow's works are")
+            tomorrow_todo.forEach( function (entry, i) {
+            speak(deca[i + 1])
+            speak(entry)
+        })
+
+        speak("That's all boss")
+     }, 2000);
+
+
+
 
 }

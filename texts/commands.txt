@@ -82,3 +82,161 @@ play music - music-start - 4
 change music - music-change - 9
 oracle change music - music-change - 9
 thank you - thank - 3
+thank you - thank - 3
+play music - music-start - 4
+change music - music-change - 9
+change music - music-change - 9
+change music - music-change - 9
+play music - music-start - 4
+change music - music-change - 9
+change music - music-change - 9
+google play music play toaster - music-start - 4
+play music - music-start - 4
+thank you - thank - 3
+hello - greeting - 1
+hello - greeting - 1
+hello - greeting - 1
+hello - greeting - 1
+thank you - thank - 3
+show me today's work - todo - 8
+show me today's work - todo - 8
+show me today's work - todo - 8
+show me today's work - todo - 8
+show me today's work - todo - 8
+show me today's work - todo - 8
+show me today's work - todo - 8
+hi - greeting - 1
+thank you - thank - 3
+hello - greeting - 1
+hello - greeting - 1
+thank you oracle - thank - 3
+thanks - thank - 3
+show me today's work - todo - 8
+show me today's work - todo - 8
+tell me today's work - todo - 8
+thank you - thank - 3
+thanks - thank - 3
+thank you - thank - 3
+hello - greeting - 1
+thank you Oracle - thank - 3
+hello - greeting
+hello - greeting
+thank you - greeting
+hello - greeting
+hello - greeting
+who are you - who
+play music - music-start
+play music - music-start
+play music - music-start
+change music - music-change
+stop music - music-stop
+play music - music-start
+stop music - music-stop
+music - music-start
+music - music-start
+play music - music-start
+play music - music-start
+music - music-start
+stop music - music-stop
+music - music-start
+play music - music-start
+stop music - music-stop
+play music - music-start
+play music - music-start
+stop music - music-stop
+play music - music-start
+play music - music-start
+stop music - music-stop
+play music - music-start
+play music - music-start
+stop music - music-stop
+play music - music-start
+change music - music-change
+play music - music-start
+change music - music-change
+play music - music-start
+change music - music-change
+stop music - music-stop
+change music - music-change
+google play music - music-start
+change music - music-change
+hello - greeting
+thank you - thank
+play music - music-start
+change music - music-change
+play music - music-start
+change music - music-change
+change music - music-change
+stop music - music-stop
+play music - music-start
+play music - music-start
+change music - music-change
+play music - music-start
+change music - music-change
+oracle play music - music-start
+change music - music-change
+play music - music-start
+change music - music-change
+play music - music-start
+change music - music-change
+oracle change music - music-change
+thank you - thank
+thank you - thank
+play music - music-start
+change music - music-change
+change music - music-change
+change music - music-change
+play music - music-start
+change music - music-change
+change music - music-change
+google play music play toaster - music-start
+play music - music-start
+thank you - thank
+hello - greeting
+hello - greeting
+hello - greeting
+hello - greeting
+thank you - thank
+show me today's work - todo
+show me today's work - todo
+show me today's work - todo
+show me today's work - todo
+show me today's work - todo
+show me today's work - todo
+show me today's work - todo
+hi - greeting
+thank you - thank
+hello - greeting
+hello - greeting
+thank you oracle - thank
+thanks - thank
+show me today's work - todo
+show me today's work - todo
+tell me today's work - todo
+thank you - thank
+thanks - thank
+thank you - thank
+hello - greeting
+thank you Oracle - thank
+play music - music-start - 4
+play music - music-start - 4
+stop music - music-stop - 5
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+play music - music-start - 4
+hello - greeting - 1
+thank you - thank - 3
+hello - greeting - 1
+thank you - thank - 3
+thanks - thank - 3
+show me today's work - todo - 8
+hello - greeting - 1

@@ -8,7 +8,23 @@
         <div class="container-fluid">
             {% include 'partials/navigation.html' %}
 
-            <div class="section">
+            <div class="section" id="mails-section" style="display:none">
+                {% include 'mails.html' %}
+            </div>
+
+            <div class="section" id="todo-section" style="display:none">
+                {% include 'todo.html' %}
+            </div>
+
+            <div class="section" id="messages-section" style="display:none">
+                {% include 'messages.html' %}
+            </div>
+
+            <div class="section" id="diet-section" style="display:none">
+                {% include 'diet.html' %}
+            </div>
+
+            <div class="section" id="index-section">
                 <div class="oracle-box">
 
                 </div>
@@ -18,6 +34,20 @@
                 <div class="text-box" data-type="index">
                     <h1>ORACLE</h1>
                 </div>
+            </div>
+
+            <!-- Modals -->
+
+            <div class="section" id="calorie-section" style="display:none">
+                {% include 'partials/calorie_modal.html' %}
+            </div>
+
+            <div class="section" id="book-section" style="display:none">
+                {% include 'partials/book_recommendation.html' %}
+            </div>
+
+            <div class="section" id="weather-section" style="display:none">
+                {% include 'partials/weather_prediction.html' %}
             </div>
 
         </div>
@@ -31,6 +61,13 @@
 
 
     {% include 'partials/footer.html' %}
+
+    {% include 'partials/predict_modal.html' %}
+
+
+
+
+
 
 
 </body>

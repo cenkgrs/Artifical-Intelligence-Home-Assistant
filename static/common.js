@@ -83,7 +83,7 @@ function getCurrency(){
     });
 }
 
-function quit(){
+function quit(audio){
     speak(quit_a[Math.floor(Math.random() * finish_a.length)])
     record_command(audio, "quit", 7)
 
@@ -112,20 +112,46 @@ async function speak(text){
     speechSynthesis.speak(msg);
 }
 
-function idle_listen(){
+function idle_listen(type){
+
+
     var rec = new webkitSpeechRecognition() || new SpeechRecognition();
     //let rec = new window.SpeechRecognition();
     rec.lang = "en-UK";
 
     rec.start()
-    console.log("started")
 
-    rec.addEventListener('speechstart', function() {
-        listen("default")
+    type = (typeof type == "undefined") ? type = null : type
+    console.log(type)
+    if(type == "stop" ){
+        console.log("stopped")
+        rec.stop();
+    }
+
+    if(type == "predict"){
+        console.log("predicted")
+        rec.stop()
+        setTimeout(() => {  predictions() }, 2000);
+    }
+
+    rec.addEventListener('speechstart', function(event) {
+        console.log(event)
+        console.log(oracleType);
+        result = listen(oracleType);
+        console.log("didnt wait")
+        if (result == "stop") { rec.stop(); return;}
+
     });
+
+
+    rec.addEventListener('speechend', function(event) {
+        //rec.stop();
+        //idle_listen()
+    });
+
 }
 
-function listen(type){
+ function listen(type) {
     beep()
 
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -137,7 +163,10 @@ function listen(type){
     recognition.continuous = true;
     recognition.lang = "en-UK";
 
+    recognition.start();
+
     recognition.onresult = (event) => {
+       let resultScript = null
       let interimTranscript = '';
       for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
         let transcript = event.results[i][0].transcript;
@@ -148,27 +177,37 @@ function listen(type){
         }
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-        console.log(finalTranscript)
-        finalTranscript = check_command(finalTranscript, type)
 
-        if (type == "form" && finalTranscript != ""){
+            if ( finalTranscript != ""){ resultScript = check_command(finalTranscript, type) }
+
+        if ( resultScript == "no command") { speak("Did not get that sir, please repeat"), listen("index")}
+
+        if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
+
+        if( resultScript == "predict") { console.log("got form"); recognition.stop(); idle_listen("predict") }
+
+        if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_listen("stop"); }
+
+        /*if (type == "form" && finalTranscript != ""){
             return finalTranscript
-        }
+        }*/
 
 
     }
-    recognition.start();
 
     recognition.onspeechend = function() {
         recognition.stop();
-        idle_listen()
+        //idle_listen()
     }
 
 }
 
-const get_listen_input = new Promise(function(resolve, reject){
+//var get_listen_input = new Promise(function(resolve, reject){
+function get_listen_input(callback) {
+    max_confidence = 0
+    console.trace();
     beep()
-    console.log("b")
+    console.log("i'm listening")
     var streaming = new webkitSpeechRecognition();
     streaming.lang = 'en-IN';
     streaming.continuous = true;
@@ -176,13 +215,28 @@ const get_listen_input = new Promise(function(resolve, reject){
 
     streaming.onresult = function(event) {
 
-
         l_pos = event.results.length - 1 ;
-        document.getElementById('user-input').innerHTML = event.results[l_pos][0].transcript;
-        result = event.results[l_pos][0].transcript
-        console.log(result)
 
-        setTimeout(() => { resolve(result) }, 3000);
+        confidence = event.results[l_pos][0].confidence
+        console.log(confidence)
+        if( confidence > max_confidence ){
+            console.log("max : "+ confidence)
+            console.log(event)
+            max_confidence = confidence
+            transcript = event.results[l_pos][0].transcript;
+            document.getElementById('user-input').innerHTML = transcript
+        }
+
+        //setTimeout(() => { resolve(result) }, 3000);
+
+        setTimeout(() => {
+            if(event.results[l_pos].isFinal){
+                result = transcript
+                streaming.stop()
+                callback(result);
+            }
+         } , 3000);
+
 
     }
 
@@ -191,15 +245,16 @@ const get_listen_input = new Promise(function(resolve, reject){
     }
 
     streaming.start();
-})
+}
 
 function check_command(audio, type){
-    audio = audio.toString().toLowerCase();
-
+    //audio = audio.toString().toLowerCase();
+    console.log(audio)
+    console.log(oracleType)
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
         record_command(audio, "greeting", 1)
-        setTimeout(() => { listen("default") }, 4000);
+        //setTimeout(() => { idle_listen("default") }, 4000);
 
         return ""
     }
@@ -207,27 +262,39 @@ function check_command(audio, type){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "message", 8)
 
-        setTimeout(() => { location.href = '/messages';}, 2000);
+        setTimeout(() => { open_messages() }, 2000);
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
     }
     else if (who_q.includes(audio)){
         speak( who_a[Math.floor(Math.random() * who_a.length)] )
         record_command(audio, "who", 2)
-        setTimeout(() => { listen("default") }, 4000);
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
     }
     else if (how_q.includes(audio)){
         speak(how_a[Math.floor(Math.random() * how_a.length)])
+        setTimeout(() => { idle_listen() }, 4000);
 
+        return ""
     }
     else if (thanks_q.includes(audio)){
         speak( thanks_a[Math.floor(Math.random() * thanks_a.length)] )
         record_command(audio, "thank", 3)
-        setTimeout(() => { listen("default") }, 4000);
+        setTimeout(() => { idle_listen() }, 4000);
 
         return ""
+    }
+
+
+    /* Day Messages */
+
+    else if (night_q.includes(audio)) {
+        setTimeout(() => { record_bedtime() }, 2000);
+
+        return "stop"
     }
 
     /* Music Commands */
@@ -256,11 +323,6 @@ function check_command(audio, type){
         return ""
     }
 
-    else if ( audio.includes("open mails") || audio.includes("open emails") ){ // Open mails page
-        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        setTimeout(() => { location.href = '/mails';}, 2000);
-
-    }
     else if (currency_q.includes(audio)){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         record_command(audio, "currency", 6)
@@ -269,38 +331,170 @@ function check_command(audio, type){
     }
     else if (quit_q.includes(audio)){
 
-        quit()
-    }
-
-    /* Mails Page */
-
-    else if ( (audio.includes("input") || audio.includes("fill") || form_q.includes(audio)) && type == "mails" ){
-
-        get_email_info()
-    }
-    else if (send_q.includes(audio) && type == "mails"){
-        send_email()
-        listen("mails")
-    }
-
-    /* to-do page */
-    else if (todo_q.includes(audio)){
-        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-        record_command(audio, "todo", 8)
-
-        setTimeout(() => { location.href = '/todo';}, 2000);
-    }
-    else if (add_q.includes(audio) && type == "todo"){}
-
-    /* Predictions */
-
-    else if (predict_q.includes(audio)) {
-        predictions()
+        quit(audio)
 
         return ""
     }
 
-    return audio
+    /* Mails Page */
+
+    else if ( audio.includes("open mails") || audio.includes("open emails") || open_emails_q.includes(audio) ){ // Open mails page
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        setTimeout(() => {  open_mails() }, 4000);
+
+        return ""
+    }
+    else if ( email_input_q.includes(audio) ){
+
+        open_mails()
+        setTimeout(() => {  get_email_info() }, 2000);
+
+
+        return "stop"
+    }
+    else if (send_email_q.includes(audio) && (type == "mails" || oracleType == "mails")){
+        send_email()
+
+        return "stop"
+    }
+
+    /* Alarms Page */
+
+    else if ( audio.includes("alarm") || audio.includes("alarms")){
+        alarm(audio)
+
+        return ""
+    }
+
+    /* Diet page */
+
+    else if( diet_input_q.includes(audio)  && oracleType == "diet"){
+
+        setTimeout(() => {  get_meal_input() }, 3000);
+
+        return ""
+    }
+
+    /* to-do page */
+    else if (open_todo_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "todo", 8)
+        speak("This is the works you should do in little time sir")
+
+        open_todo()
+
+        return ""
+    }
+
+    else if (todo_q.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        record_command(audio, "todo", 8)
+
+        setTimeout(() => { open_todo(); tell_works() }, 000);
+
+        return "stop"
+    }
+
+    else if (todo_input_q.includes(audio) && oracleType == "todo"){
+        //open_todo()
+
+       setTimeout(() => {
+
+        speak("I'm listening you sir")
+
+            get_listen_input( function(result){
+                console.log(result)
+
+                speak("Should i save this sir ?")
+                $("#todo-body").val(result)
+                get_listen_input( function (result) {
+                    console.log(result)
+
+                    if(confirm_q.includes(result)){
+                        add_todo_item()
+                    }else{
+                        speak("If you want to save it just let me know")
+                    }
+
+                })
+            });
+        }, 2000);
+
+        return "stop"
+    }
+    else if (add_q.includes(audio) && oracleType == "todo"){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+
+        setTimeout(() => { add_todo_item() }, 2000);
+
+        return ""
+    }
+    /* Predictions */
+
+    else if (predict_q.includes(audio)) {
+        speak(predict_a[Math.floor(Math.random() * predict_a.length)])
+
+        return "predict"
+    }
+
+    // Weather prediction
+
+    else if (weather_predict_q.includes(audio)){
+
+        open_weather()
+
+        return ""
+
+    }
+
+    /* Book Recommendation */
+
+    else if (audio.includes("book")){
+        speak("Let's find a book for you sir")
+        speak("Can you give me a book similar to what you want, Sir?")
+
+        setTimeout(() => { open_book() }, 2000 );
+
+        return "stop"
+    }
+
+    // Timer
+    else if (audio.includes("timer")){
+        var bmpDigits = /[0-9\u0660-\u0669\u06F0-\u06F9\u07C0-\u07C9\u0966-\u096F\u09E6-\u09EF\u0A66-\u0AE6\u0AE6-\u0AEF\u0B66-\u0B6F\u0BE6-\u0BEF\u0C66-\u0C6F\u0CE6-\u0CEF\u0D66-\u0D6F\u0DE6-\u0DEF\u0E50-\u0E59\u0ED0-\u0ED9\u0F20-\u0F29\u1040-\u1049\u1090-\u1099\u17E0-\u17E9\u1810-\u1819\u1946-\u194F\u19D0-\u19D9\u1A80-\u1A89\u1A90-\u1A99\u1B50-\u1B59\u1BB0-\u1BB9\u1C40-\u1C49\u1C50-\u1C59\uA620-\uA629\uA8D0-\uA8D9\uA900-\uA909\uA9D0-\uA9D9\uA9F0-\uA9F9\uAA50-\uAA59\uABF0-\uABF9\uFF10-\uFF19]/;
+        var hasNumber = RegExp.prototype.test.bind(bmpDigits);
+
+        has = hasNumber(audio)
+        if(has) {
+            var date = new Date();
+            // Get numbers from the audio
+            number = audio.match(/\d+/)[0] // "3"
+            speak("Timer is started sir")
+
+            // Set date that contains expiration date (likse 10 minutes later)
+            if( audio.includes("minute") || audio.includes("minute")){
+                date.setMinutes( date.getMinutes() + parseInt(number) );
+                console.log(date)
+            }
+            else if( audio.includes("hour") || audio.includes("hours") ){
+                date.setHours( date.getHours() + parseInt(number) );
+            }
+            else if ( audio.includes("second") || audio.includes("seconds")) {
+                date.setSeconds( date.getSeconds() + parseInt(number) );
+            }
+            else{
+                speak("Did you said hour or minute sir ?")
+                return ;
+            }
+            localStorage.setItem("stored-timer",date);
+            sessionStorage.setItem("timer", date);
+            // Set timer for initilized date
+            setTimer(date)
+
+            return ""
+        }
+    }
+
+    return "no command"
 }
 
 function play_intro_music(){
@@ -321,7 +515,7 @@ function play_bg_music(task){
         alert(window.random)
         $('.my_audio').append("<source id='sound_src' src=" + playlist[keys[random]] + " type='audio/mpeg'>");
 
-        $(".audio-stop").fadeToggle();
+        $(".audio-stop").fadeIn();
 
         $(".my_audio").trigger('play');
     }
@@ -349,69 +543,6 @@ function play_bg_music(task){
 
 }
 
-/* Mail Page */
-function get_email_info(){ //
-
-    speak("Who we are sending this mail ?")
-
-    get_listen_input.then(function(result){
-        $("#to").val(result)
-    })
-    /*
-    speak("What is the subject ?")
-    subject = $("#subject")
-    subject = get_input(subject)
-
-    speak("And what should i write in the body ?")
-    body = $("#body")
-    body = get_input(body)
-
-    speak("All done sir, i will send the mail to is there anything you want to change or should i send the mail now")
-
-    command =  listen("form")
-
-    if (confirm_q.includes(command)){
-
-    }
-    else{
-        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-    }
-    */
-}
-
-
-function get_input (input){
-
-    get_listen_input.then(function(result){
-        input.val(result)
-    })
-
-}
-
-function send_email(){
-    speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-
-    to = $("#to").val()
-    subject = $("#subject").val()
-    message = $("#body").val()
-
-    $.ajax({
-        url: "http://localhost:5000/email_send",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({"to": to, "subject": subject, "message": message})
-    }).done(function(data) {
-
-        if (data == "success")
-        {
-            speak(finish_a[Math.floor(Math.random() * finish_a.length)])
-        }
-        else{
-            //
-        }
-    });
-}
-
 
 function record_command(text, command, type)
 {
@@ -426,26 +557,102 @@ function record_command(text, command, type)
     });
 }
 
+// This function starts the car/house prediction function ->opens modal
 function predictions () {
-    console.log("a")
-    speak(predict_a[Math.floor(Math.random() * predict_a.length)])
-    get_listen_input.then(function(result){
+
+    get_listen_input( function(result){
+        console.log(result)
         speak("So you want the " + result + " price")
         $(".predict_modal").fadeToggle()
+
+        oracleType = "index"
+        sections.css({"display": "none"})
+
         $(".predict-button").attr("data-predict-type", result)
 
         result == "house" ? $('#house_check').prop('checked', true) : $('#car_check').prop('checked', true)
 
-
         speak("Please give me the detail of the " + result + "and i'll do tha calculations sir ")
+        idle_listen()
+    });
 
-    })
 }
 
+function trial(){
+    get_listen_input( function(result){
+        console.log(result)
+        speak("You said " + result)
+
+        get_listen_input( function (result) {
+            console.log(result)
+            speak("You said" + result)
+        });
+
+    });
+}
+
+// This functions sets an interval for a given time and updates timer every second
+function setTimer(countDownDate){
+    //var countDownDate = sessionStorage.getItem("timer");
+    $(".timer").fadeIn();
+
+    var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+
+        // If given timer in hours unit
+        if (hours >= 1 ){
+            (hours < 10) ? $("#timer-1").html("0" + hours) : $("#timer-1").html(hours);
+            (minutes < 10) ? $("#timer-2").html("0" + minutes) : $("#timer-2").html(minutes);
+        }
+        // If given timer in minutes/seconds unit
+        else{
+            (minutes < 10) ? $("#timer-1").html("0" + minutes) : $("#timer-1").html(minutes);
+            (seconds < 10) ? $("#timer-2").html("0" + seconds) : $("#timer-2").html(seconds);
+        }
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            $("#timer-1").html("00")
+            $("#timer-2").html("00")
+
+            speak("Time is over sir")
+
+            $(".timer").fadeOut();
+        }
+    }, 1000);
+}
+
+// This function check if we are in a special time of the day ( morning, evening etc.)
+function checkClock(){
+    var date = new Date();
+    h = date.getHours(); // 0 - 23
+
+    if ( h !== 6 && h !== 7 && h !== 8 && h !== 9 && h !== 10 && h !== 12 && h != 18 ){
+        return false
+    }else{
+        return h
+    }
+}
 
 $(document).ready(function(){
 
-    $(".circle-1, .text-box").click(function(){
+
+
+    $(".circle-1, .text-box, .circle-1-diet").click(function(){
         listen($(this).data("type"))
     });
 
@@ -460,5 +667,13 @@ $(document).ready(function(){
         speak(complete_a[Math.floor(Math.random() * complete_a.length)])
         $(".my_audio").trigger('pause');
         $(".audio-stop").fadeToggle();
+        $(".my_audio").prop("currentTime",0);
     });
+
+    // This sets a interval and checks whether the alarm clock has been reached or not every 5 minutes
+    var x = setInterval(function() {
+
+        check_alarm()
+
+    }, 300000)
 });

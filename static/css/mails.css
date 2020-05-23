@@ -8,17 +8,38 @@
 }
 
 .mails{
-    height:800px;
+    height:700px;
     background-color: rgba(0, 0, 0, 0.23);
     border: 3px solid #4a474752;
     border-radius: 15px;
     animation: glow-box 1s ease-in-out infinite alternate;
 }
+.mail-header{
+    text-align:center; color: white;
+}
 
+.mails-list{
+    border-top: 1px solid white; padding-top: 10px;
+}
+
+.mail-item{
+    display: block;
+    width: 100%;
+    height:auto;
+    color: #c9f1fbf2;
+    word-break: break-word;
+}
+.mail-item-from{
+    padding: 10px;
+    margin: 0 10px;
+}
+.mail-item-subject{
+    padding: 10px;
+}
 
 
 .mail-sender{
-    height: 800px;
+    height: 700px;
     background-color: rgba(0, 0, 0, 0.23);
     border: 3px solid #4a474752;
     border-radius: 15px;
@@ -53,7 +74,7 @@
     margin-top: 5px;
     outline: 0;
     color: #ffffff;
-    height: 450px;
+    height: 400px;
 }
 
 

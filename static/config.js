@@ -1,6 +1,12 @@
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var days = ["Sunday", "Monday", "February", "Wednesday", "Thursday", "Friday", "Saturday"]
 
+
+var deca = ['zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth']
+var numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+                "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+                "sixteen", "seventeen", "eighteen", "nineteen"]
+
 playlist = {
     'song_1' : '../static/audio/bgtech1.mp3',
     'song_2' : '../static/audio/bgtech2.mp3',
@@ -13,6 +19,23 @@ playlist = {
 intro = {
     'intro_1' : "../static/audio/intro1.mp3"
 }
+alarm = {
+    'alarm' : "../static/audio/alarm.mp3"
+}
+
+cloud = ["Overcast", "Cloudy"]
+partly_cloud = ["Partly cloudy", "Patchy light drizzle"]
+sunny = ["Sunny", ]
+partly_rain = ["Patchy light rain with thunder", "Patchy rain possible"]
+light_rain = ["Light drizzle", "Light rain", ]
+moderate_rain = ["Light rain shower", "", "Moderate rain", "Moderate rain at times"]
+heavy_rain = ["Moderate or heavy rain shower", "Heavy rain at times", "Heavy rain", "Moderate or heavy rain with thunder", "Torrential rain shower"]
+moderate_snow = ["Moderate snow"]
+heavy_snow = ["Blizzard", "Moderate or heavy snow showers"]
+rain_snow = ["Light sleet", "Light sleet showers", ]
+rain_snow_m = ["Moderate or heavy sleet"]
+fog = ["Fog", "Mist"]
+thunder = ["Thundery outbreaks possible"]
 
 commands = {
     1 : "greeting",
