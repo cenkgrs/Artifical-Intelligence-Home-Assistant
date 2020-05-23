@@ -51,7 +51,6 @@ function showWeather(){
         contentType: "application/json",
         data: JSON.stringify({"message": message})
     }).done(function(data) {
-        console.log(data)
         weather_status = data[0]["Status"]
         weather_temp = data[0]["Temp"]
         $("#temp").html(weather_temp + "º")
@@ -438,13 +437,16 @@ function check_command(audio, type){
         return "predict"
     }
 
+    // Weather prediction
+
     else if (weather_predict_q.includes(audio)){
 
-        predict_weather()
+        open_weather()
 
         return ""
 
     }
+
     /* Book Recommendation */
 
     else if (audio.includes("book")){

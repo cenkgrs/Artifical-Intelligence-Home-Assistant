@@ -20,6 +20,14 @@ $("#calendar-link, #cal-link").on('click', function() {
     open_calendar()
 });
 
+const open_index = function(){
+    oracleType = "index"
+    sections.not( $("#index-section") ).css({"display": "none"})
+
+    $("#index-section").fadeIn()
+    idle_listen()
+}
+
 const open_messages = function(){
     oracleType = "messages"
     sections.not( $("#messages-section") ).css({"display": "none"})
@@ -74,6 +82,14 @@ const open_book = function(){
     sections.not( $("#book-section") ).css({"display": "none"})
     $("#book-section").fadeIn()
     get_book_input()
+
+}
+const open_weather = function(){
+    oracleType = "weather"
+
+    sections.not( $("#weather-section") ).css({"display": "none"})
+    $("#weather-section").fadeIn()
+    predict_weather()
 
 }
 const open_calendar = function(){

@@ -39,7 +39,7 @@ abort_q = ["stop it", "don't", "not now"]
 
 /* Weather recommendation */
 
-weather_predict_q = ["how's weather tomorrow", "give me weather info"]
+weather_predict_q = ["how's weather tomorrow", "give me weather info", "how's the weather tomorrow"]
 
 /* Diet Page */
 

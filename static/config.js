@@ -23,6 +23,20 @@ alarm = {
     'alarm' : "../static/audio/alarm.mp3"
 }
 
+cloud = ["Overcast", "Cloudy"]
+partly_cloud = ["Partly cloudy", "Patchy light drizzle"]
+sunny = ["Sunny", ]
+partly_rain = ["Patchy light rain with thunder", "Patchy rain possible"]
+light_rain = ["Light drizzle", "Light rain", ]
+moderate_rain = ["Light rain shower", "", "Moderate rain", "Moderate rain at times"]
+heavy_rain = ["Moderate or heavy rain shower", "Heavy rain at times", "Heavy rain", "Moderate or heavy rain with thunder", "Torrential rain shower"]
+moderate_snow = ["Moderate snow"]
+heavy_snow = ["Blizzard", "Moderate or heavy snow showers"]
+rain_snow = ["Light sleet", "Light sleet showers", ]
+rain_snow_m = ["Moderate or heavy sleet"]
+fog = ["Fog", "Mist"]
+thunder = ["Thundery outbreaks possible"]
+
 commands = {
     1 : "greeting",
     2 : "who",

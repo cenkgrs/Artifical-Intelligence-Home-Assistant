@@ -134,8 +134,12 @@ body {
 
 }
 
-.weather-condition{ font-size: 5rem !important; color:#192c37}
+.weather-condition-icon{ font-size: 5rem !important; color:#192c37}
+.weather-condition-svg{ height:7rem}
 
-.weather-temps{ font-size: 3rem; font-weight: bold; color: #ffffff;}
+
+.weather-temps{ font-size: 2rem; font-weight: bold; color: #ffffff; margin-top: -1rem;}
+
+.max-temp{ font-size: 3rem}
 
 .weather-properties{font-size: 2rem; font-weight: bold; color: #c2c2c2}

@@ -36,6 +36,20 @@
                 </div>
             </div>
 
+            <!-- Modals -->
+
+            <div class="section" id="calorie-section" style="display:none">
+                {% include 'partials/calorie_modal.html' %}
+            </div>
+
+            <div class="section" id="book-section" style="display:none">
+                {% include 'partials/book_recommendation.html' %}
+            </div>
+
+            <div class="section" id="weather-section" style="display:none">
+                {% include 'partials/weather_prediction.html' %}
+            </div>
+
         </div>
     </section>
 
@@ -50,17 +64,9 @@
 
     {% include 'partials/predict_modal.html' %}
 
-    <div class="section" id="calorie-section" style="display:none">
-        {% include 'partials/calorie_modal.html' %}
-    </div>
 
-    <div class="section" id="book-section" style="display:none">
-        {% include 'partials/book_recommendation.html' %}
-    </div>
 
-    <div class="section" id="weather-section" style="display:">
-        {% include 'partials/weather_prediction.html' %}
-    </div>
+
 
 
 
