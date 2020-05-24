@@ -24,7 +24,7 @@ function add_todo_item(){
             speak(finish_a[Math.floor(Math.random() * finish_a.length)])
 
             fill_panel(data)
-
+            idle_listen()
         }
         else{
             //
@@ -88,6 +88,7 @@ function tell_works(){
         })
 
         speak("That's all boss")
+        idle_listen()
      }, 2000);
 
 

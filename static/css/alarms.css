@@ -1,0 +1,36 @@
+.alarm-list{
+    background-color: rgba(0, 0, 0, 0.23);
+    border: 3px solid #4a474752;
+    border-radius: 15px;
+    animation: glow-box 1s ease-in-out infinite alternate;
+    padding:15px;
+}
+
+.alarm-item{
+    display: block;
+    width: 100%;
+    height:auto;
+    color: #c9f1fbf2;
+    margin: 0 10px;
+    padding: 10px;
+    word-break: break-word;
+}
+
+.alarm-add{
+    height: 400px;
+    background-color: rgba(0, 0, 0, 0.23);
+    border: 3px solid #4a474752;
+    border-radius: 15px;
+    animation: glow-box 1s ease-in-out infinite alternate;
+}
+
+.alarm-add-button{
+    width: 40%;
+    text-align: center;
+    margin: auto;
+    background: #275f92 !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 15px;
+    padding: 8px;
+}

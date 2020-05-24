@@ -104,7 +104,7 @@ async function speak(text){
     msg.pitch = 0.8; // 0 to 2
 
     const voice = speaks[0]; //47
-    console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
+    //console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
     msg.voiceURI = voice.name;
     msg.lang = voice.lang;
 
@@ -675,5 +675,5 @@ $(document).ready(function(){
 
         check_alarm()
 
-    }, 300000)
+    }, 30000)
 });

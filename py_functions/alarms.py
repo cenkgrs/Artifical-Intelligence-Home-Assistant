@@ -21,8 +21,8 @@ def alarm(text):
     filtered_sentence = [w for w in text_tokens if not w in stop_words]
 
     # Setting alarm
-    if "set" or "Set" in filtered_sentence:
-
+    if "set" in filtered_sentence or "Set" in filtered_sentence:
+        print("set" or "Set" in filtered_sentence)
         if not clock:
             for index, item in enumerate(filtered_sentence):
                 print(item)
@@ -47,6 +47,8 @@ def alarm(text):
             except sqlite3.OperationalError:
                 return False, "Couldn't set the alarm sir"
 
+    elif "show" in filtered_sentence or "open" in filtered_sentence:
+        return True, "show"
     else:
         return False, "Did not get that sir"
 
@@ -54,13 +56,10 @@ def alarm(text):
 def check_alarm():
     check_hour = datetime.datetime.now().hour
     check_min = datetime.datetime.now().minute
-    print(check_hour)
-    print(check_min)
     with sqlite3.connect("Oracle") as con:
         try:
             db = con.execute('SELECT * FROM Alarms ORDER BY hour ASC')
             last = db.fetchmany()
-            print(last)
 
             if check_hour == last[0][1] and check_min == last[0][2]:
 
@@ -70,6 +69,22 @@ def check_alarm():
                 return True
             else:
                 return False
+
+        except Exception as e:
+            return False
+
+
+def get_alarms():
+    with sqlite3.connect("Oracle") as con:
+        try:
+            db = con.execute('SELECT * FROM Alarms ORDER BY hour ASC')
+            alarms = db.fetchall()
+            print(alarms)
+
+            if alarms is None:
+                return False
+
+            return alarms
 
         except Exception as e:
             return False

@@ -21,7 +21,7 @@ from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
 from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
-from py_functions.alarms import alarm, check_alarm
+from py_functions.alarms import alarm, check_alarm, get_alarms
 from book_recommendation import get_book_matches, get_book_recommendations
 from weather_prediction import get_predictions
 
@@ -306,8 +306,10 @@ def prepare_alarm():
 
     status, error = alarm(text)
 
-    if status:
+    if status and error == "":
         return jsonify(status)
+    elif status and error != "":
+        return jsonify({"status": status, "action": "show"})
     else:
         return jsonify({"status": status, "error": error})
 
@@ -320,6 +322,15 @@ def checkAlarm():
 
     return jsonify({"status": "no alarm"})
 
+
+@app.route("/get_alarms", methods=["GET"])
+def getAlarms():
+    data = get_alarms()
+
+    if data:
+        return jsonify({"data": data})
+
+    return jsonify({"data": ""})
 
 @app.after_request
 def add_headers(response):

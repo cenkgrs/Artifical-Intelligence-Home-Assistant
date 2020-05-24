@@ -12,6 +12,10 @@ $('#todo-link').on('click', function() {
     open_todo()
 });
 
+$('#alarm-link').on('click', function() {
+    open_alarm()
+});
+
 $('#diet-link').on('click', function() {
     open_diet()
 });
@@ -52,6 +56,14 @@ const open_todo = function(){
 
     get_todo()
     //idle_listen()
+}
+const open_alarm = function(){
+    oracleType = "alarm"
+    sections.not( $("#alarm-section") ).css({"display": "none"})
+    $("#alarm-section").fadeIn()
+
+    get_alarms()
+    idle_listen()
 }
 const open_diet = function(){
     oracleType = "diet"
