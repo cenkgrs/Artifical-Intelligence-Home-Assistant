@@ -1,15 +1,10 @@
-from alarm import alarm, check_alarm
-from currency import get_currency
-from youtube import get_video
 from motors import right, left, backward, forward, stop, start_motors
-from web import start_interface
+#from web import start_interface
 import multiprocessing
 import RPi.GPIO as GPIO
 import time
 import pyttsx3
 import random
-
-# from apscheduler.schedulers.blocking import BlockingScheduler
 
 import sqlite3
 import termios
@@ -26,9 +21,7 @@ temp1 = 1
 TRIG = 14
 ECHO = 15
 
-servo = 36
-
-control = [5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10]
+servo = 16
 
 # Set the GPIO pins
 GPIO.setmode(GPIO.BCM)
@@ -49,11 +42,13 @@ p = GPIO.PWM(en, 1000)
 p2 = GPIO.PWM(en2, 1000)
 '''
 
-# Starting servos
+# Set servo duty cylcle
 p3 = GPIO.PWM(servo,50) 
 
-# Set servo duty cylcle
+# Starting servos
 p3.start(2.5)
+p3.ChangeDutyCycle(5)
+
 
 # Set database connection
 conn = sqlite3.connect('/home/pi/Oracle/Oracle')
@@ -133,7 +128,7 @@ def calculate():
     distance = round(distance, 2)
     
 
-    if distance > 20:
+    if distance > 30:
         print ("Mesafe:",distance - 0.5,"cm")
         #speak("My front is open")
         print("Open")
@@ -156,7 +151,7 @@ def pick_route(type, last_act, distance):
             decide = random.choice(choices)
             
         # Record last two actions
-        #cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")
+        cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")
         cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
 
     elif type == 1:  # Means it can go all the three ways and last action was backward
@@ -170,9 +165,9 @@ def pick_route(type, last_act, distance):
             #decide = random.choice((remaining_choices.append(choices).remove(decide)))
             decide = random.choice(choices)
             
-        #cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
+        cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
 
-    #conn.commit()
+    conn.commit()
     print(decide)
 
     # Run the function that came from decision
@@ -205,19 +200,53 @@ def rotate_servo(direction):
             p3.ChangeDutyCycle(6)
     except KeyboardInterrupt:
         GPIO.cleanup()
-
+    
+    print("came here")
     result, distance = calculate()
-
+    
     if result == 1:
         return True
     return False
 
 
+def servos_on():
+    p3.ChangeDutyCycle(0)
+    
+    p3.ChangeDutyCycle(7.5)
+    
+    result, distance = calculate()
+    
+    if result == 1:
+        print("empty")
+        
+    p3.ChangeDutyCycle(10)
+    
+    result, distance = calculate()
+    
+    if result == 1:
+        print("empty")
+        
+    p3.ChangeDutyCycle(12.5)
+    
+    
+    result, distance = calculate()
+    
+    if result == 1:
+        print("empty")
+        
+    p3.ChangeDutyCycle(10)
+    time.sleep(0.5)
+    
+    p3.ChangeDutyCycle(0)
+    p3.stop()
+    
+
 def motor_on():
     start_motors()
-
+    print("motors on")
+    
     count = 0
-    while(count < 50):
+    while(count < 10):
         st.status = False
 
         db = cursor.execute('SELECT action FROM Actions ORDER BY id DESC')
@@ -230,21 +259,25 @@ def motor_on():
             forward(0.6)
 
             stop()
+            time.sleep(2)
             st.status = True
 
             pick_route(1, last_act, distance)
+            time.sleep(2)
         else: # If front is close go back and decide where to go
             backward(0.4)
             stop()
+            time.sleep(2)
             pick_route(0, last_act, distance)
-
+            time.sleep(2)
             stop()
             st.status = True
 
         # Update the last action result and success
-        '''cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
-                       , (distance, result))'''
-        #conn.commit()
+        cursor.execute("UPDATE Actions SET result = ?, success = ? WHERE id = (SELECT MAX(id) FROM Actions) "
+                       , (distance, result))
+        
+        conn.commit()
         count = count + 1
     else:
         # If st.status is False then
@@ -259,6 +292,7 @@ def motor_on():
             speak("Good Bye !")
 
 
+servos_on()
 #p1 = multiprocessing.Process(target=motor_on())
 #p1.start()
 

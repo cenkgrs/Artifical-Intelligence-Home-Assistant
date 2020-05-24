@@ -3,6 +3,8 @@ import picamera
 import cv2
 import numpy
 
+# This script scan the visual and returns faces if found
+
 #Create a memory stream so photos doesn't need to be saved in a file
 stream = io.BytesIO()
 

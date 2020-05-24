@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 import time
+GPIO.setwarnings(False)
+
 # from oracle import lights_o
 
 # Set the GPIO pins
@@ -23,8 +25,6 @@ GPIO.setup(in4, GPIO.OUT)
 GPIO.setup(en2, GPIO.OUT)
 
 
-
-
 p = GPIO.PWM(en, 1000)
 p2 = GPIO.PWM(en2, 1000)
 
@@ -35,6 +35,7 @@ p2.ChangeDutyCycle(25)
 
 def start_motors():
     # Starting the motors
+    print("starting motors")
     p.start(25)
     p2.start(22)
 
