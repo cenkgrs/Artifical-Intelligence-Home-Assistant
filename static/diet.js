@@ -218,9 +218,6 @@ function check_cal(callback) {
                 callback(false)
             }
         }
-        else{
-        //
-        }
     });
 }
 

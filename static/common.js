@@ -372,7 +372,7 @@ function check_command(audio, type){
 
         setTimeout(() => {  get_meal_input() }, 3000);
 
-        return ""
+        return "stop"
     }
 
     /* to-do page */

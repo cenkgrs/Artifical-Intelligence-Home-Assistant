@@ -163,9 +163,12 @@ def add_meal_natural(text):
                 db = cursor.execute("Select * From recipes Where name = ?", (meal,))
 
                 # If there is no record of this meal in database continue to next meal
-                if not db:
-                    continue
+
                 data = db.fetchall()
+                print(data)
+
+                if not data:
+                    continue
 
                 meal_gram = float(meal_gram) / 100  # For using the gr value to get exact nutrition values of the foods
                 # Get the nutrition values of the current meal

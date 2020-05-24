@@ -13,16 +13,19 @@ stop_words = set(stopwords.words('english'))
 def alarm(text):
     is_digit = False
     text = text["text"]
+
+    # Get array of numbers from text
     clock = [int(s) for s in text.split() if s.isdigit()]
 
     text_tokens = word_tokenize(text)
 
-    # Filtering text so there will be less loop
+    # Filtering text so there will be less loop - if token not a stop word add to filtered_sentence array
     filtered_sentence = [w for w in text_tokens if not w in stop_words]
 
     # Setting alarm
     if "set" in filtered_sentence or "Set" in filtered_sentence:
-        print("set" or "Set" in filtered_sentence)
+
+        # If there isn't any number in text (like 5 10 not five ten)
         if not clock:
             for index, item in enumerate(filtered_sentence):
                 print(item)
@@ -34,8 +37,12 @@ def alarm(text):
             if not clock:
                 return False, "You didn't give any clock info sir"
 
-        if len(clock) == 1:
+        if len(clock) == 1 and len(str(clock[0])) < 3:
             clock.append(00)
+        else:
+            # If number is like 2130(error at speech rec) convert it to 21 30
+            min, clock[0] = int(str(clock[0])[2] + str(clock[0])[3]), int(str(clock[0])[0] + str(clock[0])[1])
+            clock.append(min)
 
         with sqlite3.connect("Oracle") as con:
             cursor = con.cursor()
