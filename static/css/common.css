@@ -7,6 +7,8 @@
 
 .m-auto{margin:auto !important}
 
+.fs-3r{ font-size: 3rem !important}
+
 .mt10{margin-top: 10px !important}
 .mt20{margin-top: 20px !important}
 .mt30{margin-top: 30px !important}
@@ -14,11 +16,22 @@
 .mt50{margin-top: 50px !important}
 .mt100{margin-top: 100px !important}
 
+/* Margins */
+
+.mb-1r{margin-bottom: 1rem}
+.mb-2r{margin-bottom: 2rem}
+.mb-3r{margin-bottom: 3rem}
+.mt-2r{margin-top: 2rem}
+.mt-3r{margin-top: 3rem}
+
 
 
 /* Paddings */
+.p0{padding: 0 !important}
 .p8{padding: 8px}
 .p10{padding: 10px}
+
+.p1r{padding: 1rem;}
 
 /* Borders */
 

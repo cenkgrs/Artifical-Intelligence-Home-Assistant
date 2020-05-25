@@ -5,7 +5,7 @@
                     <div class="alarm-list">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h2 class="text-center color-white p8">Alarms</h2>
+                                <h2 class="text-center color-white p1r">Alarms</h2>
                             </div>
                         </div>
 
@@ -22,22 +22,35 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="alarm-add">
-                        <div class="row ">
+                        <div class="row mb-1r">
                             <div class="col-lg-12">
-                                <h2 class="text-center color-white p8 letter-s-1">Add Alarm</h2>
+                                <h2 class="text-center color-white letter-s-1">Add Alarm</h2>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">
-
+                            <div class="col-lg-12 text-center">
+                                <div class="alarm-hour-arrow" data-type="hour-up"><i class="fa fa-caret-up fs-3r"></i></div>
+                                <div class="alarm-hour-arrow" data-type="minute-up"><i class="fa fa-caret-up fs-3r"></i></div>
                             </div>
-
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 p0 text-center p1r">
+                                <div class="alarm-hour-picker" id="alarm-hour-picker">12</div>
+                                <span class="alarm-hour-separator">:</span>
+                                <div class="alarm-hour-picker" id="alarm-minute-picker">00</div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="alarm-hour-arrow" data-type="hour-down"><i class="fa fa-caret-down fs-3r"></i></div>
+                                <div class="alarm-hour-arrow" data-type="minute-down"><i class="fa fa-caret-down fs-3r"></i></div>
+                            </div>
                         </div>
 
 
-                        <div class="row mt30">
+                        <div class="row mt-3r">
                             <div class="col-lg-12 text-center">
-                                <button onclick="add_alarm()" class="alarm-add-button">Add</button>
+                                <button class="alarm-add-button">Add</button>
                             </div>
                         </div>
 

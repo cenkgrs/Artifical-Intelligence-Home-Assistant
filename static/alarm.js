@@ -1,5 +1,28 @@
 $(document).ready(function() {
-    var alarms
+    var alarms;
+
+
+    $(document).on("click", ".alarm-hour-arrow", function() {
+        type = $(this).data("type")
+        type = type.split("-")
+        console.log(type)
+        console.log($("#alarm-"+ type[0] + "-picker").html())
+
+        // If type is up then add + 1 to hour picker ( by first converting it to int)
+        $("#alarm-"+ type[0] + "-picker").html( (type[1] == "up") ?  parseInt($("#alarm-"+ type[0] + "-picker").html()) + 1 : $("#alarm-"+ type[0] + "-picker").html() - 1 )
+
+        // After hour up or down if html value below 10 like ( 5 9) make it like ( 05 09)
+        $("#alarm-"+ type[0] + "-picker").html() < 10 ? $("#alarm-"+ type[0] + "-picker").html( "0" + $("#alarm-"+ type[0] + "-picker").html() ) : ""
+    })
+
+    $(".alarm-add-button").on("click", function() {
+
+        hour = $("#alarm-hour-picker").html()
+        minute = $("#alarm-minute-picker").html()
+        text = "set an alarm for " + hour + " " + minute
+        console.log(text)
+        alarm(text)
+    })
 })
 
 
@@ -60,10 +83,13 @@ function fill_alarms_panel(alarms){
     $(".alarms").empty();
 
     alarms.forEach(function(entry, i) {
+        console.log(entry)
+        hour = (entry[1] < 10) ? "0" + entry[1] : entry[1]
+        minute = (entry[2] < 10) ? "0" + entry[2] : entry[2]
         item = document.createElement("strong");
         item.className = "alarm-item";
         item.id = "alarm-" + entry[0];
-        item.innerHTML = (i = i + 1) + " - " + entry[1] + " : " + entry[2];
+        item.innerHTML = "<span>" + (i = i + 1) + "</span> - <span class='alarm-clock'>" + hour + " : " + minute + "</span>";
         $(".alarms").append(item)
     })
 }

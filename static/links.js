@@ -63,7 +63,7 @@ const open_alarm = function(){
     $("#alarm-section").fadeIn()
 
     get_alarms()
-    idle_listen()
+    //idle_listen()
 }
 const open_diet = function(){
     oracleType = "diet"

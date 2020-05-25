@@ -16,7 +16,7 @@ def alarm(text):
 
     # Get array of numbers from text
     clock = [int(s) for s in text.split() if s.isdigit()]
-
+    print(clock)
     text_tokens = word_tokenize(text)
 
     # Filtering text so there will be less loop - if token not a stop word add to filtered_sentence array
@@ -39,7 +39,7 @@ def alarm(text):
 
         if len(clock) == 1 and len(str(clock[0])) < 3:
             clock.append(00)
-        else:
+        elif len(str(clock[0])) > 2:
             # If number is like 2130(error at speech rec) convert it to 21 30
             min, clock[0] = int(str(clock[0])[2] + str(clock[0])[3]), int(str(clock[0])[0] + str(clock[0])[1])
             clock.append(min)
@@ -63,6 +63,7 @@ def alarm(text):
 def check_alarm():
     check_hour = datetime.datetime.now().hour
     check_min = datetime.datetime.now().minute
+    print(check_hour)
     with sqlite3.connect("Oracle") as con:
         try:
             db = con.execute('SELECT * FROM Alarms ORDER BY hour ASC')

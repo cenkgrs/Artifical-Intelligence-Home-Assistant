@@ -38,7 +38,6 @@ setInterval(function(){
 
 update_waketime()
 
-idle_listen()
 
 //speak("If you want anything for me to do just click one of the links and i'll do the rest");
 
