@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 import cv2
 import time
 
+from real_time_detection import *
 from todo import add_todo_item, get_todo
 from currency import get_currency
 from mail_sender import send_mail
@@ -29,6 +30,9 @@ from weather_prediction import get_predictions
 
 app = Flask(__name__)
 CORS(app)
+
+# Real time streaming object
+VIDEO = VideoStreaming()
 
 
 # Runs when Oracle speaks
@@ -353,9 +357,14 @@ def gen():
 
 @app.route('/video_feed')
 def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    '''
+    Video streaming route.
+    '''
+    return Response(
+        # Runs show function of VIDEO object
+        VIDEO.show(),
+        mimetype='multipart/x-mixed-replace; boundary=frame'
+    )
 
 @app.after_request
 def add_headers(response):
