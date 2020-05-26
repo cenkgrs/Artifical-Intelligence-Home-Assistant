@@ -73,6 +73,40 @@ class VideoStreaming(object):
         self._exposure = self.VIDEO.get(cv2.CAP_PROP_EXPOSURE)
         self._contrast = self.VIDEO.get(cv2.CAP_PROP_CONTRAST)
 
+    @property
+    def preview(self):
+        return self._preview
+
+    @preview.setter
+    def preview(self, value):
+        self._preview = bool(value)
+
+    @property
+    def detect(self):
+        return self._detect
+
+    @detect.setter
+    def detect(self, value):
+        self._detect = bool(value)
+
+    @property
+    def exposure(self):
+        return self._exposure
+
+    @exposure.setter
+    def exposure(self, value):
+        self._exposure = value
+        self.VIDEO.set(cv2.CAP_PROP_EXPOSURE, self._exposure)
+
+    @property
+    def contrast(self):
+        return self._contrast
+
+    @contrast.setter
+    def contrast(self, value):
+        self._contrast = value
+        self.VIDEO.set(cv2.CAP_PROP_CONTRAST, self._contrast)
+
     def show(self):
         while self.VIDEO.isOpened():
             ret, snap = self.VIDEO.read()
