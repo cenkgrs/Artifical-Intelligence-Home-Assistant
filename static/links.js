@@ -109,3 +109,8 @@ const open_calendar = function(){
     sections.not( $("#calendar-section") ).css({"display": "none"})
     $("#calendar-section").fadeIn()
 }
+const open_stream = function(){
+    oracleType = "stram"
+    sections.not( $("#stream-section") ).css({"display": "none"})
+    $("#stream-section").fadeIn()
+}

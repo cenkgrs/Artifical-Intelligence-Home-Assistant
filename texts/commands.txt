@@ -251,3 +251,6 @@ thank you - thank - 3
 who are you - who - 2
 thank you - thank - 3
 play music on the Final Fantasy VII remake Gymkhana lyrics - music-start - 4
+hello - greeting - 1
+hello - greeting - 1
+thank you - thank - 3

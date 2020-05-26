@@ -1,7 +1,7 @@
 import os
 import signal
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response
 from selenium import webdriver
 import pyautogui as pyautogui
 import multiprocessing
@@ -11,6 +11,8 @@ from flask_cors import CORS
 import pytemperature
 import webbrowser
 from datetime import datetime, timedelta
+import cv2
+import time
 
 from todo import add_todo_item, get_todo
 from currency import get_currency
@@ -331,6 +333,29 @@ def getAlarms():
         return jsonify({"data": data})
 
     return jsonify({"data": ""})
+
+
+def gen():
+    cap = cv2.VideoCapture('768x576.avi')
+
+    # Read until video is completed
+    while(cap.isOpened()):
+      # Capture frame-by-frame
+        ret, img = cap.read()
+        if ret == True:
+            img = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
+            frame = cv2.imencode('.jpg', img)[1].tobytes()
+            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            time.sleep(0.1)
+        else:
+            break
+
+
+@app.route('/video_feed')
+def video_feed():
+    """Video streaming route. Put this in the src attribute of an img tag."""
+    return Response(gen(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.after_request
 def add_headers(response):
