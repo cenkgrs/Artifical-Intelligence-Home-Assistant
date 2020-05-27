@@ -297,7 +297,7 @@ def addMealNatural():
     text = request.get_json()
 
     status, error = add_meal_natural(text)
-
+    print(status, error)
     if status:
         data = get_meals()
         return jsonify(data)

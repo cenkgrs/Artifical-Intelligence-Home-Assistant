@@ -37,12 +37,21 @@ listening_a = ["I'm listening you sir", "I'm all ears", "Tell me sir"]
 confirm_q = ["hit it", "send it", "do it", "go"]
 abort_q = ["stop it", "don't", "not now"]
 
+/* Films Requests */
+
+open_films = ["open films", "show films", "show film library"]
+
+fullscreen = ["make it fullscreen", "make it full screen", "full screen"]
+play_film = ["play it", "continue"]
+pause_film = ["pause it", "stop it", "stop"]
+
 /* Weather recommendation */
 
 weather_predict_q = ["how's weather tomorrow", "give me weather info", "how's the weather tomorrow"]
 
 /* Diet Page */
 
+open_diet_q = ["open diet page"]
 diet_input_q = ["get meal input", "get input Oracle", "get input" , "Oracle get meal input"]
 
 /* TO DO Page */

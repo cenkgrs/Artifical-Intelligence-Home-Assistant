@@ -254,3 +254,20 @@ play music on the Final Fantasy VII remake Gymkhana lyrics - music-start - 4
 hello - greeting - 1
 hello - greeting - 1
 thank you - thank - 3
+thank you - thank - 3
+thanks - thank - 3
+thank you - thank - 3
+thank you - thank - 3
+thank you - thank - 3
+thank you - thank - 3
+thanks - thank - 3
+play music - music-start - 4
+stop music - music-stop - 5
+play music - music-start - 4
+change music - music-change - 9
+change music - music-change - 9
+play music - music-start - 4
+thank you - thank - 3
+play music - music-start - 4
+thanks - thank - 3
+change music - music-change - 9

@@ -139,7 +139,7 @@ function fill_meal_panel(data){
     $(".morning-meals").empty();
     $(".evening-meals").empty();
     $(".afternoon-meals").empty();
-
+    console.log(data)
     morning_meals = data[0]["morning"]
 
     morning_meals.forEach(function(entry, i) {
@@ -241,12 +241,15 @@ function get_meal_input(){
                         contentType: "application/json",
                         data: JSON.stringify({"text": text})
                     }).done(function(data) {
-                        if (data)
+                        console.log(data)
+                        if (data && data["error"] != "")
                         {
                             fill_meal_panel(data)
                         }
                         else{
-                            speak("There is an "+ data["error"] + "sir")
+                            speak("There is an "+ data["error"] + "error sir")
+                            speak("Tell me what did you eat again sir")
+                            setTimeout(() => { get_meal_input() }, 500);
                         }
                     });
 

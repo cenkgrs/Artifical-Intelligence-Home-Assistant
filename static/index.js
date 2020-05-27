@@ -38,7 +38,7 @@ setInterval(function(){
 
 update_waketime()
 
-open_film_library()
+idle_listen()
 //speak("If you want anything for me to do just click one of the links and i'll do the rest");
 
 //speak("For starters hour is " + h + " " + m)

@@ -105,6 +105,7 @@ def get_meal_input(inp):
 
 # This function is for getting meal record with speech recognition
 def add_meal_natural(text):
+    print(text)
     no_number = False
     meals = []
     meal_time = ""

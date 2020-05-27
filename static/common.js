@@ -113,7 +113,7 @@ async function speak(text){
 }
 
 function idle_listen(type){
-
+    console.log("idle listen started")
 
     var rec = new webkitSpeechRecognition() || new SpeechRecognition();
     //let rec = new window.SpeechRecognition();
@@ -135,19 +135,18 @@ function idle_listen(type){
     }
 
     rec.addEventListener('speechstart', function(event) {
-        console.log(event)
-        console.log(oracleType);
         result = listen(oracleType);
-        console.log("didnt wait")
         if (result == "stop") { rec.stop(); return;}
 
     });
 
 
-    rec.addEventListener('speechend', function(event) {
-        //rec.stop();
-        //idle_listen()
-    });
+    rec.onspeechend = function() {
+        rec.stop();
+        console.log("stopped")
+        rec.start();
+        console.log("started again")
+    };
 
 }
 
@@ -160,10 +159,8 @@ function idle_listen(type){
 
     recognition.interimResults = true;
     recognition.maxAlternatives = 10;
-    recognition.continuous = true;
+    recognition.continuous = false;
     recognition.lang = "en-UK";
-
-    recognition.start();
 
     recognition.onresult = (event) => {
        let resultScript = null
@@ -178,9 +175,9 @@ function idle_listen(type){
       }
         document.getElementById('user-input').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
 
-            if ( finalTranscript != ""){ resultScript = check_command(finalTranscript, type) }
+        if ( finalTranscript != ""){ resultScript = check_command(finalTranscript, type) }
 
-        if ( resultScript == "no command") { speak("Did not get that sir, please repeat"), listen("index")}
+        if ( resultScript == "no command") { finalTranscript = ""; speak("Did not get that sir, please repeat"); console.log("restarting it"); listen(type)}
 
         if( resultScript == "") { console.log("got here "); recognition.stop(); idle_listen() }
 
@@ -188,17 +185,11 @@ function idle_listen(type){
 
         if( resultScript == "stop") { console.log("got here 2"); recognition.stop(); idle_listen("stop"); }
 
-        /*if (type == "form" && finalTranscript != ""){
-            return finalTranscript
-        }*/
-
-
     }
 
-    recognition.onspeechend = function() {
-        recognition.stop();
-        //idle_listen()
-    }
+    recognition.addEventListener('end', console.log("restarted"), recognition.start);
+
+    recognition.start();
 
 }
 
@@ -235,7 +226,7 @@ function get_listen_input(callback) {
                 streaming.stop()
                 callback(result);
             }
-         } , 3000);
+         } , 8000);
 
 
     }
@@ -249,8 +240,6 @@ function get_listen_input(callback) {
 
 function check_command(audio, type){
     //audio = audio.toString().toLowerCase();
-    console.log(audio)
-    console.log(oracleType)
     if(greetings_q.includes(audio)){
         speak(greetings_a[Math.floor(Math.random() * greetings_a.length)])
         record_command(audio, "greeting", 1)
@@ -358,6 +347,34 @@ function check_command(audio, type){
         return "stop"
     }
 
+    /* Films Page */
+
+    else if (open_films.includes(audio)){
+        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+        open_film_library()
+
+        return ""
+    }
+    else if( audio.includes("open") && type == "film_library"){
+        // Check the film is available
+        check_film(audio)
+
+        return ""
+    }
+
+    /* Video Page */
+
+    else if (fullscreen.includes(audio) && oracleType == "video"){
+        $("#fullscreen").click()
+
+        return ""
+    }
+    else if ( (play_film.includes(audio) || pause_film.includes(audio) ) && oracleType == "video"){
+        $("#play-pause").click()
+
+        return ""
+    }
+
     /* Alarms Page */
 
     else if ( audio.includes("alarm") || audio.includes("alarms")){
@@ -367,6 +384,12 @@ function check_command(audio, type){
     }
 
     /* Diet page */
+
+    else if( open_diet_q.includes(audio)){
+        open_diet()
+
+        return ""
+    }
 
     else if( diet_input_q.includes(audio)  && oracleType == "diet"){
 

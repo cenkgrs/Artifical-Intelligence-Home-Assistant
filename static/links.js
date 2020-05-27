@@ -24,6 +24,10 @@ $("#calendar-link, #cal-link").on('click', function() {
     open_calendar()
 });
 
+$("#film-library-link").on('click', function() {
+    open_film_library()
+});
+
 const open_index = function(){
     oracleType = "index"
     sections.not( $("#index-section") ).css({"display": "none"})
@@ -119,15 +123,20 @@ const open_video = function(film_name){
 
     video = document.getElementById("video");
     video.setAttribute('poster', 'static/posters/'+ film_name + ".jpg");
-    source = document.getElementById("video_source");
-    source.setAttribute('src', 'static/videos/'+ film_name + ".mp4");
+    video.setAttribute('src', 'static/videos/'+ film_name + ".mp4");
 
     sections.not( $("#video-section") ).css({"display": "none"})
     $("#video-section").fadeIn()
+
+    $("#play-pause").click()
+
+    idle_listen()
 }
 
 const open_film_library = function(){
+    speak("These are the films i have in store right now")
     oracleType = "film_library"
     sections.not( $("#film-library-section") ).css({"display": "none"})
     $("#film-library-section").fadeIn()
+    idle_listen()
 }
