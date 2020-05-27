@@ -1,5 +1,5 @@
 var sections = $(".section");
-console.log(sections)
+
 $('#msg-link').on('click', function() {
     open_messages()
 });
@@ -110,7 +110,24 @@ const open_calendar = function(){
     $("#calendar-section").fadeIn()
 }
 const open_stream = function(){
-    oracleType = "stram"
+    oracleType = "stream"
     sections.not( $("#stream-section") ).css({"display": "none"})
     $("#stream-section").fadeIn()
+}
+const open_video = function(film_name){
+    oracleType = "video"
+
+    video = document.getElementById("video");
+    video.setAttribute('poster', 'static/posters/'+ film_name + ".jpg");
+    source = document.getElementById("video_source");
+    source.setAttribute('src', 'static/videos/'+ film_name + ".mp4");
+
+    sections.not( $("#video-section") ).css({"display": "none"})
+    $("#video-section").fadeIn()
+}
+
+const open_film_library = function(){
+    oracleType = "film_library"
+    sections.not( $("#film-library-section") ).css({"display": "none"})
+    $("#film-library-section").fadeIn()
 }

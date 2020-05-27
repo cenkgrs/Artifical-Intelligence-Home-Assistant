@@ -1,0 +1,81 @@
+.video-container{
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.video{
+    height:50rem;
+    width: 100%;
+}
+
+.video-player{
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    box-shadow: 0px 10px 35px 25px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow:hidden;
+
+}
+.video-player:hover .controls{
+    transform: translateY(0);
+
+}
+.controls{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    flex-wrap: wrap;
+    background: rgba(18, 18, 18, 0.52);
+    height: 4rem;
+    transform: translateY(100%) translateY(-10px);
+    transition: all 0.2s;
+}
+
+.music-buttons button{
+    background: none;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+
+}
+.music-buttons{ padding:0; width: 100%}
+.music-buttons button:before{
+    content: "\f04b";
+    font-weight: 900;
+    font-family: 'Font Awesome 5 Free';
+    width: 5rem;
+    height: 5rem;
+    display: inline-block;
+    font-size: 28px;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+}
+
+.music-buttons button.play{float:left; }
+.music-buttons button.play:before{
+    content: "\f04b";
+}
+.music-buttons button.pause{float:left; }
+.music-buttons button.pause:before{
+    content: "\f04c";
+}
+.music-buttons button.redo{float:left; }
+.music-buttons button.redo:before{
+    content: "\f01e";
+}
+.music-buttons button.fullscreen{float:right; }
+.music-buttons button.fullscreen:before{
+    content: "\f065";
+}
+
+.white-bar{
+    height: 1rem;
+    top:0;
+    left:0;
+    width:100%;
+}
+.white-juice{
+    height: 0.5rem;
+    background-color: #17456059;
+}

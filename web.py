@@ -339,6 +339,16 @@ def getAlarms():
     return jsonify({"data": ""})
 
 
+@app.route("/get_film_list", methods=["GET"])
+def getFirmList():
+    path = "static/posters/"
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
+
+    return jsonify(onlyfiles)
+
+
 def gen():
     cap = cv2.VideoCapture('768x576.avi')
 

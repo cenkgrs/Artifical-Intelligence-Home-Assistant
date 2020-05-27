@@ -13,7 +13,6 @@ playlist = {
     'song_3' : '../static/audio/bgslow1.mp3',
     'song_4' : '../static/audio/bgslow2.mp3',
     'song_5' : '../static/audio/bgslow3.mp3'
-
 }
 
 intro = {
