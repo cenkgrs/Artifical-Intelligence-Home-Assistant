@@ -27,12 +27,13 @@ from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_mea
 from py_functions.alarms import alarm, check_alarm, get_alarms
 from book_recommendation import get_book_matches, get_book_recommendations
 from weather_prediction import get_predictions
+from face_rec_webcam import show_webcam
 
 app = Flask(__name__)
 CORS(app)
 
 # Real time streaming object
-VIDEO = VideoStreaming()
+#VIDEO = VideoStreaming()
 
 
 # Runs when Oracle speaks
@@ -371,8 +372,8 @@ def video_feed():
     Video streaming route.
     '''
     return Response(
-        # Runs show function of VIDEO object
-        VIDEO.show(),
+        # Runs show webcam function
+        show_webcam(),
         mimetype='multipart/x-mixed-replace; boundary=frame'
     )
 

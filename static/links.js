@@ -21,7 +21,7 @@ $('#diet-link').on('click', function() {
 });
 
 $("#calendar-link, #cal-link").on('click', function() {
-    open_calendar()
+    open_stream()
 });
 
 $("#film-library-link").on('click', function() {
