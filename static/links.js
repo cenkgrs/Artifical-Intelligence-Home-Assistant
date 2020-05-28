@@ -105,7 +105,6 @@ const open_weather = function(){
 
     sections.not( $("#weather-section") ).css({"display": "none"})
     $("#weather-section").fadeIn()
-    predict_weather()
 
 }
 const open_calendar = function(){

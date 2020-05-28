@@ -17,19 +17,20 @@ print(reviews)
 
 
 def process_text(text):
+    print(text)
     # Make all the strings lowercase and remove non alphabetic characters
     text = re.sub('[^A-Za-z]', ' ', text.lower())
-
+    print(text)
     # Tokenize the text; this is, separate every sentence into a list of words
     # Since the text is already split into sentences you don't have to call sent_tokenize
     tokenized_text = word_tokenize(text)
-
+    print(f"tokenized text : {tokenized_text}")
     # Remove the stopwords and stem each word to its root
     clean_text = [
         stemmer.stem(word) for word in tokenized_text
         if word not in stopwords.words('english')
     ]
-
+    print(f"clean text : {clean_text}")
     # Remember, this final output is a list of words
     return clean_text
 

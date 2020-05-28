@@ -26,7 +26,7 @@ from py_functions.calculate_cal import result, check_cal
 from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
 from py_functions.alarms import alarm, check_alarm, get_alarms
 from book_recommendation import get_book_matches, get_book_recommendations
-from weather_prediction import get_predictions
+from py_functions.weather_informations import get_weather_today, get_weather_tomorrow, get_weather_request
 
 app = Flask(__name__)
 CORS(app)
@@ -71,29 +71,8 @@ def todo():
 def get_weather():
     response = request.get_json()
 
-    url = "http://api.openweathermap.org/data/2.5/weather?appid=8d73691a9132521c3a1710c13d885d6d&q=%C4%B0stanbul"
-    formatted_data = []
-    json_data = requests.get(url).json()
-    status = json_data['weather'][0]['main']  # Rain, thunderstorm etc.
-    temp = int(pytemperature.k2c(json_data["main"]["temp"]))  # Changing kelvin to celcius
-    temp_min = int(pytemperature.k2c(json_data["main"]["temp_min"]))
-    temp_max = int(pytemperature.k2c(json_data["main"]["temp_max"]))
-    pressure = json_data["main"]["pressure"]
-    humidity = json_data["main"]["humidity"]
+    formatted_data = get_weather_today()
 
-    wind = json_data["wind"]["speed"]
-
-    sunrise = json_data["sys"]["sunrise"]
-    sunrise = datetime.utcfromtimestamp(sunrise) + timedelta(hours=3)  # Converting unix time to timestamp
-    sunrise = sunrise.strftime('%H:%M:%S')
-
-    sunset = json_data["sys"]["sunset"]
-    sunset = datetime.utcfromtimestamp(sunset) + timedelta(hours=3)  # Converting unix time to timestamp
-    sunset = sunset.strftime('%H:%M:%S')
-
-    formatted_data = [{"Status": status, "Temp": temp, "temp_min": temp_min, "temp_max": temp_max,
-                       "pressure": pressure, "humidity": humidity, "wind": wind, "temp_max": temp_max,
-                       "sunrise": sunrise, "sunset": sunset}]
     return jsonify(formatted_data)
 
 
@@ -215,6 +194,8 @@ def record_sleep():
         return jsonify({"success": True})
 
 
+# Weather information and predict system requests
+
 @app.route("/update_waketime", methods=["POST"])
 def update_sleep():
     input = request.get_json()
@@ -225,18 +206,16 @@ def update_sleep():
     if status:
         return jsonify({"success": True, "sleep": sleep})
 
-# Weather predict system requests
 
-@app.route("/get_weather_prediction", methods=["POST"])
-def getWeatherPrediction():
+@app.route("/get_weather_information", methods=["POST"])
+def getWeatherInformation():
     input = request.get_json()
 
-    weather_predictions = get_predictions(input["weather_data"])
-    print(weather_predictions)
+    day, weather_information = get_weather_request(input["text"])
 
-    if weather_predictions:
-        return jsonify({"data": weather_predictions})
+    print(day, weather_information)
 
+    return jsonify({"data": weather_information, "day": day})
 
 # Diet requests
 
@@ -263,7 +242,7 @@ def check_calories():
 @app.route("/add_meal", methods=["POST"])
 def addMeal():
     input = request.get_json()
-
+    print(input)
     status = add_meal(input["meal"], input["type"], input["meal-id"], input["meal-gram"])
 
     if status:

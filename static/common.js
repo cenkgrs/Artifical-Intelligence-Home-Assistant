@@ -51,6 +51,7 @@ function showWeather(){
         contentType: "application/json",
         data: JSON.stringify({"message": message})
     }).done(function(data) {
+        console.log(data)
         weather_status = data[0]["Status"]
         weather_temp = data[0]["Temp"]
         $("#temp").html(weather_temp + "º")
@@ -462,6 +463,12 @@ function check_command(audio, type){
 
     // Weather prediction
 
+    else if (audio.includes("weather")){
+        get_weather_information(audio)
+
+        return ""
+    }
+
     else if (weather_predict_q.includes(audio)){
 
         open_weather()
@@ -697,6 +704,12 @@ $(document).ready(function(){
     var x = setInterval(function() {
 
         check_alarm()
+
+    }, 30000)
+
+    var y = setInterval(function() {
+
+        showWeather()
 
     }, 30000)
 });
