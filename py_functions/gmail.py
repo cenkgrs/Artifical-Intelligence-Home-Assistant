@@ -36,7 +36,11 @@ def get_mails():
                 subject = decode_header(msg["Subject"])[0][0]
                 if isinstance(subject, bytes):
                     # if it's a bytes, decode to str
-                    subject = subject.decode()
+                    try:
+                        print(subject)
+                        subject = subject.decode()
+                    except UnicodeDecodeError:
+                        continue
                 # email sender
                 from_ = msg.get("From")
                 mail_item["from"] = from_

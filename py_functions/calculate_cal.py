@@ -3,6 +3,7 @@ import logging
 
 logger = logging.Logger('catch_all')
 
+
 def user_info():
     age = int(input('What is your age: '))
     gender = input('What is your gender: ')
@@ -24,8 +25,8 @@ def user_info():
 
     return int(bmr_result)
 
-def calculate_activity(activity_level, bmr_result):
 
+def calculate_activity(activity_level, bmr_result):
     if activity_level == 'none':
         activity_level = 1.2 * bmr_result
     elif activity_level == 'light':
@@ -41,7 +42,6 @@ def calculate_activity(activity_level, bmr_result):
 
 
 def gain_or_lose(activity_level, goals):
-
     if goals == 'lose':
         calories = activity_level - 500
     elif goals == 'maintain':
@@ -55,7 +55,6 @@ def gain_or_lose(activity_level, goals):
 
 
 def result(gender, height, weight, age, activity_level, goals):
-
     if gender == 'male':
         c1 = 66
         hm = 6.2 * (float(height) / 2.54)
@@ -73,19 +72,70 @@ def result(gender, height, weight, age, activity_level, goals):
 
     calories = gain_or_lose(activity, goals)
 
-    insert_cal(calories, gender, int(height), int(weight), int(age), activity_level, goals)
+    protein = calculate_protein(activity_level, weight, goals)
 
-    return calories
+    carb = int((calories / 2) / 4)
+
+    fat = calculate_fat(activity_level, goals, calories)
+
+    print(protein, carb, fat)
+    insert_cal(calories, protein, carb, fat, gender, int(height), int(weight), int(age), activity_level, goals)
+
+    return check_cal()
 
 
-def insert_cal(calories, gender, height, weight, age, activity_level, goals):
+def calculate_protein(activity_level, weight, goals):
+    if goals == 'lose':
+        goal_multiplier = -0.2
+    elif goals == 'maintain':
+        goal_multiplier = 0
+    else:  # gain
+        goal_multiplier = 0.4
 
+    if activity_level == 'none':
+        protein = (1.2 + goal_multiplier) * int(weight)
+    elif activity_level == 'light':
+        protein = (1.4 + goal_multiplier) * int(weight)
+    elif activity_level == 'moderate':
+        protein = (1.7 + goal_multiplier) * int(weight)
+    elif activity_level == 'heavy':
+        protein = (1.9 + goal_multiplier) * int(weight)
+    elif activity_level == 'extreme':
+        protein = (2.1 + goal_multiplier) * int(weight)
+
+    return int(protein)
+
+
+def calculate_fat(activity_level, goals, calories):
+    if goals == 'lose':
+        goal_multiplier = -0.07
+    elif goals == 'maintain':
+        goal_multiplier = 0
+    else:  # gain
+        goal_multiplier = 0.07
+
+    if activity_level == 'none':
+        fat = (calories * (0.25 + goal_multiplier)) / 10
+    elif activity_level == 'light':
+        fat = (calories * (0.26 + goal_multiplier)) / 10
+    elif activity_level == 'moderate':
+        fat = (calories * (0.27 + goal_multiplier)) / 10
+    elif activity_level == 'heavy':
+        fat = (calories * (0.28 + goal_multiplier)) / 10
+    elif activity_level == 'extreme':
+        fat = (calories * (0.29 + goal_multiplier)) / 10
+
+    return int(fat)
+
+
+def insert_cal(calories, protein, carb, fat, gender, height, weight, age, activity_level, goals):
     with sqlite3.connect("Oracle") as con:
         cursor = con.cursor()
         try:
-            cursor.execute("INSERT INTO person_diets (calories, gender, height, weight, age, activity_level, goal) "
-                           "VALUES (?, ?, ?, ?, ?, ?, ?) ",
-                           (calories, gender, height, weight, age, activity_level, goals))
+            cursor.execute("INSERT INTO person_diets (calories, protein, carb, fat,  gender, height, weight, age, "
+                           "activity_level, goal) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
+                           (calories, protein, carb, fat, gender, height, weight, age, activity_level, goals))
             con.commit()
 
             return True
@@ -96,7 +146,6 @@ def insert_cal(calories, gender, height, weight, age, activity_level, goals):
 
 
 def check_cal():
-
     with sqlite3.connect("Oracle") as con:
         cursor = con.cursor()
 
@@ -106,17 +155,14 @@ def check_cal():
 
             if data:
                 kcal = data[1]
-                return kcal
+                prot = data[2]
+                carb = data[3]
+                fat = data[4]
+
+                return {"kcal": kcal, "prot": prot, "carb": carb, "fat": fat}
             else:
                 return False
 
         except Exception as e:
             logger.error('Error: ' + str(e))
             return False
-
-
-
-
-
-
-

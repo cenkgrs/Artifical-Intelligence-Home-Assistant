@@ -6,10 +6,15 @@ var clockAvailable = false
 var didClocked = false
 showTime();
 showWeather();
-get_last_emails()
+get_last_emails();
+
+check_cal(function(result){
+    return;
+})
 
 clockAvailable = checkClock()
 
+// If we are not in special hour like morning, evening
 if ( ! clockAvailable ){
 
     //speak(greetings_a[Math.floor(Math.random() * greetings_a.length)]);

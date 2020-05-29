@@ -146,8 +146,6 @@ function idle_listen(type){
 
 
     rec.onspeechend = function() {
-        rec.stop();
-        console.log("stopped")
         rec.start();
         console.log("started again")
     };
@@ -777,6 +775,21 @@ $(document).ready(function(){
     var y = setInterval(function() {
 
         showWeather()
+
+    }, 60000)
+
+    var eveningTimer = setInterval(function(){
+
+        cal = $("#daily_kcal").html();
+        cal = parseFloat(cal.replace(" Kcal", ""));
+        if (cal){
+           var date = new Date();
+            h = date.getHours();
+
+            if (h >= 21){
+                speak("Today you should have get " + cal + " calories sir")
+            }
+        }
 
     }, 60000)
 

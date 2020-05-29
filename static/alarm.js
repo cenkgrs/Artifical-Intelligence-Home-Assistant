@@ -25,7 +25,7 @@ $(document).ready(function() {
     })
 })
 
-
+// This function sends command to backend and there sets an alarm or get alarms or delete alarms
 function alarm(text){
     $.ajax({
         url: "http://localhost:5000/alarm",
@@ -33,17 +33,19 @@ function alarm(text){
         contentType: "application/json",
         data: JSON.stringify({"text": text})
     }).done(function(data) {
+
         if (data && data["status"] != false && data["action"] == "")
         {
             get_alarms()
             speak(complete_a[Math.floor(Math.random() * complete_a.length)])
             idle_listen()
-        }else if(data["status"] != false && data["action"] != ""){
+        }else if(data["status"] != false && data["action"] == "show"){
             open_alarm()
             tell_alarms()
-        }
-        else{
-            speak("There is an "+ data["error"] + "sir")
+        }else if(data["action"] == "delete"){
+            speak("All alarms deleted sir")
+        }else{
+            speak(data["error"])
         }
     });
 }

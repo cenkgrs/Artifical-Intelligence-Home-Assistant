@@ -23,7 +23,7 @@ from py_functions.record_command import insert_command, get_command_to_txt
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
-from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural
+from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural, get_meal_recommendation
 from py_functions.alarms import alarm, check_alarm, get_alarms
 from book_recommendation import get_book_matches, get_book_recommendations
 from weather_prediction import get_predictions
@@ -245,20 +245,22 @@ def getWeatherPrediction():
 def calculate_kcal():
     input = request.get_json()
 
-    kcal = result(input["gender"], input["height"], input["weight"], input["age"], input["activity"], input["aim"])
+    data = result(input["gender"], input["height"], input["weight"], input["age"], input["activity"], input["aim"])
 
-    if kcal:
-        return jsonify({"success": True, "kcal": kcal})
+    if data:
+        return jsonify({"success": True, "data": data})
+    else:
+        return jsonify({"success": False})
 
 
 @app.route("/check_cal", methods=["POST"])
 def check_calories():
-    kcal = check_cal()
+    data = check_cal()
 
-    if not kcal:
-        return jsonify({"kcal": ""})
+    if not data:
+        return jsonify({"success": False})
 
-    return jsonify({"kcal": kcal})
+    return jsonify({"success": True, "data": data})
 
 
 @app.route("/add_meal", methods=["POST"])
@@ -306,6 +308,12 @@ def addMealNatural():
         return jsonify({"status": status, "error": error})
 
 
+@app.route("/get_meal_recommendation", methods=["POST"])
+def getMealRecommendation():
+
+    data = get_meal_recommendation()
+
+
 # Alarm requests
 @app.route("/alarm", methods=["POST"])
 def prepare_alarm():
@@ -316,7 +324,7 @@ def prepare_alarm():
     if status and error == "":
         return jsonify(status)
     elif status and error != "":
-        return jsonify({"status": status, "action": "show"})
+        return jsonify({"status": status, "action": error})
     else:
         return jsonify({"status": status, "error": error})
 
@@ -413,3 +421,4 @@ def start_interface():
 
 
 start_interface()
+#getMealRecommendation()

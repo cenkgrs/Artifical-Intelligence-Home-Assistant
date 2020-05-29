@@ -20,16 +20,21 @@ $(document).ready(function(){
             contentType: "application/json",
             data: JSON.stringify(post_data)
          }).done(function(data) {
-            if (data)
+            console.log(data)
+            if (data && data["success"] == true)
             {
+                data = data["data"]
                 console.log(data)
                 speak("Thank you for trusting me about your data sir")
                 speak("You can be sure that i will only use them for your health")
 
+                daily_kcal = data["kcal"]
                 $("#daily_kcal").html(data["kcal"])
                 sections.not( $("#diet-section") ).css({"display": "none"})
                 $("#calorie-section").fadeOut()
                 $("#diet-section").fadeIn()
+
+                get_meals()
             }
             else{
                 //
@@ -44,7 +49,7 @@ $(document).ready(function(){
         inp = $(this).val()
 
         if (inp.length >= 1){
-                $.ajax({
+            $.ajax({
                 url: "http://localhost:5000/get_meal_input",
                 type: "POST",
                 contentType: "application/json",
@@ -115,6 +120,22 @@ $(document).ready(function(){
         });
     })
 
+    // This will get meal recipe that fits the nutrition needs for that hour
+    $(document).on("click", ".meal-get-recipe-button", function(){
+        speak("Just a moment sir")
+
+        $(this).fadeOut();
+        $(".meal-get-recipe-loading").fadeIn()
+
+            $.ajax({
+                url: "http://localhost:5000/get_meal_recommendation",
+                type: "GET",
+            }).done(function(data) {
+                console.log(data)
+
+            });
+    })
+
 })
 
 // This is for getting meal and nutrition values from database
@@ -139,7 +160,7 @@ function fill_meal_panel(data){
     $(".morning-meals").empty();
     $(".evening-meals").empty();
     $(".afternoon-meals").empty();
-    console.log(data)
+
     morning_meals = data[0]["morning"]
 
     morning_meals.forEach(function(entry, i) {
@@ -170,34 +191,37 @@ function fill_meal_panel(data){
         $(".afternoon-meals").append(item)
     })
 
+    // Get need values from json
+    need_values = data[0]["needs"]
+
     // Get nutrition values from json
     nutrition_values = data[0]["nutrition"]
+
     console.log(nutrition_values)
     kcal = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
     carb = (nutrition_values["carb"]) ? nutrition_values["carb"].toFixed(2) : "0.0"
     prot = (nutrition_values["prot"]) ? nutrition_values["prot"].toFixed(2) : "0.0"
     fat = (nutrition_values["fat"]) ? nutrition_values["fat"].toFixed(2) : "0.0"
-    console.log(carb)
 
-    $("#nutrition-kcal").html(kcal + " / " + daily_kcal + " kcal")
-    $("#nutrition-carb").html(carb + " / " + 250 + " g")
-    $("#nutrition-prot").html(prot + " / " + 160 + " g")
-    $("#nutrition-fat").html(fat + " / " + 80 + " g")
+    $("#nutrition-kcal").html(kcal + " / " + need_values["kcal"] + " kcal")
+    $("#nutrition-carb").html(carb + " / " + need_values["carb"] + " g")
+    $("#nutrition-prot").html(prot + " / " + need_values["prot"] + " g")
+    $("#nutrition-fat").html(fat + " / " + need_values["fat"] + " g")
 
     // 100% nutrition need is 313 px
 
     // Calculate the height of the nutrition bars
     // Ex :  129,50(current calorie) / 2787 (target calorie) = 0.046.. * 313(full px of nutrition bar) = 14.54.. px (current height of nutrition bar)
-    kcal_ratio = ((nutrition_values["kcal"] / daily_kcal) * 313)
+    kcal_ratio = ((nutrition_values["kcal"] / need_values["kcal"]) * 313)
     $("#nutritional-kcal-bar").css({"height": kcal_ratio})
 
-    prot_ratio = ((nutrition_values["prot"] / 160) * 313)
+    prot_ratio = ((nutrition_values["prot"] / need_values["prot"]) * 313)
     $("#nutritional-prot-bar").css({"height": prot_ratio})
 
-    carb_ratio = ((nutrition_values["carb"] / 250) * 313)
+    carb_ratio = ((nutrition_values["carb"] / need_values["carb"]) * 313)
     $("#nutritional-carb-bar").css({"height": carb_ratio})
 
-    fat_ratio = ((nutrition_values["fat"] / 80) * 313)
+    fat_ratio = ((nutrition_values["fat"] / need_values["fat"]) * 313)
     $("#nutritional-fat-bar").css({"height": fat_ratio})
 
 
@@ -208,16 +232,20 @@ function check_cal(callback) {
         url: "http://localhost:5000/check_cal",
         type: "POST",
     }).done(function(data) {
-        if (data)
-        {
-            if(data["kcal"] != ""){
-                daily_kcal = data["kcal"]
-                $("#daily_kcal").html(daily_kcal + " Kcal")
-                callback(true);
-            }else{
-                callback(false)
-            }
+        console.log(data)
+        if(data["success"] != false){
+            data = data["data"]
+            daily_kcal = data["kcal"]
+            daily_prot = data["prob"]
+            daily_carb = data["carb"]
+            daily_fat = data["fat"]
+
+            $("#daily_kcal").html(daily_kcal + " Kcal")
+            callback(true);
+        }else{
+            callback(false)
         }
+
     });
 }
 

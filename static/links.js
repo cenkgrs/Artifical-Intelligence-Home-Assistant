@@ -82,15 +82,12 @@ const open_diet = function(){
         }else{
             sections.not( $("#diet-section") ).css({"display": "none"})
             $("#diet-section").fadeIn()
-
+            get_meals()
+            idle_listen()
         }
 
     })
-    sections.not( $("#diet-section") ).css({"display": "none"})
-    $("#diet-section").fadeIn()
 
-    get_meals()
-    idle_listen()
 }
 const open_book = function(){
     oracleType = "book"

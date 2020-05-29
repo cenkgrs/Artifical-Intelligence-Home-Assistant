@@ -53,7 +53,9 @@ def get_meals():
     date = str(datetime.date.today())
 
     data = [
-        {"morning": '', "afternoon": '', 'evening': '', "nutrition": {"kcal": '', "carb": '', "prot": '', "fat": ''}}]
+        {"morning": '', "afternoon": '', 'evening': '', "nutrition": {"kcal": '', "carb": '', "prot": '', "fat": ''},
+         "needs": {"prot": '', "carb": '', "fat": ''}}
+    ]
     date = str(datetime.date.today())
 
     with sqlite3.connect("Oracle") as con:
@@ -80,6 +82,16 @@ def get_meals():
             data[0]["nutrition"]["carb"] = nutritions[0][1]
             data[0]["nutrition"]["prot"] = nutritions[0][2]
             data[0]["nutrition"]["fat"] = nutritions[0][3]
+
+            db = cursor.execute("SELECT * FROM person_diets WHERE id = (SELECT MAX(id) FROM person_diets)")
+            needs = db.fetchone()
+
+            if needs is not None:
+                data[0]["needs"]["kcal"] = needs[1]
+                data[0]["needs"]["prot"] = needs[2]
+                data[0]["needs"]["carb"] = needs[3]
+                data[0]["needs"]["fat"] = needs[4]
+
 
             return data
         except sqlite3.OperationalError:
@@ -190,3 +202,23 @@ def add_meal_natural(text):
                 continue
 
     return True, "no error"
+
+
+# This algorithm finds a fit meal for that hour and returns its recipe to user
+def get_meal_recommendation():
+    hour = datetime.datetime.now().hour
+
+    if hour < 12:
+        time = "morning"
+    else:
+        time = "evening"
+        if hour < 18:
+            time = "afternoon"
+
+
+
+
+
+    return True
+
+

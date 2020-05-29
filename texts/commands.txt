@@ -272,3 +272,6 @@ play music - music-start - 4
 thanks - thank - 3
 change music - music-change - 9
 play music - music-start - 4
+thank you - thank - 3
+who are you - who - 2
+thanks - thank - 3

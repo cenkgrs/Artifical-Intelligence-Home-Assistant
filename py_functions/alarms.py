@@ -21,7 +21,7 @@ def alarm(text):
 
     # Filtering text so there will be less loop - if token not a stop word add to filtered_sentence array
     filtered_sentence = [w for w in text_tokens if not w in stop_words]
-
+    print(filtered_sentence)
     # Setting alarm
     if "set" in filtered_sentence or "Set" in filtered_sentence:
 
@@ -56,6 +56,10 @@ def alarm(text):
 
     elif "show" in filtered_sentence or "open" in filtered_sentence:
         return True, "show"
+    elif "delete" in filtered_sentence or "turn off" in filtered_sentence:
+        delete_alarms()
+
+        return True, "delete"
     else:
         return False, "Did not get that sir"
 
@@ -63,7 +67,7 @@ def alarm(text):
 def check_alarm():
     check_hour = datetime.datetime.now().hour
     check_min = datetime.datetime.now().minute
-    print(check_hour)
+
     with sqlite3.connect("Oracle") as con:
         try:
             db = con.execute('SELECT * FROM Alarms ORDER BY hour ASC')
@@ -96,5 +100,21 @@ def get_alarms():
 
         except Exception as e:
             return False
+
+
+def delete_alarms():
+
+    with sqlite3.connect("Oracle") as con:
+        try:
+
+            print("deleting")
+            con.execute("DELETE FROM Alarms ")
+            con.commit()
+
+            return True
+
+        except Exception as e:
+            return False
+
 
 
