@@ -209,8 +209,9 @@ def add_meal_natural(text):
 def get_meal_recommendation():
     hour = datetime.datetime.now().hour
 
-    # Multiplier is for getting the current needs meaning on morning you should get 1000 cal at afternon you must have total 2000 cal and at evening total 2800 cal
-    # Time multiplier for getting only that hour's nutritions needs -> at evening you should get 800 cal
+    # Multiplier is for getting the current needs meaning on morning you should get 1000 cal at afternon you must
+    # have total 2000 cal and at evening total 2800 cal Time multiplier for getting only that hour's nutritions needs
+    # -> at evening you should get 800 cal
     if 12 > hour >= 6:
         time = "morning"
         multiplier = 0.35
@@ -237,7 +238,6 @@ def get_meal_recommendation():
 
 # This function will return difference of what user ate and how much more should user eat ( by nutrition grams )
 def check_needs_left(multiplier, time_multiplier):
-    print(multiplier)
     date = str(datetime.date.today())
     daily_needs = []
 
@@ -276,18 +276,17 @@ def check_needs_left(multiplier, time_multiplier):
         for i in range(0, 4):
             daily_currents.append(nutritions[i])
 
-        return get_difference(daily_needs, daily_currents, time_needs, time_multiplier)
+        return get_difference(daily_needs, daily_currents, time_needs, time_multiplier, multiplier)
 
 
-def get_difference(target, current, time_needs, time_multiplier):
+def get_difference(target, current, time_needs, time_multiplier, multiplier):
     nutrition_names = ["kcal", "prot", "carb", "fat"]
+
+    # These list represent how much difference between what user ate and how much should eat -> in percentange
     differences = []
+
+    # These list represent how much nutrition deficits user has for that hour (morning, evening)
     deficits = []
-
-
-    print(target)
-    print(current)
-    print(time_needs)
 
     # TR -> kalori açığı o öğünde alabileceğinden fazlaysa max öğün miktarını al değilse açığı al ( 2500 cal aldım
     # 300 cal daha almam lazım gibi ) If cal deficit is larger than what user can get at this hour set cal_defiticit
@@ -295,13 +294,17 @@ def get_difference(target, current, time_needs, time_multiplier):
     # to max user can get at this hour Meaning if there is a 1600 cal deficit at the moment -> user can get 800 cal
     # at this hour so cal_deficit is 800 cal
 
-    for index, item in enumerate(target):
-        deficit = target[index] * time_multiplier if (time_needs[index] - current[index]) > (
-                    target[index] * time_multiplier) else time_needs[index] - current[index]
-        deficits.append(deficit)
+    print(time_multiplier)
+    print(target)
+    print(current)
+    print(time_needs)
 
-    print(deficits )
-    print("/n")
+    for index, item in enumerate(target):
+        if current[index] > target[index] * multiplier:
+            return "You shouldn't eat any more food right now sir", False
+
+        deficit = target[index] * time_multiplier if ((target[index] * multiplier) - current[index]) > (target[index] * time_multiplier) else target[index] * multiplier
+        deficits.append(deficit)
 
     # This loop for finding in what type user did get the least nutrition and max
     # So we can find what should user be predominantly fed at -> like protein or cal
@@ -317,6 +320,9 @@ def get_difference(target, current, time_needs, time_multiplier):
     min_index = differences.index(min_diff)
     min_type = nutrition_names[min_index]  # Return value like fat, cal
 
+    print(deficits)
+    print(max_diff, min_diff)
+    print(max_type, min_type)
     # After getting this deficits and max differences we can search food like -> food that has large cal
     # and not have any fat because user filled the fat level
 
@@ -336,9 +342,12 @@ def get_best_fit_recipes(deficits, min_type, max_type):
                                 "ORDER BY " + max_type + " ASC LIMIT 5 ")
             recipes = db.fetchall()
 
-            # This loop finds similarit score for every recipe found -> user need 400 cal so 300 cal -> recipe has 0.75 cal_similarity point
+            # This loop finds similarity score for every recipe found
+            # user need 400 cal so 300 cal -> recipe has 0.75 cal_similarity point
             # If recipe nutrition value is higher than what user needs, recipe wont get point for that nutrition
-            # For every 100 cal higher return -0.1 point for that recipe, for other its 10 gr higher
+            # For every 100 cal higher than it should returns -0.1 point for that recipe,
+            # for other nutritions(carb, fat) its 10 gr higher
+
             for recipe in recipes:
                 print(recipe)
                 cal_similarity = recipe[2] / deficits[0] if recipe[2] <= deficits[0] else (deficits[0] - recipe[2]) * 0.001
