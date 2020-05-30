@@ -11,6 +11,7 @@ from flask_cors import CORS
 import pytemperature
 import webbrowser
 from datetime import datetime, timedelta
+import datetime
 import cv2
 import time
 
@@ -23,7 +24,7 @@ from py_functions.record_command import insert_command, get_command_to_txt
 from car_price_knn import predict
 from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
-from py_functions.meals_data import add_meal, get_meals, get_meal_input, add_meal_natural, get_meal_recommendation
+from py_functions.meals_data import *
 from py_functions.alarms import alarm, check_alarm, get_alarms
 from book_recommendation import get_book_matches, get_book_recommendations
 from weather_prediction import get_predictions
@@ -311,8 +312,9 @@ def addMealNatural():
 @app.route("/get_meal_recommendation", methods=["POST"])
 def getMealRecommendation():
 
-    data = get_meal_recommendation()
-
+    # If True there is data if False there is a error statement
+    data, status = get_meal_recommendation()
+    print(data, status)
 
 # Alarm requests
 @app.route("/alarm", methods=["POST"])
@@ -356,22 +358,6 @@ def getFirmList():
     onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
 
     return jsonify(onlyfiles)
-
-
-def gen():
-    cap = cv2.VideoCapture('768x576.avi')
-
-    # Read until video is completed
-    while(cap.isOpened()):
-      # Capture frame-by-frame
-        ret, img = cap.read()
-        if ret == True:
-            img = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
-            frame = cv2.imencode('.jpg', img)[1].tobytes()
-            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            time.sleep(0.1)
-        else:
-            break
 
 
 @app.route('/video_feed')
@@ -420,5 +406,5 @@ def start_interface():
     # p2.start()
 
 
-start_interface()
-#getMealRecommendation()
+# start_interface()
+get_meal_recommendation()

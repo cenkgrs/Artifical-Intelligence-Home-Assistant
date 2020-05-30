@@ -3,6 +3,7 @@ import numpy
 import io
 import time
 
+# This function is for streaming video on html page and face detection ( not recognition )
 def show_webcam():
     
     #Load face cascade into memory for use
