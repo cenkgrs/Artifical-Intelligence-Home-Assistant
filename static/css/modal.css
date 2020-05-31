@@ -143,3 +143,55 @@ body {
 .max-temp{ font-size: 3rem}
 
 .weather-properties{font-size: 2rem; font-weight: bold; color: #c2c2c2}
+
+/* RECIPE RECOMMENDATION SYSTEM */
+
+.recipe-recommendation-modal{
+    display:flex;
+    height: 50rem;
+    width: 100%;
+    margin: 3rem 0;
+    box-shadow: 0px 0px 15px 0px #507795;
+    border-radius: 1rem;
+    padding: 0 2rem;
+}
+
+.recipe-item{
+    height:95%;
+    width:33%;
+    position: relative;
+    margin: auto;
+}
+.recipe-name{
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 2.3rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+.recipe-picture{
+    text-align:center;
+}
+.recipe-picture img{
+    width: 60%;
+    padding: 1r;
+    padding: 1rem;
+    height: 12rem;
+}
+.recipes-sub-header{
+    color: #c9f1fbf2;
+    margin: 1rem;
+}
+
+
+.ingredient{
+    display:block;
+    color: #c9f1fbf2;
+    margin: 2rem 2rem;
+}
+
+.direction{
+    display:block;
+    color: #c9f1fbf2;
+    margin: 1rem 2rem;
+}

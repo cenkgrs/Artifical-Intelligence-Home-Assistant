@@ -4,6 +4,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import pickle
 import logging
+from json_files.recipes import recipe_list
+
 
 logger = logging.Logger('catch_all')
 
@@ -39,7 +41,6 @@ def add_meal(meal, meal_time, meal_id, meal_gram):
             prot = data[0][3] * meal_gram
             carb = data[0][4] * meal_gram
             fat = data[0][5] * meal_gram
-            print(kcal, carb, prot, fat)
 
             cursor.execute("INSERT INTO meals (date, meal_time, meal, kcal, carb, prot, fat) "
                            "VALUES (?, ?, ?, ?, ?, ?, ?) ", (date, meal_time, meal, kcal, carb, prot, fat))
@@ -242,7 +243,8 @@ def check_needs_left(multiplier, time_multiplier):
     daily_needs = []
 
     # Time needs is nutrition needs for meals to that hour
-    # Meaning you must have eaten 2000 cal at the end of this hour ( afternoon etc -> 1000 cal at morning, 1000cal at afternoon total 2000 cal)
+    # Meaning you must have eaten 2000 cal at the end of this hour
+    # ( afternoon etc -> 1000 cal at morning, 1000cal at afternoon total 2000 cal)
     time_needs = []
 
     daily_currents = []
@@ -294,11 +296,6 @@ def get_difference(target, current, time_needs, time_multiplier, multiplier):
     # to max user can get at this hour Meaning if there is a 1600 cal deficit at the moment -> user can get 800 cal
     # at this hour so cal_deficit is 800 cal
 
-    print(time_multiplier)
-    print(target)
-    print(current)
-    print(time_needs)
-
     for index, item in enumerate(target):
         if current[index] > target[index] * multiplier:
             return "You shouldn't eat any more food right now sir", False
@@ -320,9 +317,6 @@ def get_difference(target, current, time_needs, time_multiplier, multiplier):
     min_index = differences.index(min_diff)
     min_type = nutrition_names[min_index]  # Return value like fat, cal
 
-    print(deficits)
-    print(max_diff, min_diff)
-    print(max_type, min_type)
     # After getting this deficits and max differences we can search food like -> food that has large cal
     # and not have any fat because user filled the fat level
 
@@ -349,7 +343,7 @@ def get_best_fit_recipes(deficits, min_type, max_type):
             # for other nutritions(carb, fat) its 10 gr higher
 
             for recipe in recipes:
-                print(recipe)
+
                 cal_similarity = recipe[2] / deficits[0] if recipe[2] <= deficits[0] else (deficits[0] - recipe[2]) * 0.001
                 prot_similarity = recipe[3] / deficits[1] if recipe[3] <= deficits[1] else (deficits[1] - recipe[3]) * 0.01
                 carb_similarity = recipe[4] / deficits[2] if recipe[4] <= deficits[2] else (deficits[2] - recipe[4]) * 0.01
@@ -363,9 +357,23 @@ def get_best_fit_recipes(deficits, min_type, max_type):
 
             # Sort recipes by similarity score
             best_fit_recipes = sorted(best_fit_recipes, key = lambda i: i['similarity_score'], reverse=True)
-            print(best_fit_recipes)
+
+            recipe_count = 0
+            recipes = []
+
+            for fit_recipe in best_fit_recipes:
+                for recipe_item in recipe_list:
+
+                    if fit_recipe["name"] == recipe_item["name"]:
+                        recipe_count += 1
+                        recipes.append(recipe_item)
+                        continue
+
+                    if recipe_count == 3:
+                        break
+
+            return recipes
+
         except Exception as e:
             logger.error('Error: ' + str(e))
             return False
-
-    return

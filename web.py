@@ -11,7 +11,6 @@ from flask_cors import CORS
 import pytemperature
 import webbrowser
 from datetime import datetime, timedelta
-import datetime
 import cv2
 import time
 
@@ -34,7 +33,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Real time streaming object
-#VIDEO = VideoStreaming()
+# VIDEO = VideoStreaming()
 
 
 # Runs when Oracle speaks
@@ -86,16 +85,17 @@ def get_weather():
     wind = json_data["wind"]["speed"]
 
     sunrise = json_data["sys"]["sunrise"]
-    sunrise = datetime.utcfromtimestamp(sunrise) + timedelta(hours=3)  # Converting unix time to timestamp
+    sunrise = datetime.datetime.utcfromtimestamp(sunrise) + timedelta(hours=3)  # Converting unix time to timestamp
     sunrise = sunrise.strftime('%H:%M:%S')
 
     sunset = json_data["sys"]["sunset"]
-    sunset = datetime.utcfromtimestamp(sunset) + timedelta(hours=3)  # Converting unix time to timestamp
+    sunset = datetime.datetime.utcfromtimestamp(sunset) + timedelta(hours=3)  # Converting unix time to timestamp
     sunset = sunset.strftime('%H:%M:%S')
 
     formatted_data = [{"Status": status, "Temp": temp, "temp_min": temp_min, "temp_max": temp_max,
                        "pressure": pressure, "humidity": humidity, "wind": wind, "temp_max": temp_max,
                        "sunrise": sunrise, "sunset": sunset}]
+
     return jsonify(formatted_data)
 
 
@@ -229,6 +229,7 @@ def update_sleep():
 
 # Weather predict system requests
 
+
 @app.route("/get_weather_prediction", methods=["POST"])
 def getWeatherPrediction():
     input = request.get_json()
@@ -309,12 +310,15 @@ def addMealNatural():
         return jsonify({"status": status, "error": error})
 
 
-@app.route("/get_meal_recommendation", methods=["POST"])
+@app.route("/get_meal_recommendation", methods=["GET"])
 def getMealRecommendation():
 
     # If True there is data if False there is a error statement
     data, status = get_meal_recommendation()
     print(data, status)
+
+    return jsonify({"data": data, "status": status})
+
 
 # Alarm requests
 @app.route("/alarm", methods=["POST"])
@@ -371,6 +375,7 @@ def video_feed():
         mimetype='multipart/x-mixed-replace; boundary=frame'
     )
 
+
 @app.after_request
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -406,5 +411,4 @@ def start_interface():
     # p2.start()
 
 
-# start_interface()
-get_meal_recommendation()
+start_interface()

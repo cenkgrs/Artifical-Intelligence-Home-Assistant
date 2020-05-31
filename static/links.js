@@ -20,8 +20,12 @@ $('#diet-link').on('click', function() {
     open_diet()
 });
 
-$("#calendar-link, #cal-link").on('click', function() {
+$("#stream-link").on('click', function() {
     open_stream()
+});
+
+$("#calendar-link, #cal-link").on('click', function() {
+    open_calendar()
 });
 
 $("#film-library-link").on('click', function() {
@@ -134,5 +138,13 @@ const open_film_library = function(){
     oracleType = "film_library"
     sections.not( $("#film-library-section") ).css({"display": "none"})
     $("#film-library-section").fadeIn()
+    idle_listen()
+}
+
+const open_recipes = function(){
+    speak("These are recipes that i recommend you to eat at this hour sir")
+    oracleType = "recipe"
+    sections.not( $("#recipe-section") ).css({"display": "none"})
+    $("#recipe-section").fadeIn()
     idle_listen()
 }

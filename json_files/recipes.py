@@ -2,9 +2,9 @@ import json
 
 data = {}
 
-data["recipes"] = [
+recipe_list = [
     {
-        "name": "omlette",
+        "name": "omelette",
         "ingredients": [
             "2 large eggs",
             "2 Tablespoon water",
@@ -22,7 +22,8 @@ data["recipes"] = [
             "When top surface of eggs is thickened and no visible liquid egg remains, PLACE filling on one side of "
             "the omelet. FOLD omelet in half with turner. With a quick flip of the wrist, TURN pan and INVERT or "
             "SLIDE omelet onto plate. SERVE immediately. "
-        ]
+        ],
+        "picture": "https://cdn.yemek.com/mncrop/940/625/uploads/2015/05/omlet-yemekcom.jpg"
     },
 
     {
@@ -39,7 +40,8 @@ data["recipes"] = [
             "hile sausage is cooking, beat eggs and milk together. Pour eggs into griddle. Add cheese and cook until "
             "eggs are set. Stir in sausage and serve warm. "
 
-        ]
+        ],
+        "picture": "https://i.nefisyemektarifleri.com/2019/11/20/sosisli-yumurta-3.jpg"
     },
 
     {
@@ -54,7 +56,8 @@ data["recipes"] = [
             "Stir tuna, Cheddar cheese, diced jalapeno, mayonnaise, relish, lemon juice, "
             "and pepper together in a bowl. Spread tuna mixture on a slice of toast "
             "and top with remaining slice to make a sandwich."
-        ]
+        ],
+        "picture": "https://cdn.yemek.com/mncrop/940/625/uploads/2015/05/omlet-yemekcom.jpg"
     }
 
 ]

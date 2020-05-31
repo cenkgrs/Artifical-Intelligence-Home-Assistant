@@ -54,7 +54,6 @@ function showWeather(){
         contentType: "application/json",
         data: JSON.stringify({"message": message})
     }).done(function(data) {
-        console.log(data)
         weather_status = data[0]["Status"]
         weather_temp = data[0]["Temp"]
         $("#temp").html(weather_temp + "º")
@@ -769,7 +768,7 @@ $(document).ready(function(){
 
         check_alarm()
 
-    }, 30000)
+    }, 60000)
 
     // This sets a interval for checking weather every 10 minutes
     var y = setInterval(function() {
@@ -788,9 +787,10 @@ $(document).ready(function(){
 
             if (h >= 21){
                 speak("Today you should have get " + cal + " calories sir")
+                clearInterval(eveningTimer)
             }
         }
 
-    }, 60000)
+    }, 600000)
 
 });

@@ -133,6 +133,77 @@ $(document).ready(function(){
             }).done(function(data) {
                 console.log(data)
 
+                if(data["status"]){
+                    recipes = data["data"]
+                    open_recipes()
+
+                    recipes.forEach(function(recipe, i) {
+
+                        // Creating recipe item
+                        recipe_item = document.createElement("div");
+                        recipe_item.className = "recipe-item";
+
+                        // Adding recipe name
+                        recipe_name = document.createElement("div");
+                        recipe_name.className = "recipe-name";
+                        recipe_name.innerHTML = recipe["name"];
+                        recipe_item.append(recipe_name)
+
+                        // Adding recipe picture
+                        recipe_picture = document.createElement("div");
+                        recipe_picture.className = "recipe-picture";
+
+                        picture = document.createElement("img");
+                        picture.src = recipe["picture"]
+                        recipe_picture.append(picture);
+                        recipe_item.append(recipe_picture)
+
+                        // Adding ingredients header
+                        ingredients_header = document.createElement("h3");
+                        ingredients_header.className = "recipes-sub-header";
+                        ingredients_header.innerHTML = "Ingredients";
+                        recipe_item.append(ingredients_header)
+
+                        // Adding ingredients container and filling it
+                        recipe_ingredients_container = document.createElement("div");
+                        recipe_ingredients_container.className = "recipe-ingredients";
+
+                        recipe_ingredients = recipe["ingredients"]
+
+                        recipe_ingredients.forEach(function(ingredient, i) {
+                            item = document.createElement("strong");
+                            item.className = "ingredient";
+                            item.innerHTML = "- " + ingredient;
+                            recipe_ingredients_container.append(item)
+                        })
+
+                        recipe_item.append(recipe_ingredients_container)
+
+                        // Adding directions header
+                        directions_header = document.createElement("h3");
+                        directions_header.className = "recipes-sub-header";
+                        directions_header.innerHTML = "Directions";
+                        recipe_item.append(directions_header)
+
+                        // Adding directions container and filling it
+                        recipe_directions_container = document.createElement("div");
+                        recipe_directions_container.className = "recipe-directions";
+
+                        recipe_directions = recipe["directions"]
+
+                        recipe_directions.forEach(function(direction, i) {
+                            item = document.createElement("strong");
+                            item.className = "direction";
+                            item.innerHTML = "- " + direction;
+                            recipe_directions_container.append(item)
+                        })
+
+                        recipe_item.append(recipe_directions_container)
+
+                        // Adding recipe item to modal
+                        $(".recipe-recommendation-modal").append(recipe_item)
+                    })
+                }
             });
     })
 
@@ -146,7 +217,6 @@ function get_meals(){
          }).done(function(data) {
             if (data)
             {
-                console.log(data)
                 fill_meal_panel(data)
             }
             else{
@@ -197,7 +267,6 @@ function fill_meal_panel(data){
     // Get nutrition values from json
     nutrition_values = data[0]["nutrition"]
 
-    console.log(nutrition_values)
     kcal = (nutrition_values["kcal"]) ? nutrition_values["kcal"].toFixed(2) : "0.0"
     carb = (nutrition_values["carb"]) ? nutrition_values["carb"].toFixed(2) : "0.0"
     prot = (nutrition_values["prot"]) ? nutrition_values["prot"].toFixed(2) : "0.0"
@@ -232,7 +301,7 @@ function check_cal(callback) {
         url: "http://localhost:5000/check_cal",
         type: "POST",
     }).done(function(data) {
-        console.log(data)
+
         if(data["success"] != false){
             data = data["data"]
             daily_kcal = data["kcal"]

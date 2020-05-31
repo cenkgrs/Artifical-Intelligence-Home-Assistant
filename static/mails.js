@@ -77,7 +77,6 @@ function get_last_emails(){
 
         if (data)
         {
-            console.log(data)
 
             $(".mails-list").empty();
 
