@@ -46,9 +46,8 @@ p2 = GPIO.PWM(en2, 1000)
 p3 = GPIO.PWM(servo,50) 
 
 # Starting servos
-p3.start(2.5)
-p3.ChangeDutyCycle(5)
-
+p3.start(0)
+p3.ChangeDutyCycle(0)
 
 # Set database connection
 conn = sqlite3.connect('/home/pi/Oracle/Oracle')
@@ -140,11 +139,12 @@ def calculate():
 
 
 def pick_route(type, last_act, distance):
+    print('picking route')
     remaining_choices = []
     if type == 0: # Means it can't go forward and last action was forward
         choices = ["left", "right"]
         decide = random.choice(choices)
-        result = rotate_servo(decide) # Check if the decided direction is empty
+        result = servos_on(decide) # Check if the decided direction is empty
 
         if not result: # If decided direction is not empty choose any other valid direction
             #decide = random.choice((remaining_choices.append(choices).remove(decide)))
@@ -159,7 +159,7 @@ def pick_route(type, last_act, distance):
         choices.remove(last_act[0][0])  # Remove last action (except backward) from array so it cant become a loop
         decide = random.choice(choices)
 
-        result = rotate_servo(decide)  # Check if the decided direction is empty
+        result = servos_on(decide)  # Check if the decided direction is empty
 
         if not result:  # If decided direction is not empty choose any other valid direction
             #decide = random.choice((remaining_choices.append(choices).remove(decide)))
@@ -169,6 +169,7 @@ def pick_route(type, last_act, distance):
 
     conn.commit()
     print(decide)
+    time.sleep(2)
 
     # Run the function that came from decision
     possibles = globals().copy()
@@ -176,7 +177,7 @@ def pick_route(type, last_act, distance):
     method = possibles.get(decide)
     
     if decide == "forward":
-        method(1)
+        method(0.6)
     else:
         method()
         
@@ -191,54 +192,66 @@ st = Status()
 
 
 def rotate_servo(direction):
+    p3.ChangeDutyCycle(7/5)
+    
     try:
         if direction == "left":
-            p3.ChangeDutyCycle(3)
+            print('looking for left')
+            p3.ChangeDutyCycle(7.5)
         elif direction == "right":
-            p3.ChangeDutyCycle(9)
+            print('looking for right')
+            p3.ChangeDutyCycle(12.5)
         else:
-            p3.ChangeDutyCycle(6)
+            p3.ChangeDutyCycle(10)
+            
+        p3.ChangeDutyCycle(10)
+        time.sleep(0.5)
+        p3.ChangeDutyCycle(0)
+        
     except KeyboardInterrupt:
         GPIO.cleanup()
     
     print("came here")
     result, distance = calculate()
     
+    
+    
     if result == 1:
+        print('direction is open')
+        time.sleep(2)
+        
         return True
+    print('direction close')
+    time.sleep(2)
     return False
 
 
-def servos_on():
+def servos_on(direction):
+
     p3.ChangeDutyCycle(0)
     
-    p3.ChangeDutyCycle(7.5)
+    if direction == 'left':
+        print('looking for left')
+        p3.ChangeDutyCycle(12.5)
+
+    elif direction == 'right':
+        print('looking for right')
+        p3.ChangeDutyCycle(7.5)
+
+    else:
+        p3.ChangeDutyCycle(10)
     
     result, distance = calculate()
-    
-    if result == 1:
-        print("empty")
-        
-    p3.ChangeDutyCycle(10)
-    
-    result, distance = calculate()
-    
-    if result == 1:
-        print("empty")
-        
-    p3.ChangeDutyCycle(12.5)
-    
-    
-    result, distance = calculate()
-    
-    if result == 1:
-        print("empty")
         
     p3.ChangeDutyCycle(10)
     time.sleep(0.5)
-    
     p3.ChangeDutyCycle(0)
-    p3.stop()
+    
+    
+    if result == 1:
+        return True
+    
+    return False
     
 
 def motor_on():
@@ -257,20 +270,23 @@ def motor_on():
         result, distance = calculate()
         if result == 1: # If front is open go forward
             forward(0.6)
-
+            
             stop()
-            time.sleep(2)
+            time.sleep(3)
+            
             st.status = True
 
-            pick_route(1, last_act, distance)
+            pick_route(0, last_act, distance)
+            stop()
             time.sleep(2)
         else: # If front is close go back and decide where to go
             backward(0.4)
             stop()
-            time.sleep(2)
-            pick_route(0, last_act, distance)
-            time.sleep(2)
+            time.sleep(3)
+            
+            pick_route(1, last_act, distance)
             stop()
+            time.sleep(2)
             st.status = True
 
         # Update the last action result and success
@@ -292,7 +308,6 @@ def motor_on():
             speak("Good Bye !")
 
 
-servos_on()
 #p1 = multiprocessing.Process(target=motor_on())
 #p1.start()
 
@@ -301,20 +316,30 @@ servos_on()
 
 
 # Code for manually controlling Oracle with numpads - i will add dualshock control
-'''
-response = _getch()
-print(response)
-#response = int(input("Where to 8 5 6 4"))
 
-if response == '8':
-    forward()
-elif response == '5':
-    backward()
-elif response == '6':
-    right()
-elif response == '4':
-    left()
-else:
-    stop()
-'''
+motor_on()
+
+def manual_controls():
+    
+    condition = True
+
+    while condition:
+        response = _getch()
+        print(response)
+
+        if response == '8':
+            forward(0.5)
+        elif response == '5':
+            backward(1)
+        elif response == '6':
+            right()
+        elif response == '4':
+            left()
+        elif response == 'q':
+            stop()
+            condition = False
+        else:
+            print('did not get that')
+    print('finished')
+
 
