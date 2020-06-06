@@ -145,8 +145,8 @@ function idle_listen(type){
 
 
     rec.onspeechend = function() {
-        rec.start();
-        console.log("started again")
+        //rec.start();
+        //console.log("started again")
     };
 
 }
@@ -392,7 +392,7 @@ function check_command(audio, type){
         return ""
     }
 
-    else if( diet_input_q.includes(audio)  && oracleType == "diet"){
+    else if( diet_input_q.includes(audio) && oracleType == "diet"){
 
         setTimeout(() => {  get_meal_input() }, 3000);
 

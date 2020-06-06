@@ -332,8 +332,8 @@ def get_best_fit_recipes(deficits, min_type, max_type):
 
         try:
             db = cursor.execute("SELECT * FROM "
-                                "(SELECT * FROM recipes ORDER BY " + min_type + " DESC LIMIT 5)"
-                                "ORDER BY " + max_type + " ASC LIMIT 5 ")
+                                "(SELECT * FROM recipes ORDER BY " + min_type + " DESC LIMIT 10)"
+                                "ORDER BY " + max_type + " ASC LIMIT 10 ")
             recipes = db.fetchall()
 
             # This loop finds similarity score for every recipe found
@@ -358,6 +358,7 @@ def get_best_fit_recipes(deficits, min_type, max_type):
             # Sort recipes by similarity score
             best_fit_recipes = sorted(best_fit_recipes, key = lambda i: i['similarity_score'], reverse=True)
 
+            print(best_fit_recipes)
             recipe_count = 0
             recipes = []
 

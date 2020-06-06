@@ -161,6 +161,7 @@ body {
     width:33%;
     position: relative;
     margin: auto;
+    overflow: auto;
 }
 .recipe-name{
     color: #ffffff;

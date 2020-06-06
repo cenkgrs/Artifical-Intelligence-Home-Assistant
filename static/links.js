@@ -138,7 +138,9 @@ const open_film_library = function(){
     oracleType = "film_library"
     sections.not( $("#film-library-section") ).css({"display": "none"})
     $("#film-library-section").fadeIn()
-    idle_listen()
+
+    setTimeout(() => { idle_listen() } , 2000);
+
 }
 
 const open_recipes = function(){
