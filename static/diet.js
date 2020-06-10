@@ -324,8 +324,15 @@ function get_meal_input(){
         speak(listening_a[Math.floor(Math.random() * listening_a.length)])
 
         get_listen_input( function(result){
-        console.log(result)
-        text = result
+        text = result.split(" ");
+
+        if(text.includes("I-81")){
+            console.log(text.indexOf("I-81"))
+            text[text.indexOf("I-81")] = "I ate";
+        }
+
+        text = text.join(" ");
+
         speak("Should i save this sir ?")
         $("#todo-body").val(result)
         get_listen_input( function (result) {
@@ -339,14 +346,15 @@ function get_meal_input(){
                         data: JSON.stringify({"text": text})
                     }).done(function(data) {
                         console.log(data)
-                        if (data && data["error"] != "")
+                        if (data && !data["error"])
                         {
                             fill_meal_panel(data)
+                            idle_listen()
                         }
                         else{
                             speak("There is an "+ data["error"] + "error sir")
-                            speak("Tell me what did you eat again sir")
-                            setTimeout(() => { get_meal_input() }, 500);
+                            speak("Please tell me what did you eat again sir")
+                            setTimeout(() => { get_meal_input() }, 2000);
                         }
                     });
 

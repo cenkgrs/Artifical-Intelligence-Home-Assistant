@@ -66,6 +66,7 @@ def get_mails():
                             # print text/plain emails and skip attachments
                             #print(body)
                             print()
+                        '''
                         elif "attachment" in content_disposition:
                             # download attachment
                             filename = part.get_filename()
@@ -76,6 +77,7 @@ def get_mails():
                                 filepath = os.path.join(subject, filename)
                                 # download attachment and save it
                                 #open(filepath, "wb").write(part.get_payload(decode=True))
+                        '''
                 else:
                     # extract content type of email
                     content_type = msg.get_content_type()

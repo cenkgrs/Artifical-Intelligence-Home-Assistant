@@ -224,6 +224,7 @@ function get_listen_input(callback) {
         setTimeout(() => {
             if(event.results[l_pos].isFinal){
                 result = transcript
+                console.log(result)
                 streaming.stop()
                 callback(result);
             }
@@ -586,7 +587,6 @@ function play_bg_music(task){
       }
 
 }
-
 
 function record_command(text, command, type)
 {
