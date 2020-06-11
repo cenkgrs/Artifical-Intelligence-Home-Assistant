@@ -74,6 +74,7 @@ function get_alarms(){
         console.log(data)
         alarms = data["data"]
         if(!alarms){
+            $(".alarms").empty();
             return
         }
         fill_alarms_panel(alarms)

@@ -28,6 +28,7 @@ from py_functions.alarms import alarm, check_alarm, get_alarms
 from book_recommendation import get_book_matches, get_book_recommendations
 from weather_prediction import get_predictions
 from face_rec_webcam import show_webcam
+from py_functions.calendar import add_calendar_info, get_calendar_info
 
 app = Flask(__name__)
 CORS(app)
@@ -354,6 +355,8 @@ def getAlarms():
     return jsonify({"data": ""})
 
 
+# Film requests
+
 @app.route("/get_film_list", methods=["GET"])
 def getFirmList():
     path = "static/posters/"
@@ -363,6 +366,31 @@ def getFirmList():
 
     return jsonify(onlyfiles)
 
+
+# Calendar requests
+
+@app.route("/add_calendar_info", methods=["POST"])
+def addCalendarInfo():
+    inputs = request.get_json()
+
+    status, error = add_calendar_info(inputs)
+
+    if error == "":
+        data, error = get_calendar_info()
+        return jsonify({"response": data, "error": error})
+
+    return jsonify({"status": status, "error": error})
+
+
+@app.route("/get_calendar_info", methods=["GET"])
+def getCalendarInfo():
+
+    data, error = get_calendar_info()
+
+    return jsonify({"response": data, "error": error})
+
+
+# Live stream request
 
 @app.route('/video_feed')
 def video_feed():

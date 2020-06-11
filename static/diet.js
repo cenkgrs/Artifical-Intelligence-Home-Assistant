@@ -324,46 +324,46 @@ function get_meal_input(){
         speak(listening_a[Math.floor(Math.random() * listening_a.length)])
 
         get_listen_input( function(result){
-        text = result.split(" ");
+            text = result.split(" ");
 
-        if(text.includes("I-81")){
-            console.log(text.indexOf("I-81"))
-            text[text.indexOf("I-81")] = "I ate";
-        }
-
-        text = text.join(" ");
-
-        speak("Should i save this sir ?")
-        $("#todo-body").val(result)
-        get_listen_input( function (result) {
-
-            if(confirm_q.includes(result)){
-                    speak(complete_a[Math.floor(Math.random() * complete_a.length)])
-                    $.ajax({
-                        url: "http://localhost:5000/add_meal_natural",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({"text": text})
-                    }).done(function(data) {
-                        console.log(data)
-                        if (data && !data["error"])
-                        {
-                            fill_meal_panel(data)
-                            idle_listen()
-                        }
-                        else{
-                            speak("There is an "+ data["error"] + "error sir")
-                            speak("Please tell me what did you eat again sir")
-                            setTimeout(() => { get_meal_input() }, 2000);
-                        }
-                    });
-
-            }else{
-                speak("If you want to save it just let me know")
-
+            if(text.includes("I-81")){
+                console.log(text.indexOf("I-81"))
+                text[text.indexOf("I-81")] = "I ate";
             }
 
-        })
+            text = text.join(" ");
+
+            speak("Should i save this sir ?")
+            $("#todo-body").val(result)
+            get_listen_input( function (result) {
+
+                if(confirm_q.includes(result)){
+                        speak(complete_a[Math.floor(Math.random() * complete_a.length)])
+                        $.ajax({
+                            url: "http://localhost:5000/add_meal_natural",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({"text": text})
+                        }).done(function(data) {
+                            console.log(data)
+                            if (data && !data["error"])
+                            {
+                                fill_meal_panel(data)
+                                idle_listen()
+                            }
+                            else{
+                                speak("There is an "+ data["error"] + "error sir")
+                                speak("Please tell me what did you eat again sir")
+                                setTimeout(() => { get_meal_input() }, 2000);
+                            }
+                        });
+
+                }else{
+                    speak("If you want to save it just let me know")
+
+                }
+
+            })
         });
     }, 2000);
 }

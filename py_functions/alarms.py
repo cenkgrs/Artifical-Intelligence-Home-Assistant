@@ -29,7 +29,7 @@ def alarm(text):
         if not clock:
             for index, item in enumerate(filtered_sentence):
                 print(item)
-                # Get the quantity and meal after it and add it to meals
+                # Get numbers of five, ten
                 if item in config.numbers:
                     number = config.numbers.index(item)
                     clock.append(number)
