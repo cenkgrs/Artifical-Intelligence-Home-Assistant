@@ -283,3 +283,6 @@ thank you - thank - 3
 hello - greeting - 1
 thanks - thank - 3
 hello - greeting - 1
+thank you - thank - 3
+thanks - thank - 3
+thank you - thank - 3

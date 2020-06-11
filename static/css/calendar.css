@@ -9,8 +9,25 @@
 }
 .calendar-header{
     text-align:center;  margin: auto;  color:white;
-    font-weight:bold;  font-size: 2rem;  border-bottom: 2px solid #001a2e;
+    font-weight:bold;  font-size: 2rem;  /*border-bottom: 2px solid #001a2e;*/
     padding-bottom: 2rem;
+        position: relative;
+
+}
+.calendar-header::after {
+    content:'';
+    width:100%;
+    position: absolute;
+    left:0;
+    bottom:-1px;
+    height: 0.2rem;
+    background: #333;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, hsla(0, 0%, 0%, 0)), color-stop(50%, hsla(0, 0%, 0%, .75)), color-stop(100%, hsla(0, 0%, 0%, 0)));
+    background: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, .75) 50%, hsla(0, 0%, 0%, 0) 100%);
+    background: -moz-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, .75) 50%, hsla(0, 0%, 0%, 0) 100%);
+    background: -ms-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, .75) 50%, hsla(0, 0%, 0%, 0) 100%);
+    background: -o-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, .75) 50%, hsla(0, 0%, 0%, 0) 100%);
+    background: linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, .75) 50%, hsla(0, 0%, 0%, 0) 100%);
 }
 
 .calendar-days{
@@ -31,9 +48,15 @@
     height: 6rem;
 }
 .calendar-day .calendar-day-header{
-    color: #43d4fe;
+    text-align:center;
+
 }
 
+.calendar-day .calendar-day-information{
+    text-align:center;
+    margin-top: 0.5rem;
+    color: #91e4f7ba;
+}
 :root {
   --grid-cols: 1;
   --grid-rows: 1;
