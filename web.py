@@ -389,6 +389,18 @@ def getCalendarInfo():
 
     return jsonify({"response": data, "error": error})
 
+# Music requests
+@app.route("/get_music_list", methods=["GET"])
+def getMusicList():
+
+    path = "static/audio/"
+    from os import listdir
+    from os.path import isfile, join
+    musics = [f for f in listdir(path) if isfile(join(path, f))]
+    print(musics)
+
+    return jsonify(musics)
+
 
 # Live stream request
 

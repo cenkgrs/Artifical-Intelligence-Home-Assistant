@@ -32,6 +32,10 @@ $("#film-library-link").on('click', function() {
     open_film_library()
 });
 
+$("#musics-link").on('click', function() {
+    open_musics()
+});
+
 const open_index = function(){
     oracleType = "index"
     sections.not( $("#index-section") ).css({"display": "none"})
@@ -148,5 +152,12 @@ const open_recipes = function(){
     oracleType = "recipe"
     sections.not( $("#recipe-section") ).css({"display": "none"})
     $("#recipe-section").fadeIn()
+    idle_listen()
+}
+
+const open_musics = function(){
+    oracleType = "musics"
+    sections.not( $("#musics-section") ).css({"display": "none"})
+    $("#musics-section").fadeIn()
     idle_listen()
 }

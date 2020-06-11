@@ -1,0 +1,279 @@
+:root {
+    --startValue: 70%;
+    --endValue: 25%;
+}
+
+// Mixins
+@mixin transition($prop: all, $duration: .25s, $timing: cubic-bezier(.4, 0, 1, 1)) {
+  transition: $prop $duration $timing;
+}
+
+// Colors
+$color-black: #212121;
+$color-blue: #03a9f4;
+$color-red: #d30320;
+
+// Variables
+$boxshadow-0: 0 1px 3px -5px rgba(0, 0, 0, .13),
+0 1px 3px -10px rgba(0, 0, 0, .23);
+$boxshadow-1: 0 3px 6px -5px rgba(0, 0, 0, .16),
+0 3px 6px -10px rgba(0, 0, 0, .23);
+$boxshadow-2: 0 10px 20px -5px rgba(0, 0, 0, .19),
+0 6px 6px -10px rgba(0, 0, 0, .23);
+$boxshadow-3: 0 14px 28px -5px rgba(0, 0, 0, .25),
+0 10px 10px -10px rgba(0, 0, 0, .22);
+$radius: remy(4px);
+
+// Base
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Roboto', Arial, Verdana, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.music-wrapper{
+    width: 25rem; margin: auto;
+}
+
+.music-wrapper a{
+    color: white;
+}
+
+.player__container {
+  border-radius:0.9rem;
+  margin-top: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  background: #013553c4;
+  box-shadow: 0 0px 13px 17px rgba(0, 0, 0, .19);
+}
+
+.body__cover {
+  position: relative;
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.hover_button{
+    background: none;
+    color:white;
+    padding: 1rem;
+}
+
+.body__buttons,
+.body__info,
+.player__footer {
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.list--cover,
+.list--footer {
+  justify-content: space-between;
+}
+
+.list--header .list__link,
+.list--footer .list__link {
+  color: #888;
+}
+
+.list--cover {
+  position: absolute;
+  top: .5rem;
+  width: 100%;
+
+  li:first-of-type {
+    margin-left: .75rem;
+  }
+
+  li:last-of-type {
+    margin-right: .75rem;
+  }
+
+  a {
+    font-size: 1.15rem;
+    color: #fff;
+  }
+}
+
+.body__info {
+  padding-top: 1.5rem;
+  padding-bottom: 1.25rem;
+  text-align: center;
+}
+
+.info__album,
+.info__song {
+  margin-bottom: .5rem;
+}
+
+.info__artist,
+.info__album {
+  font-size: .95rem;
+  font-weight: bold;
+  color: #c7e2ff;
+}
+
+.info__song {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: hsla(213, 100%, 75%, 0.75);
+}
+
+.body__buttons {
+  padding-bottom: 2rem;
+}
+
+.body__buttons {
+  padding-top: 1rem;
+}
+
+.list--buttons {
+  align-items: center;
+  justify-content: center;
+}
+
+.list--buttons li:nth-of-type(n+2) {
+  margin-left: 1.25rem;
+}
+
+.list--buttons button {
+  padding-top: .45rem;
+  padding-right: .75rem;
+  padding-bottom: .45rem;
+  padding-left: .75rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(33,33,33,.1), 0 3px 12px rgba(33,33,33,.15);
+  background: none;
+
+}
+
+.list--buttons li:nth-of-type(2) button {
+  padding-top: .82rem;
+  padding-right: 1rem;
+  padding-bottom: .82rem;
+  padding-left: 1.19rem;
+  margin-left: .5rem;
+  font-size: 1.25rem;
+  color: #72cbffa3;
+}
+
+.list--buttons li:first-of-type button,
+.list--buttons li:last-of-type button {
+  font-size: .95rem;
+  /*color: #212121;*/
+  color: #fff;
+  opacity: .9;
+
+}
+
+
+.player__footer {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.list--footer a {
+  opacity: .5;
+}
+
+
+/* Player Music Bars */
+
+.music-bars{
+    width: 100%;
+    height: 15rem;
+    border-bottom: 1px solid;
+}
+.music-bars::after {
+    content:'';
+    width:100%;
+    position: absolute;
+    left:0;
+    bottom:-1px;
+    height: 0.2rem;
+    background: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(213, 100%, 75%, 0.75) 50%, hsla(0, 0%, 0%, 0) 100%)
+}
+.music-bars .bar{
+    height: 70%;
+    width: 12%;
+    display: inline;
+    background: -webkit-linear-gradient(bottom, hsla(0, 0%, 0%, 0) 0%, hsla(213, 100%, 75%, 0.75) 50%, hsla(0, 0%, 0%, 0) 100%);
+    position: absolute;
+    bottom: 3%;
+}
+.music-bars .bar1{
+    height: 70%;
+    left:12%;
+    animation: bar-animation-1 2s infinite;
+}
+.music-bars .bar2{
+    height: 25%;
+    left:25%;
+    animation: bar-animation-2 2s infinite;
+}
+.music-bars .bar3{
+    height: 40%;
+    left:38%;
+    animation: bar-animation-3 2s infinite;
+}
+.music-bars .bar4{
+    height: 25%;
+    left:51%;
+    animation: bar-animation-4 2s infinite;
+}
+.music-bars .bar5{
+    height: 40%;
+    left:64%;
+    animation: bar-animation-5 2s infinite;
+}
+.music-bars .bar6{
+    height: 70%;
+    left:77%;
+    animation: bar-animation-6 2s infinite;
+}
+
+@keyframes bar-animation-1 {
+    0% {height: 70%}
+    50% {height: 25%}
+    100 {height: var(-- )%}
+}
+
+@keyframes bar-animation-2 {
+    0% {height: 25%;}
+    50% {height: 70%;}
+    100 {height: 25%;}
+}
+@keyframes bar-animation-3 {
+    0% {height: 40%;}
+    50% {height: 80%;}
+    100 {height: 40%;}
+}
+@keyframes bar-animation-4 {
+    0% {height: 25%;}
+    50% {height: 70%;}
+    100 {height: 25%;}
+}
+@keyframes bar-animation-5 {
+    0% {height: 40%;}
+    50% {height: 80%;}
+    100 {height: 40%;}
+}
+
+@keyframes bar-animation-6 {
+    0% {height: 70%}
+    50% {height: 25%}
+    100 {height: var(-- )%}
+}
