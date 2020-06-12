@@ -1,12 +1,16 @@
 <div class="musics">
     <div class="music-wrapper">
-        <div class="player__container">
+
+        <div class="player_music_list col">
+        </div>
+        <div class="player__container col">
+
             <div class="player__body">
 
                 <div class="body__cover">
 
                     <div class="hover_icon_row">
-                        <button class="hover_button"><i class="fa fa-navicon"></i></button>
+                        <button class="hover_button" id="open_music_list" style="float:left"><i class="fa fa-navicon"></i></button>
                         <button class="hover_button" style="float:right"><i class="fa fa-search"></i></button>
                     </div>
 
@@ -31,11 +35,11 @@
 
                 <div class="body__buttons">
             <ul class="list list--buttons">
-              <li><button href="#" class="list__link"><i class="fa fa-step-backward"></i></button></li>
+              <li><button href="#" class="list__link music_play_button" data-type="previous_music"><i class="fa fa-step-backward"></i></button></li>
 
-              <li><button href="#" class="list__link"><i class="fa fa-play"></i></button></li>
+              <li><button href="#" class="list__link music_play_button" data-type="play_pause_music"><i class="fa fa-play"></i></button></li>
 
-              <li><button href="#" class="list__link"><i class="fa fa-step-forward"></i></button></li>
+              <li><button href="#" class="list__link music_play_button" data-type="next_music"><i class="fa fa-step-forward"></i></button></li>
             </ul>
           </div>
 
@@ -53,5 +57,7 @@
           </ul>
         </div>
         </div>
+
+
     </div>
 </div>

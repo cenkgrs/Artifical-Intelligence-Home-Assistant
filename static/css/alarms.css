@@ -37,7 +37,7 @@
 
 .alarm-hour-arrow{
     color: #ffffff;  display: inline;  padding: 1rem 4rem;
-    font-size: 1rem
+    font-size: 1rem;  background: none;
 }
 
 .alarm-add-button{

@@ -8,11 +8,18 @@ $(document).ready(function() {
         console.log(type)
         console.log($("#alarm-"+ type[0] + "-picker").html())
 
+        // type[0] -> hour, minute -  type[1] -> up, down
+
         // If type is up then add + 1 to hour picker ( by first converting it to int)
         $("#alarm-"+ type[0] + "-picker").html( (type[1] == "up") ?  parseInt($("#alarm-"+ type[0] + "-picker").html()) + 1 : $("#alarm-"+ type[0] + "-picker").html() - 1 )
 
         // After hour up or down if html value below 10 like ( 5 9) make it like ( 05 09)
         $("#alarm-"+ type[0] + "-picker").html() < 10 ? $("#alarm-"+ type[0] + "-picker").html( "0" + $("#alarm-"+ type[0] + "-picker").html() ) : ""
+
+        $("#alarm-hour-hour").html() == "00" ? $('*[data-type=hour-down]').prop('disabled', true)  : $('*[data-type=hour-down]').prop('disabled', false)
+
+        $("#alarm-minute-picker").html() == "00" ? $('*[data-type=minute-down]').prop('disabled', true)  : $('*[data-type=minute-down]').prop('disabled', false)
+
     })
 
     $(".alarm-add-button").on("click", function() {
