@@ -136,6 +136,9 @@ def calculate():
         #speak("There is an obstacle")
         print("Closed")
         return 0, distance
+    
+    
+def pick_empty_route()    
 
 
 def pick_route(type, last_act, distance):
@@ -317,7 +320,7 @@ def motor_on():
 
 # Code for manually controlling Oracle with numpads - i will add dualshock control
 
-motor_on()
+
 
 def manual_controls():
     
@@ -342,4 +345,4 @@ def manual_controls():
             print('did not get that')
     print('finished')
 
-
+motor_on()
