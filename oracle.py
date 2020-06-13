@@ -53,6 +53,9 @@ p3.ChangeDutyCycle(0)
 conn = sqlite3.connect('/home/pi/Oracle/Oracle')
 cursor = conn.cursor()
 
+direction_indices = ["forward", "left", "right"]
+direction_angles = [10, 12.5, 7.5]
+
 class Status:
     def __init__(self):
         self.state = True
@@ -125,7 +128,7 @@ def calculate():
 
     distance = pulse_duration * 17150
     distance = round(distance, 2)
-    
+
 
     if distance > 30:
         print ("Mesafe:",distance - 0.5,"cm")
@@ -138,34 +141,78 @@ def calculate():
         return 0, distance
 
 
+def pick_best_direction(options):
+
+    best_direction_distance = 0
+
+    p3.ChangeDutyCycle(0)
+
+    for option in options:
+        index = direction_indices.index(option)
+        angle = direction_angles[index]
+
+        p3.ChangeDutyCycle(angle)
+        result, distance = calculate()
+
+        if not result and distance > best_direction_distance:
+            best_direction_distance = distance
+            best_direction = option
+
+    p3.ChangeDutyCycle(10)
+
+    if not best_direction:
+        return False, 0
+
+    return best_direction, best_direction_distance
+
+
 def pick_route(type, last_act, distance):
     print('picking route')
     remaining_choices = []
-    if type == 0: # Means it can't go forward and last action was forward
-        choices = ["left", "right"]
-        decide = random.choice(choices)
-        result = servos_on(decide) # Check if the decided direction is empty
-
-        if not result: # If decided direction is not empty choose any other valid direction
-            #decide = random.choice((remaining_choices.append(choices).remove(decide)))
-            decide = random.choice(choices)
-            
-        # Record last two actions
-        cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")
-        cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
-
-    elif type == 1:  # Means it can go all the three ways and last action was backward
+    if type == 0:  # Means it can't go forward and last action was forward
         choices = ["forward", "left", "right"]
-        choices.remove(last_act[0][0])  # Remove last action (except backward) from array so it cant become a loop
         decide = random.choice(choices)
+        choices = choices.remove(decide)  # Remove decided direction so it cant become a loop
 
-        result = servos_on(decide)  # Check if the decided direction is empty
+        result, distance = servos_on(decide)  # Check if the decided direction is empty (1, 0)
 
         if not result:  # If decided direction is not empty choose any other valid direction
-            #decide = random.choice((remaining_choices.append(choices).remove(decide)))
-            decide = random.choice(choices)
+
+            while not result:
+
+                # If choices list is empty -> meaning there is no open road so turn back
+                if not choices:
+                    print("there is no choice left going back")
+                    backward(0.4)
+                    return
+
+                # If there is still rotation to decide pick one and examine
+
+                #decide = random.choice((remaining_choices.append(choices).remove(decide)))
+                decide = random.choice(choices)
+                choices = choices.remove(decide)  # Remove decided direction so it cant become a loop
+
+                result, decide = servos_on(decide)
             
+        # Record last two actions
+        cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")  # This one because of last action was forward
         cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
+
+    # Getting best route to go
+    elif type == 1:  # Means it cant go forward because last time forward was not empty and last action was backward
+        choices = ["left", "right"]
+        # Remove last action (except backward) from array so it cant become a loop
+        choices.remove(last_act[0][0]) # It may have gone left and face an object
+
+        best_direction, distance = pick_best_direction(choices)  # Check if the decided direction is empty
+
+        # If there is no empty direction -> go back
+        if not best_direction:
+            print("no best direction going back")
+            backward(0.4)
+            return
+
+        cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (best_direction, distance))
 
     conn.commit()
     print(decide)
@@ -191,41 +238,6 @@ time.sleep(2)
 st = Status()
 
 
-def rotate_servo(direction):
-    p3.ChangeDutyCycle(7/5)
-    
-    try:
-        if direction == "left":
-            print('looking for left')
-            p3.ChangeDutyCycle(7.5)
-        elif direction == "right":
-            print('looking for right')
-            p3.ChangeDutyCycle(12.5)
-        else:
-            p3.ChangeDutyCycle(10)
-            
-        p3.ChangeDutyCycle(10)
-        time.sleep(0.5)
-        p3.ChangeDutyCycle(0)
-        
-    except KeyboardInterrupt:
-        GPIO.cleanup()
-    
-    print("came here")
-    result, distance = calculate()
-    
-    
-    
-    if result == 1:
-        print('direction is open')
-        time.sleep(2)
-        
-        return True
-    print('direction close')
-    time.sleep(2)
-    return False
-
-
 def servos_on(direction):
 
     p3.ChangeDutyCycle(0)
@@ -244,15 +256,46 @@ def servos_on(direction):
     result, distance = calculate()
         
     p3.ChangeDutyCycle(10)
-    time.sleep(0.5)
+    time.sleep(0.2)
     p3.ChangeDutyCycle(0)
-    
-    
+
     if result == 1:
+        return True, distance
+    
+    return False, distance
+
+
+def rotate_servo(direction):
+    p3.ChangeDutyCycle(7 / 5)
+
+    try:
+        if direction == "left":
+            print('looking for left')
+            p3.ChangeDutyCycle(7.5)
+        elif direction == "right":
+            print('looking for right')
+            p3.ChangeDutyCycle(12.5)
+        else:
+            p3.ChangeDutyCycle(10)
+
+        p3.ChangeDutyCycle(10)
+        time.sleep(0.5)
+        p3.ChangeDutyCycle(0)
+
+    except KeyboardInterrupt:
+        GPIO.cleanup()
+
+    print("came here")
+    result, distance = calculate()
+
+    if result == 1:
+        print('direction is open')
+        time.sleep(2)
+
         return True
-    
+    print('direction close')
+    time.sleep(2)
     return False
-    
 
 def motor_on():
     start_motors()
@@ -268,7 +311,7 @@ def motor_on():
         # Result means the success of last action (if it hit the wall or not 0, 1)
         # distance means result of last action (15 cm)
         result, distance = calculate()
-        if result == 1: # If front is open go forward
+        if result == 1:  # If front is open go forward
             forward(0.6)
             
             stop()
@@ -317,7 +360,8 @@ def motor_on():
 
 # Code for manually controlling Oracle with numpads - i will add dualshock control
 
-motor_on()
+pick_best_direction(["left", "right"])
+
 
 def manual_controls():
     
