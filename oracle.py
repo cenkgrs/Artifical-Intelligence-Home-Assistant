@@ -139,6 +139,9 @@ def calculate():
         #speak("There is an obstacle")
         print("Closed")
         return 0, distance
+    
+    
+def pick_empty_route()    
 
 
 def pick_best_direction(options):
@@ -386,4 +389,4 @@ def manual_controls():
             print('did not get that')
     print('finished')
 
-
+motor_on()
