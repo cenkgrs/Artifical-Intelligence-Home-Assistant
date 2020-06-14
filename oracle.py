@@ -140,12 +140,10 @@ def calculate():
         print("Closed")
         return 0, distance
     
-    
-def pick_empty_route()    
-
-
+      
 def pick_best_direction(options):
-
+    
+    best_direction = False
     best_direction_distance = 0
 
     p3.ChangeDutyCycle(0)
@@ -157,12 +155,12 @@ def pick_best_direction(options):
         p3.ChangeDutyCycle(angle)
         result, distance = calculate()
 
-        if not result and distance > best_direction_distance:
+        if result == 1 and distance > best_direction_distance:
             best_direction_distance = distance
             best_direction = option
 
     p3.ChangeDutyCycle(10)
-
+    
     if not best_direction:
         return False, 0
 
@@ -174,28 +172,31 @@ def pick_route(type, last_act, distance):
     remaining_choices = []
     if type == 0:  # Means it can't go forward and last action was forward
         choices = ["forward", "left", "right"]
+        print('choices is ', choices)   
         decide = random.choice(choices)
-        choices = choices.remove(decide)  # Remove decided direction so it cant become a loop
+        print('decide is ', decide)
+        choices.remove(decide)  # Remove decided direction so it cant become a loop
+        print('choices is ', len(choices))           
 
         result, distance = servos_on(decide)  # Check if the decided direction is empty (1, 0)
 
-        if not result:  # If decided direction is not empty choose any other valid direction
+        # If decided direction is not empty choose any other valid direction
 
-            while not result:
+        while not result:
+            print('choices is ', choices)
+            # If choices list is empty -> meaning there is no open road so turn back
+            if not choices:
+                print("there is no choice left going back")
+                backward(0.4)
+                return
 
-                # If choices list is empty -> meaning there is no open road so turn back
-                if not choices:
-                    print("there is no choice left going back")
-                    backward(0.4)
-                    return
+            # If there is still rotation to decide pick one and examine
 
-                # If there is still rotation to decide pick one and examine
+            #decide = random.choice((remaining_choices.append(choices).remove(decide)))
+            decide = random.choice(choices)
+            choices.remove(decide)  # Remove decided direction so it cant become a loop
 
-                #decide = random.choice((remaining_choices.append(choices).remove(decide)))
-                decide = random.choice(choices)
-                choices = choices.remove(decide)  # Remove decided direction so it cant become a loop
-
-                result, decide = servos_on(decide)
+            result, decide = servos_on(decide)
             
         # Record last two actions
         cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")  # This one because of last action was forward
@@ -242,7 +243,7 @@ st = Status()
 
 
 def servos_on(direction):
-
+    print('direction is ', direction)
     p3.ChangeDutyCycle(0)
     
     if direction == 'left':
@@ -363,7 +364,7 @@ def motor_on():
 
 # Code for manually controlling Oracle with numpads - i will add dualshock control
 
-pick_best_direction(["left", "right"])
+pick_route(0, 'forward', 50)
 
 
 def manual_controls():
@@ -389,4 +390,4 @@ def manual_controls():
             print('did not get that')
     print('finished')
 
-motor_on()
+
