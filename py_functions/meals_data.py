@@ -284,7 +284,7 @@ def check_needs_left(multiplier, time_multiplier):
 def get_difference(target, current, time_needs, time_multiplier, multiplier):
     nutrition_names = ["kcal", "prot", "carb", "fat"]
 
-    # These list represent how much difference between what user ate and how much should eat -> in percentange
+    # These list represent how much difference between what user ate and how much should eat -> in percentage
     differences = []
 
     # These list represent how much nutrition deficits user has for that hour (morning, evening)
@@ -362,9 +362,12 @@ def get_best_fit_recipes(deficits, min_type, max_type):
             recipe_count = 0
             recipes = []
 
+            # Run through 10 best recipe and check if we have recipe of that meal
             for fit_recipe in best_fit_recipes:
+                # Running through json file of recipes
                 for recipe_item in recipe_list:
 
+                    # If this best fit recipe is in the json file add it to optimal recipes to return to user
                     if fit_recipe["name"] == recipe_item["name"]:
                         recipe_count += 1
                         recipes.append(recipe_item)

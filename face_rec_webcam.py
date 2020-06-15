@@ -3,10 +3,11 @@ import numpy
 import io
 import time
 
+
 # This function is for streaming video on html page and face detection ( not recognition )
 def show_webcam():
     
-    #Load face cascade into memory for use
+    #Load face cascade class into memory for use
     faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
     # Set video source to webcam
@@ -15,20 +16,21 @@ def show_webcam():
     while True:
         # Capture frame-by-frame
         ret, frame = video_capture.read()  # Read one frame from source
-        
+
+        # This makes frame gray so we can get a better results
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         
         # detectMultiScale detects faces
         faces = faceCascade.detectMultiScale(
                 gray,
-                scaleFactor=1.5,
+                scaleFactor=1.5,  # 1.5 skalası ile kontrol ediyor
                 minNeighbors=5,
                 minSize=(30, 30),
                 flags=cv2.CASCADE_SCALE_IMAGE
             )
         
         
-        # Loop over rectangles which it thinks found a facee
+        # Loop foundt faces to draw a rectangle around it
         for (x, y, w, h) in faces:
             # Use returned values to draw a rectangle
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)  # Function return x,y location and size of rectangle

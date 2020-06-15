@@ -2,8 +2,6 @@ import imaplib
 import email
 import config
 from email.header import decode_header
-import webbrowser
-import os
 
 
 def get_mails():
