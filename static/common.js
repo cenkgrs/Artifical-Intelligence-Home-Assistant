@@ -1,3 +1,5 @@
+let shouldIdle = true;
+
 var timerInterval = "";
 
 var bmpDigits = /[0-9\u0660-\u0669\u06F0-\u06F9\u07C0-\u07C9\u0966-\u096F\u09E6-\u09EF\u0A66-\u0AE6\u0AE6-\u0AEF\u0B66-\u0B6F\u0BE6-\u0BEF\u0C66-\u0C6F\u0CE6-\u0CEF\u0D66-\u0D6F\u0DE6-\u0DEF\u0E50-\u0E59\u0ED0-\u0ED9\u0F20-\u0F29\u1040-\u1049\u1090-\u1099\u17E0-\u17E9\u1810-\u1819\u1946-\u194F\u19D0-\u19D9\u1A80-\u1A89\u1A90-\u1A99\u1B50-\u1B59\u1BB0-\u1BB9\u1C40-\u1C49\u1C50-\u1C59\uA620-\uA629\uA8D0-\uA8D9\uA900-\uA909\uA9D0-\uA9D9\uA9F0-\uA9F9\uAA50-\uAA59\uABF0-\uABF9\uFF10-\uFF19]/;
@@ -118,6 +120,7 @@ async function speak(text){
 }
 
 function idle_listen(type){
+    shouldIdle = true
     console.log("idle listen started")
 
     var rec = new webkitSpeechRecognition() || new SpeechRecognition();
@@ -131,19 +134,39 @@ function idle_listen(type){
     if(type == "stop" ){
         console.log("stopped")
         rec.stop();
+        shouldIdle = false
     }
 
     if(type == "predict"){
         console.log("predicted")
         rec.stop()
+        shouldIdle = false
         setTimeout(() => {  predictions() }, 2000);
     }
 
-    rec.addEventListener('speechstart', function(event) {
+
+    // Starts listen after hearing any sound
+    /*rec.addEventListener('speechstart', function(event) {
+
         result = listen(oracleType);
         if (result == "stop") { rec.stop(); return;}
 
-    });
+    });*/
+
+    // Starts listen after hearing Oracle keyword
+    rec.onresult = function(event) {
+
+        l_pos = event.results.length - 1 ;
+        transcript = event.results[l_pos][0].transcript;
+
+        if(transcript == "Oracle"){
+            shouldIdle = false
+            result = listen(oracleType);
+            if (result == "stop") { rec.stop(); return;}
+        }else{
+            idle_listen()
+        }
+    }
 
 
     rec.onspeechend = function() {
@@ -194,10 +217,15 @@ function idle_listen(type){
 
     recognition.start();
 
+    recognition.onspeechend = function() {
+        shouldIdle = true;
+    };
+
 }
 
 //var get_listen_input = new Promise(function(resolve, reject){
 function get_listen_input(callback) {
+    shouldIdle = false
     max_confidence = 0
     console.trace();
     beep()
@@ -811,5 +839,14 @@ $(document).ready(function(){
         }
 
     }, 600000)
+
+    var idle_timer = setInterval(function(){
+
+        if(shouldIdle){
+            console.log("idle will start again")
+            idle_listen()
+        }
+
+    }, 10000)
 
 });

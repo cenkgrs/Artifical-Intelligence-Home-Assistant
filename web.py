@@ -25,6 +25,7 @@ from py_functions.sleep_recommendations import insert_bedtime, update_bedtime
 from py_functions.calculate_cal import result, check_cal
 from py_functions.meals_data import *
 from py_functions.alarms import alarm, check_alarm, get_alarms
+from py_functions.weather_informations import get_weather_request
 from book_recommendation import get_book_matches, get_book_recommendations
 from weather_prediction import get_predictions
 from face_rec_webcam import show_webcam
@@ -240,6 +241,17 @@ def getWeatherPrediction():
 
     if weather_predictions:
         return jsonify({"data": weather_predictions})
+
+
+@app.route("/get_weather_information", methods=["POST"])
+def getWeatherInformation():
+    input = request.get_json()
+
+    day, weather_information = get_weather_request(input["text"])
+    print(weather_information)
+
+    if weather_information:
+        return jsonify({"data": weather_information, "day": day})
 
 
 # Diet requests
