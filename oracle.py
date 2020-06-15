@@ -163,7 +163,8 @@ def pick_best_direction(options):
     
     if not best_direction:
         return False, 0
-
+    
+    print(best_direction)
     return best_direction, best_direction_distance
 
 
@@ -175,8 +176,7 @@ def pick_route(type, last_act, distance):
         print('choices is ', choices)   
         decide = random.choice(choices)
         print('decide is ', decide)
-        choices.remove(decide)  # Remove decided direction so it cant become a loop
-        print('choices is ', len(choices))           
+        choices.remove(decide)  # Remove decided direction so it cant become a loop          
 
         result, distance = servos_on(decide)  # Check if the decided direction is empty (1, 0)
 
@@ -196,7 +196,7 @@ def pick_route(type, last_act, distance):
             decide = random.choice(choices)
             choices.remove(decide)  # Remove decided direction so it cant become a loop
 
-            result, decide = servos_on(decide)
+            result, distance = servos_on(decide)
             
         # Record last two actions
         cursor.execute("INSERT INTO Actions (action) VALUES ('forward')")  # This one because of last action was forward
@@ -205,21 +205,23 @@ def pick_route(type, last_act, distance):
     # Getting best route to go
     elif type == 1:  # Means it cant go forward because last time forward was not empty and last action was backward
         choices = ["left", "right"]
+        print('did go back last act was ', last_act[0][0])        
         # Remove last action (except backward) from array so it cant become a loop
-        choices.remove(last_act[0][0]) # It may have gone left and face an object
+        if last_act[0][0] == 'left' or last_act[0][0] == 'right':
+            
+            choices.remove(last_act[0][0]) # It may have gone left and face an object
 
-        best_direction, distance = pick_best_direction(choices)  # Check if the decided direction is empty
+        decide, distance = pick_best_direction(choices)  # Check if the decided direction is empty
 
         # If there is no empty direction -> go back
-        if not best_direction:
+        if not decide:
             print("no best direction going back")
             backward(0.4)
             return
 
-        cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (best_direction, distance))
+        cursor.execute("INSERT INTO Actions (action, result) VALUES (?, ?) ", (decide, distance))
 
     conn.commit()
-    print(decide)
     time.sleep(2)
 
     # Run the function that came from decision
@@ -227,6 +229,7 @@ def pick_route(type, last_act, distance):
     possibles.update(locals())
     method = possibles.get(decide)
     
+    print('method is:' , method)
     if decide == "forward":
         method(0.6)
     else:
@@ -365,7 +368,7 @@ def motor_on():
 # Code for manually controlling Oracle with numpads - i will add dualshock control
 
 pick_route(0, 'forward', 50)
-
+# motor_on()
 
 def manual_controls():
     
